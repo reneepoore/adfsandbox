@@ -1,0 +1,25 @@
+{
+	"name": "DestinationDataset_qt6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"cw_table": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "CURAPD01",
+			"table": {
+				"value": "@dataset().cw_table",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,22 @@
+{
+	"name": "FactSalesProducts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseODSCuramStage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target AdWrks"
+		},
+		"annotations": [
+			"TEST"
+		],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactSalesProducts"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

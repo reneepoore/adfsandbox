@@ -1,0 +1,93 @@
+{
+	"name": "pL_Copy_CodeTableHeader",
+	"properties": {
+		"activities": [
+			{
+				"name": "srcCopyLocal",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "TruncateTable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CodeTableHeader",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AST_CodeTableHeader",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "TruncateTable",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseODSCuramStage",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE [dbo].[ODS_CodeTableHeader]"
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "ODS/Curam Tables"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-09-19T20:08:37Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

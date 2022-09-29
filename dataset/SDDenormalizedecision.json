@@ -1,0 +1,228 @@
+{
+	"name": "SDDenormalizedecision",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLRMLAPTOP610",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Curam"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SDDENORMALIZEDDECISIONID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "INTEGRATEDCASEID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "PRODUCTDELIVERYCASEID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "PARTICIPANTID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "CREOLECASEDETERMINATIONID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "TIMELINESTARTDATE",
+				"type": "date"
+			},
+			{
+				"name": "TIMELINEENDDATE",
+				"type": "date"
+			},
+			{
+				"name": "ISELIGIBLE",
+				"type": "char"
+			},
+			{
+				"name": "PRODUCTID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "CASEDECISIONSTATUSCODE",
+				"type": "char"
+			},
+			{
+				"name": "ISHOUSEHOLDMEMBERELIGIBLE",
+				"type": "char"
+			},
+			{
+				"name": "BENEFITAMOUNT",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "AIDCODE",
+				"type": "char"
+			},
+			{
+				"name": "RECORDSTATUS",
+				"type": "char"
+			},
+			{
+				"name": "RULEOBJECTSNAPSHOTDATAID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "UNEARNEDINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "EARNEDINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SELFEMPLOYMENTINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "INCOMEDEDUCTIONS",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "NETINDIVIDUALINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "ADJUSTEDGROSSINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "HOUSEHOLDSIZE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SDCOVERAGECODE",
+				"type": "char"
+			},
+			{
+				"name": "SDCOPAYVALUE",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SDMONTHLYGROSSINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SDISRETROACTIVE",
+				"type": "char"
+			},
+			{
+				"name": "SDPOVERTYLEVEL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SDMEMBERPERCENTPOVERTYLEVEL",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SDMEMBERCREDITABLEINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SDISPREGNANT",
+				"type": "char"
+			},
+			{
+				"name": "SDMAGIHOUSEHOLDSIZE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SDMAGIMONTHLYHOUSEHOLDINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SDSTATEHOUSEHOLDSIZE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SDSTATEMONTHLYHOUSEHOLDINCOME",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "TOTALSHAREOFCOSTAMOUNT",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "LASTWRITTEN",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ISUTILIZINGALLBENEFITS",
+				"type": "char"
+			},
+			{
+				"name": "LOTTERWINNINGSAMOUNT",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "UNCOMPENSATEDIRTAMOUNT",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "DAILYPRIVATEPAYRATE",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "CURAPD01",
+			"table": "SDDENORMALIZEDDECISION"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

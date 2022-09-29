@@ -1,0 +1,81 @@
+{
+	"name": "df_Resellers_Sales_w_Transformations",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_Resellers_Sales",
+						"type": "DatasetReference"
+					},
+					"name": "srcResellersSales"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FactResellersSales",
+						"type": "DatasetReference"
+					},
+					"name": "TargetTable"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterDate"
+				},
+				{
+					"name": "drvTotalCostwFrieghtTax"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ProductKey as integer,",
+				"          OrderDateKey as integer,",
+				"          DueDateKey as integer,",
+				"          ShipDateKey as integer,",
+				"          ResellerKey as integer,",
+				"          EmployeeKey as integer,",
+				"          PromotionKey as integer,",
+				"          CurrencyKey as integer,",
+				"          SalesTerritoryKey as integer,",
+				"          SalesOrderNumber as string,",
+				"          SalesOrderLineNumber as integer,",
+				"          RevisionNumber as integer,",
+				"          OrderQuantity as integer,",
+				"          UnitPrice as decimal(19,4),",
+				"          ExtendedAmount as decimal(19,4),",
+				"          UnitPriceDiscountPct as double,",
+				"          DiscountAmount as double,",
+				"          ProductStandardCost as decimal(19,4),",
+				"          TotalProductCost as decimal(19,4),",
+				"          SalesAmount as decimal(19,4),",
+				"          TaxAmt as decimal(19,4),",
+				"          Freight as decimal(19,4),",
+				"          CarrierTrackingNumber as string,",
+				"          CustomerPONumber as string,",
+				"          OrderDate as timestamp,",
+				"          DueDate as timestamp,",
+				"          ShipDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcResellersSales",
+				"srcResellersSales filter(toDate(OrderDate) >=    toDate('2013-01-28 00:00:00.000')) ~> FilterDate",
+				"FilterDate derive(TotalCostFrghtTx = TotalProductCost+TaxAmt+Freight) ~> drvTotalCostwFrieghtTax",
+				"drvTotalCostwFrieghtTax sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> TargetTable"
+			]
+		}
+	}
+}

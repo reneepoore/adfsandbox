@@ -1,0 +1,7 @@
+{
+	"name": "mssqltips-selfhosted-ir",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "RMLAPTOP-610"
+	}
+}

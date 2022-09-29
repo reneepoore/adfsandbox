@@ -1,0 +1,48 @@
+{
+	"name": "CodeTableHeader",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLRMLAPTOP610",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Curam"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "TABLENAME",
+				"type": "char"
+			},
+			{
+				"name": "TIMEENTERED",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DEFAULTCODE",
+				"type": "char"
+			},
+			{
+				"name": "PARENTCODETABLE",
+				"type": "char"
+			},
+			{
+				"name": "VERSIONNO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LASTWRITTEN",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "CURAPD01",
+			"table": "CODETABLEHEADER"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

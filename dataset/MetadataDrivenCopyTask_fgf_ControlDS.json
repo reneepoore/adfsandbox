@@ -1,0 +1,20 @@
+{
+	"name": "MetadataDrivenCopyTask_fgf_ControlDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLRMLAPTOP610",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MainControlTable_fgf"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,20 @@
+{
+	"name": "AST_CodeTableHeader_copy1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseODSCuramStage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target ODS Database"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ODS_CodeTableHeader"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

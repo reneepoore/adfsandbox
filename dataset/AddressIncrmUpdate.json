@@ -1,0 +1,20 @@
+{
+	"name": "AddressIncrmUpdate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "AdventureWorksLT2019/Target"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "AddressIncrmUpdate"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

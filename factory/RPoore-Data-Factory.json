@@ -1,0 +1,9 @@
+{
+	"name": "RPoore-Data-Factory",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6e266d3e-91c5-4cf6-aabe-77807a705f91",
+		"tenantId": "32599cbd-2936-4030-972f-1bdcfa8a673b"
+	}
+}

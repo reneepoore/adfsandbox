@@ -1,0 +1,17 @@
+{
+	"name": "ds_SCD1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "AddressSCD"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

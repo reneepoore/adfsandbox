@@ -1,0 +1,17 @@
+{
+	"name": "trg_CopyData",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 3,
+				"startTime": "2022-08-17T13:47:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

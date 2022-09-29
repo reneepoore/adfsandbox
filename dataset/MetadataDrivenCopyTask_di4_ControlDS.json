@@ -1,0 +1,20 @@
+{
+	"name": "MetadataDrivenCopyTask_di4_ControlDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLRMLAPTOP610",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MainControlTable_di4"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

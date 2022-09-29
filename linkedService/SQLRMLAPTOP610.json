@@ -1,0 +1,18 @@
+{
+	"name": "SQLRMLAPTOP610",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Renee's Lapto[",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=localhost;initial catalog=CURAPD01",
+			"userName": "CORPORATE\\rpoore",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlOWZhZWY2MC00MjM0LTQ5NzEtOWY5Yy02N2E4ZjhlZmNmNmUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "mssqltips-selfhosted-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

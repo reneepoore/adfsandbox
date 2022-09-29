@@ -1,0 +1,75 @@
+{
+	"name": "df_Address_SCD",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Address",
+						"type": "DatasetReference"
+					},
+					"name": "srcAddress"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_SCD1",
+						"type": "DatasetReference"
+					},
+					"name": "trgtAddressSCD"
+				}
+			],
+			"transformations": [
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          AddressID as integer,",
+				"          AddressLine1 as string,",
+				"          AddressLine2 as string,",
+				"          City as string,",
+				"          StateProvince as string,",
+				"          CountryRegion as string,",
+				"          PostalCode as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     enableCdc: true,",
+				"     mode: 'read',",
+				"     skipInitialLoad: false,",
+				"     waterMarkColumn: 'ModifiedDate',",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcAddress",
+				"srcAddress alterRow(upsertIf(1==1)) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['AddressID'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          AddressID,",
+				"          AddressLine1,",
+				"          AddressLine2,",
+				"          City,",
+				"          StateProvince,",
+				"          CountryRegion,",
+				"          PostalCode,",
+				"          rowguid,",
+				"          ModifiedDate",
+				"     )) ~> trgtAddressSCD"
+			]
+		}
+	}
+}

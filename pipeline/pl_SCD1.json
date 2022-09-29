@@ -1,0 +1,40 @@
+{
+	"name": "pl_SCD1",
+	"properties": {
+		"activities": [
+			{
+				"name": "df_Address_SCD",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_Address_SCD",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine",
+					"continuationSettings": {
+						"customizedCheckpointKey": "c12a3331-1b0b-4fce-b726-5f9339600bb0"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-09-19T15:15:08Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

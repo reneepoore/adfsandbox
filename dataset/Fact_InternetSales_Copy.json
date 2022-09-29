@@ -1,0 +1,20 @@
+{
+	"name": "Fact_InternetSales_Copy",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseODSCuramStage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target AdWrks"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Fact_InternetSales_Copy"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
