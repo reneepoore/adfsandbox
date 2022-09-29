@@ -50,14 +50,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"priorflow": {
-				"type": "string"
-			},
-			"target": {
-				"type": "string"
-			}
-		},
 		"variables": {
 			"countrows": {
 				"type": "String"
