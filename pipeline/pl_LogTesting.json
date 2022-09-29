@@ -3,40 +3,9 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "df_Logging_Src_Test",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "df_Logging_Src_Test",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
 				"name": "df_LoggingTarget",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "df_Logging_Src_Test",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -51,11 +20,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"rowswritten": {
-								"value": "@activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten",
-								"type": "Expression"
-							},
-							"status": {
-								"value": "'@{activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState}'",
+								"value": "@pipeline().parameters.rowswritten",
 								"type": "Expression"
 							}
 						}
@@ -68,6 +33,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"rowswritten": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-09-29T17:12:18Z"
 	},

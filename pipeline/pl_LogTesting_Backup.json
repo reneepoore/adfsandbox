@@ -27,8 +27,8 @@
 				}
 			},
 			{
-				"name": "df_LoggingTarget",
-				"type": "ExecuteDataFlow",
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
 						"activity": "df_Logging_Src_Test",
@@ -37,37 +37,32 @@
 						]
 					}
 				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "df_LoggingTarget",
-						"type": "DataFlowReference",
-						"parameters": {
-							"rowswritten": {
-								"value": "@activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten",
-								"type": "Expression"
-							},
-							"status": {
-								"value": "'@{activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState}'",
-								"type": "Expression"
-							}
-						}
+					"pipeline": {
+						"referenceName": "pl_LogTesting",
+						"type": "PipelineReference"
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
+					"waitOnCompletion": true,
+					"parameters": {
+						"rowswritten": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten)"
+					}
 				}
 			}
 		],
+		"parameters": {
+			"priorflow": {
+				"type": "string"
+			},
+			"target": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"countrows": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-09-29T17:36:07Z"
 	},
