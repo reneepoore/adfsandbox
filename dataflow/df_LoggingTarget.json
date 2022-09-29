@@ -32,8 +32,7 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     rowswritten as integer,",
-				"     status as string",
+				"     rowswritten as integer",
 				"}",
 				"source(output(",
 				"          Column_1 as string",
@@ -48,8 +47,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
-				"          Column_1 = rowswritten1,",
-				"          Column_2 = status1",
+				"          Column_1 = rowswritten1",
 				"     ),",
 				"     partitionBy('hash', 1)) ~> sink1"
 			]
