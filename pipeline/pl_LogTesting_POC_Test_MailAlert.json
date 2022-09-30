@@ -112,7 +112,7 @@
 					"url": "https://rpsendemail.azurewebsites.net",
 					"method": "POST",
 					"body": {
-						"value": "{\n    \"title\": \"@{activity('Create Error Output File').output.pipelineName} SUCCEEDED!\",\n    \"message\": \"Pipeline run finished successfully!\",\n    \"color\": \"Green\",\n    \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n    \"pipelineName\": \"@{activity('Create Error Output File').output.pipelineName}\",\n    \"pipelineRunId\": \"@{activity('Create Error Output File').output.pipelineRunId}\",\n    \"time\": \"@{utcNow()}\"\n}\n\n",
+						"value": "\n{\n    \"title\": \"Pipeline SUCCEEDED!\",\n    \"message\": \"Pipeline run finished successfully!\",\n    \"color\": \"Green\",\n    \"dataFactoryName\": \"Data Factory Name\",\n    \"pipelineName\": \"Pipeline Name\",\n    \"pipelineRunId\": \"Pipeline Run\",\n    \"time\": \"@{utcNow()}\"\n}\n\n",
 						"type": "Expression"
 					}
 				}
