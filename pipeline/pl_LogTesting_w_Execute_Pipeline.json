@@ -1,5 +1,5 @@
 {
-	"name": "pl_LogTesting_Backup",
+	"name": "pl_LogTesting_w_Execute_Pipeline",
 	"properties": {
 		"activities": [
 			{
@@ -45,7 +45,10 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"rowswritten": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten)"
+						"rowswritten": {
+							"value": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten)",
+							"type": "Expression"
+						}
 					}
 				}
 			}
