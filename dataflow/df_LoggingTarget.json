@@ -32,7 +32,8 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     rowswritten as integer",
+				"     rowswritten as integer,",
+				"     status as string",
 				"}",
 				"source(output(",
 				"          Column_1 as string",
@@ -40,14 +41,16 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> srcDummy",
-				"srcDummy derive(rowswritten1 = $rowswritten) ~> derivedColumn1",
+				"srcDummy derive(rowswritten1 = $rowswritten,",
+				"          status = $status) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['rowswritten.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
-				"          Column_1 = rowswritten1",
+				"          Column_1 = rowswritten1,",
+				"          Column_2 = status",
 				"     ),",
 				"     partitionBy('hash', 1)) ~> sink1"
 			]
