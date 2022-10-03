@@ -1,0 +1,2676 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "RPoore-Data-Factory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_di4_ControlDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MainControlTable_di4"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_di4_SourceDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_fgf_ControlDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MainControlTable_fgf"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_fgf_SourceDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_vrc_ControlDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MainControlTable_vrc"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_vrc_SourceDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SDDenormalizedecision')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Curam"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SDDENORMALIZEDDECISIONID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "INTEGRATEDCASEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PRODUCTDELIVERYCASEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PARTICIPANTID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CREOLECASEDETERMINATIONID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "TIMELINESTARTDATE",
+						"type": "date"
+					},
+					{
+						"name": "TIMELINEENDDATE",
+						"type": "date"
+					},
+					{
+						"name": "ISELIGIBLE",
+						"type": "char"
+					},
+					{
+						"name": "PRODUCTID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CASEDECISIONSTATUSCODE",
+						"type": "char"
+					},
+					{
+						"name": "ISHOUSEHOLDMEMBERELIGIBLE",
+						"type": "char"
+					},
+					{
+						"name": "BENEFITAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "AIDCODE",
+						"type": "char"
+					},
+					{
+						"name": "RECORDSTATUS",
+						"type": "char"
+					},
+					{
+						"name": "RULEOBJECTSNAPSHOTDATAID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "UNEARNEDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "EARNEDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SELFEMPLOYMENTINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "INCOMEDEDUCTIONS",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "NETINDIVIDUALINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "ADJUSTEDGROSSINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "HOUSEHOLDSIZE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDCOVERAGECODE",
+						"type": "char"
+					},
+					{
+						"name": "SDCOPAYVALUE",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDMONTHLYGROSSINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDISRETROACTIVE",
+						"type": "char"
+					},
+					{
+						"name": "SDPOVERTYLEVEL",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDMEMBERPERCENTPOVERTYLEVEL",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDMEMBERCREDITABLEINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDISPREGNANT",
+						"type": "char"
+					},
+					{
+						"name": "SDMAGIHOUSEHOLDSIZE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDMAGIMONTHLYHOUSEHOLDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDSTATEHOUSEHOLDSIZE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDSTATEMONTHLYHOUSEHOLDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "TOTALSHAREOFCOSTAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "LASTWRITTEN",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ISUTILIZINGALLBENEFITS",
+						"type": "char"
+					},
+					{
+						"name": "LOTTERWINNINGSAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "UNCOMPENSATEDIRTAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "DAILYPRIVATEPAYRATE",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "CURAPD01",
+					"table": "SDDENORMALIZEDDECISION"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_qt6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "CURAPD01",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Address')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Address",
+								"type": "DatasetReference"
+							},
+							"name": "srcAddress"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AddressIncrmUpdate",
+								"type": "DatasetReference"
+							},
+							"name": "trgtAddress"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     enableCdc: true,",
+						"     mode: 'read',",
+						"     skipInitialLoad: false,",
+						"     waterMarkColumn: 'ModifiedDate',",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcAddress",
+						"srcAddress sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> trgtAddress"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Address_SCD')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Address",
+								"type": "DatasetReference"
+							},
+							"name": "srcAddress"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_SCD1",
+								"type": "DatasetReference"
+							},
+							"name": "trgtAddressSCD"
+						}
+					],
+					"transformations": [
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     enableCdc: true,",
+						"     mode: 'read',",
+						"     skipInitialLoad: false,",
+						"     waterMarkColumn: 'ModifiedDate',",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcAddress",
+						"srcAddress alterRow(upsertIf(1==1)) ~> alterRow1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['AddressID'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          AddressID,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          City,",
+						"          StateProvince,",
+						"          CountryRegion,",
+						"          PostalCode,",
+						"          rowguid,",
+						"          ModifiedDate",
+						"     )) ~> trgtAddressSCD"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Initial_Build_Test')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Fact_InternetSales",
+								"type": "DatasetReference"
+							},
+							"name": "GetFactInternetSalesData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimProduct",
+								"type": "DatasetReference"
+							},
+							"name": "DimProduct"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactSalesProducts",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "select2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          CustomerKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> GetFactInternetSalesData",
+						"source(output(",
+						"          ProductKey as integer,",
+						"          ProductAlternateKey as string,",
+						"          ProductSubcategoryKey as integer,",
+						"          WeightUnitMeasureCode as string,",
+						"          SizeUnitMeasureCode as string,",
+						"          EnglishProductName as string,",
+						"          SpanishProductName as string,",
+						"          FrenchProductName as string,",
+						"          StandardCost as decimal(19,4),",
+						"          FinishedGoodsFlag as boolean,",
+						"          Color as string,",
+						"          SafetyStockLevel as integer,",
+						"          ReorderPoint as integer,",
+						"          ListPrice as decimal(19,4),",
+						"          Size as string,",
+						"          SizeRange as string,",
+						"          Weight as double,",
+						"          DaysToManufacture as integer,",
+						"          ProductLine as string,",
+						"          DealerPrice as decimal(19,4),",
+						"          Class as string,",
+						"          Style as string,",
+						"          ModelName as string,",
+						"          LargePhoto as binary,",
+						"          EnglishDescription as string,",
+						"          FrenchDescription as string,",
+						"          ChineseDescription as string,",
+						"          ArabicDescription as string,",
+						"          HebrewDescription as string,",
+						"          ThaiDescription as string,",
+						"          GermanDescription as string,",
+						"          JapaneseDescription as string,",
+						"          TurkishDescription as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimProduct",
+						"GetFactInternetSalesData select(mapColumn(",
+						"          ProductKey,",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1, DimProduct lookup(select1@ProductKey == DimProduct@ProductKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1 select(mapColumn(",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          ProductKey = DimProduct@ProductKey,",
+						"          WeightUnitMeasureCode,",
+						"          SizeUnitMeasureCode,",
+						"          EnglishProductName,",
+						"          StandardCost,",
+						"          FinishedGoodsFlag,",
+						"          Color,",
+						"          SafetyStockLevel,",
+						"          ReorderPoint,",
+						"          ListPrice,",
+						"          Size,",
+						"          SizeRange,",
+						"          Weight,",
+						"          DaysToManufacture,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          EnglishDescription,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"select2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_LoggingTarget')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dummy",
+								"type": "DatasetReference"
+							},
+							"name": "srcDummy"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "rowswritten",
+								"type": "DatasetReference"
+							},
+							"name": "sink1",
+							"rejectedDataLinkedService": {
+								"referenceName": "AzureBlobStorageRP",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     rowswritten as integer",
+						"}",
+						"source(output(",
+						"          Column_1 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> srcDummy",
+						"srcDummy derive(rowswritten1 = $rowswritten) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['rowswritten.txt'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          Column_1 = rowswritten1",
+						"     ),",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_LoggingTarget_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dummy",
+								"type": "DatasetReference"
+							},
+							"name": "srcDummy"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "rowswritten",
+								"type": "DatasetReference"
+							},
+							"name": "sink1",
+							"rejectedDataLinkedService": {
+								"referenceName": "AzureBlobStorageRP",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     parameter1 as integer,",
+						"     parameter2 as string",
+						"}",
+						"source(output(",
+						"          Column_1 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> srcDummy",
+						"srcDummy derive(rowswritten1 = $parameter1,",
+						"          status1 = $parameter2) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['rowswritten.txt'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          Column_1 = rowswritten1,",
+						"          Column_2 = status1",
+						"     ),",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Logging_Src_Test')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is to test logging for a dataflow\n",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "srcDimCustomer"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_DimCustomer_Target",
+								"type": "DatasetReference"
+							},
+							"name": "tgtDimCustomerTarget",
+							"description": "Target table"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          GeographyKey as integer,",
+						"          CustomerAlternateKey as string,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          NameStyle as boolean,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Suffix as string,",
+						"          Gender as string,",
+						"          EmailAddress as string,",
+						"          YearlyIncome as decimal(19,4),",
+						"          TotalChildren as integer,",
+						"          NumberChildrenAtHome as integer,",
+						"          EnglishEducation as string,",
+						"          SpanishEducation as string,",
+						"          FrenchEducation as string,",
+						"          EnglishOccupation as string,",
+						"          SpanishOccupation as string,",
+						"          FrenchOccupation as string,",
+						"          HouseOwnerFlag as string,",
+						"          NumberCarsOwned as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          Phone as string,",
+						"          DateFirstPurchase as date,",
+						"          CommuteDistance as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcDimCustomer",
+						"srcDimCustomer sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> tgtDimCustomerTarget"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Logging_Src_Test_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is to test logging for a dataflow\n",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "srcDimCustomer"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_DimCustomer_Target",
+								"type": "DatasetReference"
+							},
+							"name": "tgtDimCustomerTarget",
+							"description": "Target table"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          GeographyKey as integer,",
+						"          CustomerAlternateKey as string,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          NameStyle as boolean,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Suffix as string,",
+						"          Gender as string,",
+						"          EmailAddress as string,",
+						"          YearlyIncome as decimal(19,4),",
+						"          TotalChildren as integer,",
+						"          NumberChildrenAtHome as integer,",
+						"          EnglishEducation as string,",
+						"          SpanishEducation as string,",
+						"          FrenchEducation as string,",
+						"          EnglishOccupation as string,",
+						"          SpanishOccupation as string,",
+						"          FrenchOccupation as string,",
+						"          HouseOwnerFlag as string,",
+						"          NumberCarsOwned as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          Phone as string,",
+						"          DateFirstPurchase as date,",
+						"          CommuteDistance as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcDimCustomer",
+						"srcDimCustomer sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> tgtDimCustomerTarget"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Normalize_Internet_Sales')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Fact_InternetSales",
+								"type": "DatasetReference"
+							},
+							"name": "srcFactInternetSales"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimPromotion",
+								"type": "DatasetReference"
+							},
+							"name": "DimPromotion"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimSalesTerritory",
+								"type": "DatasetReference"
+							},
+							"name": "DimSalesTerritory"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "DimCustomer"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimProduct",
+								"type": "DatasetReference"
+							},
+							"name": "DimProduct"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactInternetSalesNormalized",
+								"type": "DatasetReference"
+							},
+							"name": "TargetData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "joinPromotion"
+						},
+						{
+							"name": "lkupSalesTerritory"
+						},
+						{
+							"name": "lkupCustomer"
+						},
+						{
+							"name": "lkupProduct"
+						},
+						{
+							"name": "slctTargetData"
+						},
+						{
+							"name": "drvCustomerName"
+						},
+						{
+							"name": "slctTarget"
+						},
+						{
+							"name": "slctAfterLkups"
+						},
+						{
+							"name": "surrKey"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          CustomerKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcFactInternetSales",
+						"source(output(",
+						"          PromotionKey as integer,",
+						"          PromotionAlternateKey as integer,",
+						"          EnglishPromotionName as string,",
+						"          SpanishPromotionName as string,",
+						"          FrenchPromotionName as string,",
+						"          DiscountPct as double,",
+						"          EnglishPromotionType as string,",
+						"          SpanishPromotionType as string,",
+						"          FrenchPromotionType as string,",
+						"          EnglishPromotionCategory as string,",
+						"          SpanishPromotionCategory as string,",
+						"          FrenchPromotionCategory as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          MinQty as integer,",
+						"          MaxQty as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimPromotion",
+						"source(output(",
+						"          SalesTerritoryKey as integer,",
+						"          SalesTerritoryAlternateKey as integer,",
+						"          SalesTerritoryRegion as string,",
+						"          SalesTerritoryCountry as string,",
+						"          SalesTerritoryGroup as string,",
+						"          SalesTerritoryImage as binary",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimSalesTerritory",
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          GeographyKey as integer,",
+						"          CustomerAlternateKey as string,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          NameStyle as boolean,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Suffix as string,",
+						"          Gender as string,",
+						"          EmailAddress as string,",
+						"          YearlyIncome as decimal(19,4),",
+						"          TotalChildren as integer,",
+						"          NumberChildrenAtHome as integer,",
+						"          EnglishEducation as string,",
+						"          SpanishEducation as string,",
+						"          FrenchEducation as string,",
+						"          EnglishOccupation as string,",
+						"          SpanishOccupation as string,",
+						"          FrenchOccupation as string,",
+						"          HouseOwnerFlag as string,",
+						"          NumberCarsOwned as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          Phone as string,",
+						"          DateFirstPurchase as date,",
+						"          CommuteDistance as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimCustomer",
+						"source(output(",
+						"          ProductKey as integer,",
+						"          ProductAlternateKey as string,",
+						"          ProductSubcategoryKey as integer,",
+						"          WeightUnitMeasureCode as string,",
+						"          SizeUnitMeasureCode as string,",
+						"          EnglishProductName as string,",
+						"          SpanishProductName as string,",
+						"          FrenchProductName as string,",
+						"          StandardCost as decimal(19,4),",
+						"          FinishedGoodsFlag as boolean,",
+						"          Color as string,",
+						"          SafetyStockLevel as integer,",
+						"          ReorderPoint as integer,",
+						"          ListPrice as decimal(19,4),",
+						"          Size as string,",
+						"          SizeRange as string,",
+						"          Weight as double,",
+						"          DaysToManufacture as integer,",
+						"          ProductLine as string,",
+						"          DealerPrice as decimal(19,4),",
+						"          Class as string,",
+						"          Style as string,",
+						"          ModelName as string,",
+						"          LargePhoto as binary,",
+						"          EnglishDescription as string,",
+						"          FrenchDescription as string,",
+						"          ChineseDescription as string,",
+						"          ArabicDescription as string,",
+						"          HebrewDescription as string,",
+						"          ThaiDescription as string,",
+						"          GermanDescription as string,",
+						"          JapaneseDescription as string,",
+						"          TurkishDescription as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimProduct",
+						"srcFactInternetSales, DimPromotion join(srcFactInternetSales@PromotionKey == DimPromotion@PromotionKey,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinPromotion",
+						"joinPromotion, DimSalesTerritory lookup(srcFactInternetSales@SalesTerritoryKey == DimSalesTerritory@SalesTerritoryKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupSalesTerritory",
+						"lkupSalesTerritory, DimCustomer lookup(srcFactInternetSales@CustomerKey == DimCustomer@CustomerKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupCustomer",
+						"lkupCustomer, DimProduct lookup(srcFactInternetSales@ProductKey == DimProduct@ProductKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupProduct",
+						"slctAfterLkups select(mapColumn(",
+						"          ProductKey,",
+						"          OrderDateKey,",
+						"          DueDateKey,",
+						"          ShipDateKey,",
+						"          CustomerKey,",
+						"          PromotionKey,",
+						"          CurrencyKey,",
+						"          SalesTerritoryKey,",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          RevisionNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          OrderDate,",
+						"          DueDate,",
+						"          ShipDate,",
+						"          PromotionAlternateKey,",
+						"          EnglishPromotionName,",
+						"          SpanishPromotionName,",
+						"          FrenchPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          SpanishPromotionType,",
+						"          FrenchPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          SpanishPromotionCategory,",
+						"          FrenchPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          SalesTerritoryImage,",
+						"          GeographyKey,",
+						"          CustomerAlternateKey,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          TotalChildren,",
+						"          NumberChildrenAtHome,",
+						"          EnglishEducation,",
+						"          SpanishEducation,",
+						"          FrenchEducation,",
+						"          EnglishOccupation,",
+						"          SpanishOccupation,",
+						"          FrenchOccupation,",
+						"          HouseOwnerFlag,",
+						"          NumberCarsOwned,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          ProductAlternateKey,",
+						"          ProductSubcategoryKey,",
+						"          WeightUnitMeasureCode,",
+						"          SizeUnitMeasureCode,",
+						"          EnglishProductName,",
+						"          SpanishProductName,",
+						"          FrenchProductName,",
+						"          StandardCost,",
+						"          FinishedGoodsFlag,",
+						"          Color,",
+						"          SafetyStockLevel,",
+						"          ReorderPoint,",
+						"          ListPrice,",
+						"          Size,",
+						"          SizeRange,",
+						"          Weight,",
+						"          DaysToManufacture,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          LargePhoto,",
+						"          EnglishDescription,",
+						"          FrenchDescription,",
+						"          ChineseDescription,",
+						"          ArabicDescription,",
+						"          HebrewDescription,",
+						"          ThaiDescription,",
+						"          GermanDescription,",
+						"          JapaneseDescription,",
+						"          TurkishDescription,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctTargetData",
+						"slctTargetData derive(CustomerName = FirstName + ' '+LastName) ~> drvCustomerName",
+						"drvCustomerName select(mapColumn(",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          EnglishPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryKey,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          EnglishEducation,",
+						"          EnglishOccupation,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          EnglishProductName,",
+						"          StandardCost,",
+						"          Color,",
+						"          ListPrice,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          Status,",
+						"          Customer_Name = CustomerName",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> slctTarget",
+						"lkupProduct select(mapColumn(",
+						"          each(match(/* All input columns */true()),",
+						"               /* Input name */$$ = $$)",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctAfterLkups",
+						"slctTarget keyGenerate(output(SalesNormalizedKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrKey",
+						"surrKey sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetData"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Normalize_Internet_Sales_w_Truncate')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Fact_InternetSales",
+								"type": "DatasetReference"
+							},
+							"name": "srcFactInternetSales"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimPromotion",
+								"type": "DatasetReference"
+							},
+							"name": "DimPromotion"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimSalesTerritory",
+								"type": "DatasetReference"
+							},
+							"name": "DimSalesTerritory"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "DimCustomer"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimProduct",
+								"type": "DatasetReference"
+							},
+							"name": "DimProduct"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactInternetSalesNormalized",
+								"type": "DatasetReference"
+							},
+							"name": "TargetData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "joinPromotion"
+						},
+						{
+							"name": "lkupSalesTerritory"
+						},
+						{
+							"name": "lkupCustomer"
+						},
+						{
+							"name": "lkupProduct"
+						},
+						{
+							"name": "slctTargetData"
+						},
+						{
+							"name": "drvCustomerName"
+						},
+						{
+							"name": "slctTarget"
+						},
+						{
+							"name": "slctAfterLkups"
+						},
+						{
+							"name": "surrKey"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          CustomerKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcFactInternetSales",
+						"source(output(",
+						"          PromotionKey as integer,",
+						"          PromotionAlternateKey as integer,",
+						"          EnglishPromotionName as string,",
+						"          SpanishPromotionName as string,",
+						"          FrenchPromotionName as string,",
+						"          DiscountPct as double,",
+						"          EnglishPromotionType as string,",
+						"          SpanishPromotionType as string,",
+						"          FrenchPromotionType as string,",
+						"          EnglishPromotionCategory as string,",
+						"          SpanishPromotionCategory as string,",
+						"          FrenchPromotionCategory as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          MinQty as integer,",
+						"          MaxQty as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimPromotion",
+						"source(output(",
+						"          SalesTerritoryKey as integer,",
+						"          SalesTerritoryAlternateKey as integer,",
+						"          SalesTerritoryRegion as string,",
+						"          SalesTerritoryCountry as string,",
+						"          SalesTerritoryGroup as string,",
+						"          SalesTerritoryImage as binary",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimSalesTerritory",
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          GeographyKey as integer,",
+						"          CustomerAlternateKey as string,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          NameStyle as boolean,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Suffix as string,",
+						"          Gender as string,",
+						"          EmailAddress as string,",
+						"          YearlyIncome as decimal(19,4),",
+						"          TotalChildren as integer,",
+						"          NumberChildrenAtHome as integer,",
+						"          EnglishEducation as string,",
+						"          SpanishEducation as string,",
+						"          FrenchEducation as string,",
+						"          EnglishOccupation as string,",
+						"          SpanishOccupation as string,",
+						"          FrenchOccupation as string,",
+						"          HouseOwnerFlag as string,",
+						"          NumberCarsOwned as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          Phone as string,",
+						"          DateFirstPurchase as date,",
+						"          CommuteDistance as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimCustomer",
+						"source(output(",
+						"          ProductKey as integer,",
+						"          ProductAlternateKey as string,",
+						"          ProductSubcategoryKey as integer,",
+						"          WeightUnitMeasureCode as string,",
+						"          SizeUnitMeasureCode as string,",
+						"          EnglishProductName as string,",
+						"          SpanishProductName as string,",
+						"          FrenchProductName as string,",
+						"          StandardCost as decimal(19,4),",
+						"          FinishedGoodsFlag as boolean,",
+						"          Color as string,",
+						"          SafetyStockLevel as integer,",
+						"          ReorderPoint as integer,",
+						"          ListPrice as decimal(19,4),",
+						"          Size as string,",
+						"          SizeRange as string,",
+						"          Weight as double,",
+						"          DaysToManufacture as integer,",
+						"          ProductLine as string,",
+						"          DealerPrice as decimal(19,4),",
+						"          Class as string,",
+						"          Style as string,",
+						"          ModelName as string,",
+						"          LargePhoto as binary,",
+						"          EnglishDescription as string,",
+						"          FrenchDescription as string,",
+						"          ChineseDescription as string,",
+						"          ArabicDescription as string,",
+						"          HebrewDescription as string,",
+						"          ThaiDescription as string,",
+						"          GermanDescription as string,",
+						"          JapaneseDescription as string,",
+						"          TurkishDescription as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimProduct",
+						"srcFactInternetSales, DimPromotion join(srcFactInternetSales@PromotionKey == DimPromotion@PromotionKey,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinPromotion",
+						"joinPromotion, DimSalesTerritory lookup(srcFactInternetSales@SalesTerritoryKey == DimSalesTerritory@SalesTerritoryKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupSalesTerritory",
+						"lkupSalesTerritory, DimCustomer lookup(srcFactInternetSales@CustomerKey == DimCustomer@CustomerKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupCustomer",
+						"lkupCustomer, DimProduct lookup(srcFactInternetSales@ProductKey == DimProduct@ProductKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupProduct",
+						"slctAfterLkups select(mapColumn(",
+						"          ProductKey,",
+						"          OrderDateKey,",
+						"          DueDateKey,",
+						"          ShipDateKey,",
+						"          CustomerKey,",
+						"          PromotionKey,",
+						"          CurrencyKey,",
+						"          SalesTerritoryKey,",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          RevisionNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          OrderDate,",
+						"          DueDate,",
+						"          ShipDate,",
+						"          PromotionAlternateKey,",
+						"          EnglishPromotionName,",
+						"          SpanishPromotionName,",
+						"          FrenchPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          SpanishPromotionType,",
+						"          FrenchPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          SpanishPromotionCategory,",
+						"          FrenchPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          SalesTerritoryImage,",
+						"          GeographyKey,",
+						"          CustomerAlternateKey,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          TotalChildren,",
+						"          NumberChildrenAtHome,",
+						"          EnglishEducation,",
+						"          SpanishEducation,",
+						"          FrenchEducation,",
+						"          EnglishOccupation,",
+						"          SpanishOccupation,",
+						"          FrenchOccupation,",
+						"          HouseOwnerFlag,",
+						"          NumberCarsOwned,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          ProductAlternateKey,",
+						"          ProductSubcategoryKey,",
+						"          WeightUnitMeasureCode,",
+						"          SizeUnitMeasureCode,",
+						"          EnglishProductName,",
+						"          SpanishProductName,",
+						"          FrenchProductName,",
+						"          StandardCost,",
+						"          FinishedGoodsFlag,",
+						"          Color,",
+						"          SafetyStockLevel,",
+						"          ReorderPoint,",
+						"          ListPrice,",
+						"          Size,",
+						"          SizeRange,",
+						"          Weight,",
+						"          DaysToManufacture,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          LargePhoto,",
+						"          EnglishDescription,",
+						"          FrenchDescription,",
+						"          ChineseDescription,",
+						"          ArabicDescription,",
+						"          HebrewDescription,",
+						"          ThaiDescription,",
+						"          GermanDescription,",
+						"          JapaneseDescription,",
+						"          TurkishDescription,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctTargetData",
+						"slctTargetData derive(CustomerName = FirstName + ' '+LastName) ~> drvCustomerName",
+						"drvCustomerName select(mapColumn(",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          EnglishPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryKey,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          EnglishEducation,",
+						"          EnglishOccupation,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          EnglishProductName,",
+						"          StandardCost,",
+						"          Color,",
+						"          ListPrice,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          Status,",
+						"          Customer_Name = CustomerName",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> slctTarget",
+						"lkupProduct select(mapColumn(",
+						"          each(match(/* All input columns */true()),",
+						"               /* Input name */$$ = $$)",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctAfterLkups",
+						"slctTarget keyGenerate(output(SalesNormalizedKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrKey",
+						"surrKey sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetData"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Resellers_Sales_w_Transformations')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_Resellers_Sales",
+								"type": "DatasetReference"
+							},
+							"name": "srcResellersSales"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactResellersSales",
+								"type": "DatasetReference"
+							},
+							"name": "TargetTable"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FilterDate"
+						},
+						{
+							"name": "drvTotalCostwFrieghtTax"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          ResellerKey as integer,",
+						"          EmployeeKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcResellersSales",
+						"srcResellersSales filter(toDate(OrderDate) >=    toDate('2013-01-28 00:00:00.000')) ~> FilterDate",
+						"FilterDate derive(TotalCostFrghtTx = TotalProductCost+TaxAmt+Freight) ~> drvTotalCostwFrieghtTax",
+						"drvTotalCostwFrieghtTax sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetTable"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Sales_Product_Normalized')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Fact_InternetSales",
+								"type": "DatasetReference"
+							},
+							"name": "GetFactInternetSalesData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimProduct",
+								"type": "DatasetReference"
+							},
+							"name": "DimProduct"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactSalesProducts",
+								"type": "DatasetReference"
+							},
+							"name": "TargetTable"
+						}
+					],
+					"transformations": [
+						{
+							"name": "GetSalesData"
+						},
+						{
+							"name": "lkupProduct"
+						},
+						{
+							"name": "TargetSalesData"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          CustomerKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> GetFactInternetSalesData",
+						"source(output(",
+						"          ProductKey as integer,",
+						"          ProductAlternateKey as string,",
+						"          ProductSubcategoryKey as integer,",
+						"          WeightUnitMeasureCode as string,",
+						"          SizeUnitMeasureCode as string,",
+						"          EnglishProductName as string,",
+						"          SpanishProductName as string,",
+						"          FrenchProductName as string,",
+						"          StandardCost as decimal(19,4),",
+						"          FinishedGoodsFlag as boolean,",
+						"          Color as string,",
+						"          SafetyStockLevel as integer,",
+						"          ReorderPoint as integer,",
+						"          ListPrice as decimal(19,4),",
+						"          Size as string,",
+						"          SizeRange as string,",
+						"          Weight as double,",
+						"          DaysToManufacture as integer,",
+						"          ProductLine as string,",
+						"          DealerPrice as decimal(19,4),",
+						"          Class as string,",
+						"          Style as string,",
+						"          ModelName as string,",
+						"          LargePhoto as binary,",
+						"          EnglishDescription as string,",
+						"          FrenchDescription as string,",
+						"          ChineseDescription as string,",
+						"          ArabicDescription as string,",
+						"          HebrewDescription as string,",
+						"          ThaiDescription as string,",
+						"          GermanDescription as string,",
+						"          JapaneseDescription as string,",
+						"          TurkishDescription as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimProduct",
+						"GetFactInternetSalesData select(mapColumn(",
+						"          ProductKey,",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> GetSalesData",
+						"GetSalesData, DimProduct lookup(GetSalesData@ProductKey == DimProduct@ProductKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupProduct",
+						"lkupProduct select(mapColumn(",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          ProductKey = DimProduct@ProductKey,",
+						"          WeightUnitMeasureCode,",
+						"          SizeUnitMeasureCode,",
+						"          EnglishProductName,",
+						"          StandardCost,",
+						"          FinishedGoodsFlag,",
+						"          Color,",
+						"          SafetyStockLevel,",
+						"          ReorderPoint,",
+						"          ListPrice,",
+						"          Size,",
+						"          SizeRange,",
+						"          Weight,",
+						"          DaysToManufacture,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          EnglishDescription,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> TargetSalesData",
+						"TargetSalesData sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetTable"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_fgf_BottomLevel')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This pipeline will copy objects from one group. The objects belonging to this group will be copied parallelly.",
+				"activities": [
+					{
+						"name": "ListObjectsFromOneGroup",
+						"description": "List objects from one group and iterate each of them to downstream activities",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.ObjectsPerGroupToCopy",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "RouteJobsBasedOnLoadingBehavior",
+									"description": "Check the loading behavior for each object if it requires full load or incremental load. If it is Default or FullLoad case, do full load. If it is DeltaLoad case, do incremental load.",
+									"type": "Switch",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"on": {
+											"value": "@json(item().DataLoadingBehaviorSettings).dataLoadingBehavior",
+											"type": "Expression"
+										},
+										"cases": [
+											{
+												"value": "FullLoad",
+												"activities": [
+													{
+														"name": "FullLoadOneObject",
+														"description": "Take a full snapshot on this object and copy it to the destination",
+														"type": "Copy",
+														"dependsOn": [],
+														"policy": {
+															"timeout": "0.12:00:00",
+															"retry": 0,
+															"retryIntervalInSeconds": 30,
+															"secureOutput": false,
+															"secureInput": false
+														},
+														"userProperties": [
+															{
+																"name": "Source",
+																"value": "@{json(item().SourceObjectSettings).schema}.@{json(item().SourceObjectSettings).table}"
+															},
+															{
+																"name": "Destination",
+																"value": "@{json(item().SinkObjectSettings).schema}.@{json(item().SinkObjectSettings).table}"
+															}
+														],
+														"typeProperties": {
+															"source": {
+																"type": "SqlServerSource",
+																"sqlReaderQuery": {
+																	"value": "@json(item().CopySourceSettings).sqlReaderQuery",
+																	"type": "Expression"
+																},
+																"partitionOption": {
+																	"value": "@json(item().CopySourceSettings).partitionOption",
+																	"type": "Expression"
+																},
+																"partitionSettings": {
+																	"partitionColumnName": {
+																		"value": "@json(item().CopySourceSettings).partitionColumnName",
+																		"type": "Expression"
+																	},
+																	"partitionUpperBound": {
+																		"value": "@json(item().CopySourceSettings).partitionUpperBound",
+																		"type": "Expression"
+																	},
+																	"partitionLowerBound": {
+																		"value": "@json(item().CopySourceSettings).partitionLowerBound",
+																		"type": "Expression"
+																	},
+																	"partitionNames": "@json(item().CopySourceSettings).partitionNames"
+																}
+															},
+															"sink": {
+																"type": "AzureSqlSink",
+																"preCopyScript": {
+																	"value": "@json(item().CopySinkSettings).preCopyScript",
+																	"type": "Expression"
+																},
+																"tableOption": {
+																	"value": "@json(item().CopySinkSettings).tableOption",
+																	"type": "Expression"
+																}
+															},
+															"enableStaging": false,
+															"validateDataConsistency": false,
+															"translator": {
+																"value": "@json(item().CopyActivitySettings).translator",
+																"type": "Expression"
+															}
+														},
+														"inputs": [
+															{
+																"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
+																"type": "DatasetReference",
+																"parameters": {
+																	"cw_schema": {
+																		"value": "@json(item().SourceObjectSettings).schema",
+																		"type": "Expression"
+																	},
+																	"cw_table": {
+																		"value": "@json(item().SourceObjectSettings).table",
+																		"type": "Expression"
+																	}
+																}
+															}
+														],
+														"outputs": [
+															{
+																"referenceName": "MetadataDrivenCopyTask_fgf_DestinationDS",
+																"type": "DatasetReference",
+																"parameters": {
+																	"cw_schema": {
+																		"value": "@json(item().SinkObjectSettings).schema",
+																		"type": "Expression"
+																	},
+																	"cw_table": {
+																		"value": "@json(item().SinkObjectSettings).table",
+																		"type": "Expression"
+																	}
+																}
+															}
+														]
+													}
+												]
+											},
+											{
+												"value": "DeltaLoad",
+												"activities": [
+													{
+														"name": "GetMaxWatermarkValue",
+														"description": "Query the source object to get the max value from watermark column",
+														"type": "Lookup",
+														"dependsOn": [],
+														"policy": {
+															"timeout": "0.12:00:00",
+															"retry": 0,
+															"retryIntervalInSeconds": 30,
+															"secureOutput": false,
+															"secureInput": false
+														},
+														"userProperties": [],
+														"typeProperties": {
+															"source": {
+																"type": "SqlServerSource",
+																"sqlReaderQuery": {
+																	"value": "select max([@{json(item().DataLoadingBehaviorSettings).watermarkColumnName}]) as CurrentMaxWaterMarkColumnValue from [@{json(item().SourceObjectSettings).schema}].[@{json(item().SourceObjectSettings).table}]",
+																	"type": "Expression"
+																},
+																"partitionOption": "None"
+															},
+															"dataset": {
+																"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
+																"type": "DatasetReference",
+																"parameters": {
+																	"cw_schema": {
+																		"value": "@json(item().SourceObjectSettings).schema",
+																		"type": "Expression"
+																	},
+																	"cw_table": {
+																		"value": "@json(item().SourceObjectSettings).table",
+																		"type": "Expression"
+																	}
+																}
+															}
+														}
+													},
+													{
+														"name": "DeltaLoadOneObject",
+														"description": "Copy the changed data only from last time via comparing the value in watermark column to identify changes.",
+														"type": "Copy",
+														"dependsOn": [
+															{
+																"activity": "GetMaxWatermarkValue",
+																"dependencyConditions": [
+																	"Succeeded"
+																]
+															}
+														],
+														"policy": {
+															"timeout": "0.12:00:00",
+															"retry": 0,
+															"retryIntervalInSeconds": 30,
+															"secureOutput": false,
+															"secureInput": false
+														},
+														"userProperties": [
+															{
+																"name": "Source",
+																"value": "@{json(item().SourceObjectSettings).schema}.@{json(item().SourceObjectSettings).table}"
+															},
+															{
+																"name": "Destination",
+																"value": "@{json(item().SinkObjectSettings).schema}.@{json(item().SinkObjectSettings).table}"
+															}
+														],
+														"typeProperties": {
+															"source": {
+																"type": "SqlServerSource",
+																"sqlReaderQuery": {
+																	"value": "select * from [@{json(item().SourceObjectSettings).schema}].[@{json(item().SourceObjectSettings).table}] \n    where [@{json(item().DataLoadingBehaviorSettings).watermarkColumnName}] > @{if(contains(json(item().DataLoadingBehaviorSettings).watermarkColumnType, 'Int'),\n    json(item().DataLoadingBehaviorSettings).watermarkColumnStartValue, \n    concat('''', json(item().DataLoadingBehaviorSettings).watermarkColumnStartValue, ''''))}\n    and [@{json(item().DataLoadingBehaviorSettings).watermarkColumnName}] <= @{if(contains(json(item().DataLoadingBehaviorSettings).watermarkColumnType, 'Int'),\n    activity('GetMaxWatermarkValue').output.firstRow.CurrentMaxWaterMarkColumnValue, \n    concat('''', activity('GetMaxWatermarkValue').output.firstRow.CurrentMaxWaterMarkColumnValue, ''''))}",
+																	"type": "Expression"
+																},
+																"partitionOption": {
+																	"value": "@json(item().CopySourceSettings).partitionOption",
+																	"type": "Expression"
+																},
+																"partitionSettings": {
+																	"partitionColumnName": {
+																		"value": "@json(item().CopySourceSettings).partitionColumnName",
+																		"type": "Expression"
+																	},
+																	"partitionUpperBound": {
+																		"value": "@json(item().CopySourceSettings).partitionUpperBound",
+																		"type": "Expression"
+																	},
+																	"partitionLowerBound": {
+																		"value": "@json(item().CopySourceSettings).partitionLowerBound",
+																		"type": "Expression"
+																	},
+																	"partitionNames": "@json(item().CopySourceSettings).partitionNames"
+																}
+															},
+															"sink": {
+																"type": "AzureSqlSink",
+																"preCopyScript": {
+																	"value": "@json(item().CopySinkSettings).preCopyScript",
+																	"type": "Expression"
+																},
+																"tableOption": {
+																	"value": "@json(item().CopySinkSettings).tableOption",
+																	"type": "Expression"
+																}
+															},
+															"enableStaging": false,
+															"validateDataConsistency": false,
+															"translator": {
+																"value": "@json(item().CopyActivitySettings).translator",
+																"type": "Expression"
+															}
+														},
+														"inputs": [
+															{
+																"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
+																"type": "DatasetReference",
+																"parameters": {
+																	"cw_schema": {
+																		"value": "@json(item().SourceObjectSettings).schema",
+																		"type": "Expression"
+																	},
+																	"cw_table": {
+																		"value": "@json(item().SourceObjectSettings).table",
+																		"type": "Expression"
+																	}
+																}
+															}
+														],
+														"outputs": [
+															{
+																"referenceName": "MetadataDrivenCopyTask_fgf_DestinationDS",
+																"type": "DatasetReference",
+																"parameters": {
+																	"cw_schema": {
+																		"value": "@json(item().SinkObjectSettings).schema",
+																		"type": "Expression"
+																	},
+																	"cw_table": {
+																		"value": "@json(item().SinkObjectSettings).table",
+																		"type": "Expression"
+																	}
+																}
+															}
+														]
+													},
+													{
+														"name": "UpdateWatermarkColumnValue",
+														"type": "SqlServerStoredProcedure",
+														"dependsOn": [
+															{
+																"activity": "DeltaLoadOneObject",
+																"dependencyConditions": [
+																	"Succeeded"
+																]
+															}
+														],
+														"policy": {
+															"timeout": "0.12:00:00",
+															"retry": 0,
+															"retryIntervalInSeconds": 30,
+															"secureOutput": false,
+															"secureInput": false
+														},
+														"userProperties": [],
+														"typeProperties": {
+															"storedProcedureName": "[[dbo].[UpdateWatermarkColumnValue_fgf]",
+															"storedProcedureParameters": {
+																"Id": {
+																	"value": {
+																		"value": "@item().Id",
+																		"type": "Expression"
+																	},
+																	"type": "Int32"
+																},
+																"watermarkColumnStartValue": {
+																	"value": {
+																		"value": "@activity('GetMaxWatermarkValue').output.firstRow.CurrentMaxWaterMarkColumnValue",
+																		"type": "Expression"
+																	},
+																	"type": "String"
+																}
+															}
+														},
+														"linkedServiceName": {
+															"referenceName": "SQLRMLAPTOP610",
+															"type": "LinkedServiceReference"
+														}
+													}
+												]
+											}
+										],
+										"defaultActivities": [
+											{
+												"name": "DefaultFullLoadOneObject",
+												"description": "Take a full snapshot on this object and copy it to the destination",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [
+													{
+														"name": "Source",
+														"value": "@{json(item().SourceObjectSettings).schema}.@{json(item().SourceObjectSettings).table}"
+													},
+													{
+														"name": "Destination",
+														"value": "@{json(item().SinkObjectSettings).schema}.@{json(item().SinkObjectSettings).table}"
+													}
+												],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": {
+															"value": "@json(item().CopySourceSettings).sqlReaderQuery",
+															"type": "Expression"
+														},
+														"partitionOption": {
+															"value": "@json(item().CopySourceSettings).partitionOption",
+															"type": "Expression"
+														},
+														"partitionSettings": {
+															"partitionColumnName": {
+																"value": "@json(item().CopySourceSettings).partitionColumnName",
+																"type": "Expression"
+															},
+															"partitionUpperBound": {
+																"value": "@json(item().CopySourceSettings).partitionUpperBound",
+																"type": "Expression"
+															},
+															"partitionLowerBound": {
+																"value": "@json(item().CopySourceSettings).partitionLowerBound",
+																"type": "Expression"
+															},
+															"partitionNames": "@json(item().CopySourceSettings).partitionNames"
+														}
+													},
+													"sink": {
+														"type": "AzureSqlSink",
+														"preCopyScript": {
+															"value": "@json(item().CopySinkSettings).preCopyScript",
+															"type": "Expression"
+														},
+														"tableOption": {
+															"value": "@json(item().CopySinkSettings).tableOption",
+															"type": "Expression"
+														}
+													},
+													"enableStaging": false,
+													"validateDataConsistency": false,
+													"translator": {
+														"value": "@json(item().CopyActivitySettings).translator",
+														"type": "Expression"
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
+														"type": "DatasetReference",
+														"parameters": {
+															"cw_schema": {
+																"value": "@json(item().SourceObjectSettings).schema",
+																"type": "Expression"
+															},
+															"cw_table": {
+																"value": "@json(item().SourceObjectSettings).table",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "MetadataDrivenCopyTask_fgf_DestinationDS",
+														"type": "DatasetReference",
+														"parameters": {
+															"cw_schema": {
+																"value": "@json(item().SinkObjectSettings).schema",
+																"type": "Expression"
+															},
+															"cw_table": {
+																"value": "@json(item().SinkObjectSettings).table",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"ObjectsPerGroupToCopy": {
+						"type": "Array"
+					}
+				},
+				"folder": {
+					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-09-19T15:15:08Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/MetadataDrivenCopyTask_fgf_SourceDS')]"
+			]
+		}
+	]
+}
