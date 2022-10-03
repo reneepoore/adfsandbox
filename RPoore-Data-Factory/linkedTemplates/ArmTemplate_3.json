@@ -497,7 +497,7 @@
 							"method": "POST",
 							"headers": {},
 							"body": {
-								"value": "{\n    \"title\": \"Pipeline SUCCEEDED!\",\n    \"message\": \"Pipeline run finished successfully!\",\n    \"color\": \"Red\",\n    \"dataFactoryName\": \"Data Factory Name\",\n    \"pipelineName\": \"Pipeline Name\",\n    \"pipelineRunId\": \"Pipeline Run\",\n    \"time\": \"@{utcNow()}\"\n}\n\n",
+								"value": "{\n        \"title\": \"Pipeline SUCCEEDED!\",\n    \"message\": \"Pipeline run finished successfully!\",  \n    \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n    \"Pipeline\": \"@{activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState}\",\n    \"time\": \"@{utcNow()}\"\n\n}",
 								"type": "Expression"
 							}
 						}
