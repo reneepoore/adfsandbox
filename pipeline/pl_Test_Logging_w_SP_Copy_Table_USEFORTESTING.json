@@ -1,5 +1,5 @@
 {
-	"name": "pl_Test_Logging_w_SP_Copy_Table_Dummy_Src",
+	"name": "pl_Test_Logging_w_SP_Copy_Table_USEFORTESTING",
 	"properties": {
 		"description": "Test Logging\n",
 		"activities": [
