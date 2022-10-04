@@ -40,7 +40,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pl_LogTesting",
+						"referenceName": "pl_LogTesting_to_Txt",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
