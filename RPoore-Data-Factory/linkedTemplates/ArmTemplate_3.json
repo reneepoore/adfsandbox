@@ -1036,7 +1036,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_Test_Logging_w_SP_Copy_Table_Dummy_Src')]",
+			"name": "[concat(parameters('factoryName'), '/pl_Test_Logging_w_SP_Copy_Table_USEFORTESTING')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
