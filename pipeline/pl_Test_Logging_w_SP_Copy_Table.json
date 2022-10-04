@@ -184,6 +184,11 @@
 				}
 			}
 		],
+		"variables": {
+			"test": {
+				"type": "Boolean"
+			}
+		},
 		"folder": {
 			"name": "ODS"
 		},
