@@ -11,13 +11,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "srcDimCustomer"
-				},
-				{
-					"dataset": {
-						"referenceName": "ds_DimCustomer_Target",
-						"type": "DatasetReference"
-					},
-					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -30,11 +23,7 @@
 					"description": "Target table"
 				}
 			],
-			"transformations": [
-				{
-					"name": "exists1"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          CustomerKey as integer,",
@@ -71,45 +60,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcDimCustomer",
-				"source(output(",
-				"          CustomerKey as integer,",
-				"          GeographyKey as integer,",
-				"          CustomerAlternateKey as string,",
-				"          Title as string,",
-				"          FirstName as string,",
-				"          MiddleName as string,",
-				"          LastName as string,",
-				"          NameStyle as boolean,",
-				"          BirthDate as date,",
-				"          MaritalStatus as string,",
-				"          Suffix as string,",
-				"          Gender as string,",
-				"          EmailAddress as string,",
-				"          YearlyIncome as decimal(19,4),",
-				"          TotalChildren as integer,",
-				"          NumberChildrenAtHome as integer,",
-				"          EnglishEducation as string,",
-				"          SpanishEducation as string,",
-				"          FrenchEducation as string,",
-				"          EnglishOccupation as string,",
-				"          SpanishOccupation as string,",
-				"          FrenchOccupation as string,",
-				"          HouseOwnerFlag as string,",
-				"          NumberCarsOwned as integer,",
-				"          AddressLine1 as string,",
-				"          AddressLine2 as string,",
-				"          Phone as string,",
-				"          DateFirstPurchase as date,",
-				"          CommuteDistance as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"srcDimCustomer, source1 exists(srcDimCustomer@CustomerKey == source1@CustomerKey,",
-				"     negate:false,",
-				"     broadcast: 'auto')~> exists1",
-				"exists1 sink(allowSchemaDrift: false,",
+				"srcDimCustomer sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          CustomerKey as integer,",
@@ -155,7 +106,7 @@
 				"          GeographyKey,",
 				"          CustomerAlternateKey,",
 				"          Title,",
-				"          CustomerKey = FirstName,",
+				"          FirstName,",
 				"          MiddleName,",
 				"          LastName,",
 				"          NameStyle,",
