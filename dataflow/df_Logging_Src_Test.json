@@ -7,7 +7,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DimCustomer",
+						"referenceName": "DimCustomerS",
 						"type": "DatasetReference"
 					},
 					"name": "srcDimCustomer"

@@ -1,5 +1,5 @@
 {
-	"name": "DimCustomer",
+	"name": "DimCustomerS",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabaseAdventureWorks",
