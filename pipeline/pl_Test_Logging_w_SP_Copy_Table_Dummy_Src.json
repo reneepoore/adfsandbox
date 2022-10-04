@@ -1,110 +1,14 @@
 {
-	"name": "pl_copy_data",
+	"name": "pl_Test_Logging_w_SP_Copy_Table_Dummy_Src",
 	"properties": {
-		"description": "\n",
+		"description": "Test Logging\n",
 		"activities": [
-			{
-				"name": "CopyDataCreateTable",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "TruncateSalesTable",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"sink": {
-						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false,
-						"tableOption": "autoCreate",
-						"disableMetricsCollection": false
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "Fact_InternetSales",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Fact_InternetSales_Copy",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "TruncateSalesTable",
-				"type": "Script",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseODSCuramStage",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "Truncate TABLE [dbo].[Fact_Internet_Sales_ODS]"
-						}
-					]
-				}
-			},
-			{
-				"name": "pl_Test_Logging",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "LogExecutionSuccess",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitOnCompletion": true
-				}
-			},
 			{
 				"name": "LogExecutionSuccess",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "CopyDataCreateTable",
+						"activity": "df_Logging_Src_Test",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -165,7 +69,7 @@
 						},
 						"errordescription": {
 							"value": {
-								"value": "@string(activity('CopyDataCreateTable').output.executionDetails)\n\n",
+								"value": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState)",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -178,11 +82,35 @@
 				}
 			},
 			{
+				"name": "df_Logging_Src_Test",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_Logging_Src_Test",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
 				"name": "LogExecutionFailure",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "CopyDataCreateTable",
+						"activity": "df_Logging_Src_Test",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -243,7 +171,7 @@
 						},
 						"errordescription": {
 							"value": {
-								"value": "@activity('CopyDataCreateTable').error.message",
+								"value": "@activity('df_Logging_Src_Test').error.message",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -256,11 +184,16 @@
 				}
 			}
 		],
+		"variables": {
+			"test": {
+				"type": "Boolean"
+			}
+		},
 		"folder": {
 			"name": "ODS"
 		},
 		"annotations": [],
-		"lastPublishTime": "2022-09-27T18:58:30Z"
+		"lastPublishTime": "2022-09-27T15:35:19Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
