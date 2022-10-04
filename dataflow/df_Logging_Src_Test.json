@@ -25,6 +25,9 @@
 			],
 			"transformations": [],
 			"scriptLines": [
+				"parameters{",
+				"     flowone as string",
+				"}",
 				"source(output(",
 				"          CustomerKey as integer,",
 				"          GeographyKey as integer,",

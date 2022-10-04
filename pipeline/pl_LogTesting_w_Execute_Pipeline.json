@@ -57,6 +57,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"globalone": {
+				"type": "string",
+				"defaultValue": "test"
+			}
+		},
 		"variables": {
 			"countrows": {
 				"type": "String"
