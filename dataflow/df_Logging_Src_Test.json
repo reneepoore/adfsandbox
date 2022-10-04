@@ -106,7 +106,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"srcDimCustomer, source1 exists(srcDimCustomer@CustomerKey == ERROR_FUNCTION(''),",
+				"srcDimCustomer, source1 exists(srcDimCustomer@CustomerKey == source1@CustomerKey,",
 				"     negate:false,",
 				"     broadcast: 'auto')~> exists1",
 				"exists1 sink(allowSchemaDrift: true,",
