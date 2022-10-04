@@ -171,7 +171,7 @@
 						},
 						"errordescription": {
 							"value": {
-								"value": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState)",
+								"value": "@activity('df_Logging_Src_Test').error.message",
 								"type": "Expression"
 							},
 							"type": "String"
