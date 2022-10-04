@@ -1176,6 +1176,9 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "Mail Alert"
+				},
 				"annotations": [],
 				"lastPublishTime": "2022-09-29T17:56:26Z"
 			},
@@ -1290,6 +1293,9 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Mail Alert"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-09-29T17:56:26Z"
