@@ -65,7 +65,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcDimCustomer",
 				"srcDimCustomer derive(test = concat(FirstName+LastName)) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
