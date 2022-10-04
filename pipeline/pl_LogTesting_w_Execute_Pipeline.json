@@ -48,7 +48,8 @@
 						"rowswritten": {
 							"value": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten)",
 							"type": "Expression"
-						}
+						},
+						"status": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten)"
 					}
 				}
 			}
