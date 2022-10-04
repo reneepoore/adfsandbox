@@ -501,6 +501,9 @@
 						"type": "string"
 					}
 				},
+				"folder": {
+					"name": "Logging"
+				},
 				"annotations": [],
 				"lastPublishTime": "2022-09-29T17:12:18Z"
 			},
@@ -611,6 +614,9 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Logging"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-09-29T17:12:18Z"
@@ -2011,6 +2017,9 @@
 					"countrows": {
 						"type": "String"
 					}
+				},
+				"folder": {
+					"name": "Logging"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-09-29T17:36:07Z"
