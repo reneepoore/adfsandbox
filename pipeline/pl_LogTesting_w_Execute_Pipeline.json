@@ -68,6 +68,9 @@
 				"type": "String"
 			}
 		},
+		"folder": {
+			"name": "Logging"
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-09-29T17:36:07Z"
 	},

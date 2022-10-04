@@ -90,6 +90,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "Logging"
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-09-29T17:12:18Z"
 	},
