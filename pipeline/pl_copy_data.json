@@ -84,22 +84,6 @@
 				}
 			},
 			{
-				"name": "pl_Test_Logging",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "LogExecutionSuccess",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "LogExecutionSuccess",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
