@@ -23,11 +23,7 @@
 					"description": "Target table"
 				}
 			],
-			"transformations": [
-				{
-					"name": "derivedColumn1"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          CustomerKey as integer,",
@@ -64,8 +60,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcDimCustomer",
-				"srcDimCustomer derive(test = concat(FirstName+LastName)) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: false,",
+				"srcDimCustomer sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -80,7 +75,7 @@
 				"          GeographyKey,",
 				"          CustomerAlternateKey,",
 				"          Title,",
-				"          FirstName,",
+				"          BirthDate = FirstName,",
 				"          MiddleName,",
 				"          LastName,",
 				"          NameStyle,",
@@ -104,8 +99,7 @@
 				"          AddressLine2,",
 				"          Phone,",
 				"          DateFirstPurchase,",
-				"          CommuteDistance,",
-				"          test",
+				"          CommuteDistance",
 				"     )) ~> tgtDimCustomerTarget"
 			]
 		}
