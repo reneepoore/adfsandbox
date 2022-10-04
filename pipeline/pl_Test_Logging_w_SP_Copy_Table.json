@@ -4,7 +4,7 @@
 		"description": "Test Logging\n",
 		"activities": [
 			{
-				"name": "LogExecutionDataExtended",
+				"name": "LogExecutionSuccess",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
@@ -106,7 +106,7 @@
 				}
 			},
 			{
-				"name": "LogExecutionDataExtended_copy1",
+				"name": "LogExecutionFailure",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
