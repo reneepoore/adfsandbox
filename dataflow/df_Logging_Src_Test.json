@@ -11,6 +11,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "srcDimCustomer"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_DimCustomer_Target",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -23,7 +30,11 @@
 					"description": "Target table"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "exists1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          CustomerKey as integer,",
@@ -60,7 +71,14 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcDimCustomer",
-				"srcDimCustomer sink(allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"srcDimCustomer, source1 exists(CustomerKey == ERROR_FUNCTION(''),",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
