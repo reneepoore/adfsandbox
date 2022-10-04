@@ -75,7 +75,7 @@
 				"          GeographyKey,",
 				"          CustomerAlternateKey,",
 				"          Title,",
-				"          BirthDate = FirstName,",
+				"          FirstName,",
 				"          MiddleName,",
 				"          LastName,",
 				"          NameStyle,",
