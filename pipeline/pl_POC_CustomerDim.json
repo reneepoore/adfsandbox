@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT        \n StartDateTime\n,EndDateTime\nFROM dbo.EDW_Fact_Load_Control\nwhere BatchKey= '{@BatchKey}'\n",
+							"value": "SELECT        \n StartDateTime\n,EndDateTime\nFROM dbo.EDW_Fact_Load_Control\nwhere BatchKey= '@{pipeline().parameters.BatchKey}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -37,6 +37,10 @@
 			},
 			"EndDateTime": {
 				"type": "string"
+			},
+			"BatchKey": {
+				"type": "string",
+				"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
 			}
 		},
 		"variables": {
