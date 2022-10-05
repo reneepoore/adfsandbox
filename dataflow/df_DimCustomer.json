@@ -24,7 +24,7 @@
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     parameter1 as string ($parameter1)",
+				"     parameter1 as date ($parameter1)",
 				"}",
 				"source(output(",
 				"          CustomerID as integer,",

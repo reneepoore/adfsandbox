@@ -98,13 +98,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_DimCustomer",
-						"type": "DataFlowReference",
-						"parameters": {
-							"parameter1": {
-								"value": "@variables('StartDateTime')",
-								"type": "Expression"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
