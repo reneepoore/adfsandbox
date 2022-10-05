@@ -1,16 +1,48 @@
 {
-	"name": "pl_POC_LoadControl",
+	"name": "pl_POC_CustomerDim",
 	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT        \n StartDateTime\n,EndDateTime\nFROM dbo.EDW_Fact_Load_Control\nwhere BatchKey= '{@BatchKey}'\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_EDWLoadControl",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
 		"parameters": {
-			"BatchKey": {
-				"type": "string",
-				"defaultValue": "'B5F7BEFB9510472A97DC7EF27D405EA2'"
-			},
 			"StartDateTime": {
 				"type": "string"
 			},
 			"EndDateTime": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"BatchKey": {
+				"type": "String",
+				"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
 			}
 		},
 		"annotations": []
