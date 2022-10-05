@@ -12,11 +12,19 @@
 					"name": "srcCustomSource"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Dummy",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     StartDateTime as timestamp ($StartDateTime)",
+				"     parameter1 as string ($parameter1)",
 				"}",
 				"source(output(",
 				"          CustomerID as integer,",
@@ -38,8 +46,15 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'select * from SalesLT.Customer_Source\\nwhere ModifiedDate >\\'{StartDateTime}\\'',",
-				"     format: 'query') ~> srcCustomSource"
+				"     query: '\"select * from SalesLT.Customer_Source where ModifiedDate  = {$parameter1}\"',",
+				"     format: 'query') ~> srcCustomSource",
+				"srcCustomSource sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}

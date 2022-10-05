@@ -45,7 +45,7 @@
 				"typeProperties": {
 					"variableName": "StartDateTime",
 					"value": {
-						"value": "@formatDateTime(activity('LoadDates').output.StartDateTime,'dd-MMM-yyyy hh:mm:ss tt')",
+						"value": "@activity('LoadDates').output.StartDateTime",
 						"type": "Expression"
 					}
 				}
@@ -100,8 +100,8 @@
 						"referenceName": "df_DimCustomer",
 						"type": "DataFlowReference",
 						"parameters": {
-							"StartDateTime": {
-								"value": "@activity('LoadDates').output.StartDateTime",
+							"parameter1": {
+								"value": "@variables('StartDateTime')",
 								"type": "Expression"
 							}
 						}
