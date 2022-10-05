@@ -14,7 +14,7 @@
 			}
 		},
 		"folder": {
-			"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+			"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_vrc_20220829"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",

@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Target ODS Database"
+			"name": "POCWork/Target ODS Database"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",

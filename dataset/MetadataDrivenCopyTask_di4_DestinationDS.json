@@ -14,7 +14,7 @@
 			}
 		},
 		"folder": {
-			"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+			"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_di4_20220829"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",

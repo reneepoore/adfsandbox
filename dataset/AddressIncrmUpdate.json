@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "AdventureWorksLT2019/Target"
+			"name": "POCWork/AdventureWorksLT2019/Target"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
