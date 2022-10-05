@@ -6,34 +6,40 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_EDWLoadControl",
+						"referenceName": "ds_CustomerSource",
 						"type": "DatasetReference"
 					},
-					"name": "srcLoadControl"
+					"name": "srcCustomSource"
 				}
 			],
 			"sinks": [],
-			"transformations": [
-				{
-					"name": "filter1"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     BatchKey as string ('B5F7BEFB9510472A97DC7EF27D405EA2')",
+				"     StartDateTime as timestamp ($StartDateTime)",
 				"}",
 				"source(output(",
-				"          ProcessID as integer,",
-				"          ProcessName as string,",
-				"          StartDateTime as timestamp,",
-				"          EndDateTime as timestamp,",
-				"          BatchKey as string",
+				"          CustomerID as integer,",
+				"          NameStyle as boolean,",
+				"          Title as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          Suffix as string,",
+				"          CompanyName as string,",
+				"          SalesPerson as string,",
+				"          EmailAddress as string,",
+				"          Phone as string,",
+				"          PasswordHash as string,",
+				"          PasswordSalt as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> srcLoadControl",
-				"srcLoadControl filter(BatchKey==$BatchKey) ~> filter1"
+				"     query: 'select * from SalesLT.Customer_Source\\nwhere ModifiedDate >\\'{StartDateTime}\\'',",
+				"     format: 'query') ~> srcCustomSource"
 			]
 		}
 	}
