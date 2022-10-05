@@ -1,6 +1,9 @@
 {
 	"name": "df_Address_SCD",
 	"properties": {
+		"folder": {
+			"name": "POCWork"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

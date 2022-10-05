@@ -1,6 +1,9 @@
 {
 	"name": "df_Sales_Product_Normalized",
 	"properties": {
+		"folder": {
+			"name": "POCWork"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

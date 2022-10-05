@@ -1,6 +1,9 @@
 {
 	"name": "df_Resellers_Sales_w_Transformations",
 	"properties": {
+		"folder": {
+			"name": "POCWork"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
