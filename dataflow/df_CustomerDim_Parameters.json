@@ -1,0 +1,37 @@
+{
+	"name": "df_CustomerDim_Parameters",
+	"properties": {
+		"description": "This is not working as expected.",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_EDWLoadControl",
+						"type": "DatasetReference"
+					},
+					"name": "srcCustomerDimwParameters"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"parameters{",
+				"     BatchKey as string ('B5F7BEFB9510472A97DC7EF27D405EA2')",
+				"}",
+				"source(output(",
+				"          ProcessID as integer,",
+				"          ProcessName as string,",
+				"          StartDateTime as timestamp,",
+				"          EndDateTime as timestamp,",
+				"          BatchKey as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control',",
+				"     format: 'query') ~> srcCustomerDimwParameters"
+			]
+		}
+	}
+}
