@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT        \nStartDateTime AS NOFormatStartDateTime,\nEndDateTime AS NOFormatEndDateTime,\nFORMAT (StartDateTime, 'yyyy-MM-dd hh:mm:ss') as StartDateTime,\nFORMAT (EndDateTime, 'yyyy-MM-dd hh:mm:ss') as EndDateTime\n\nFROM dbo.EDW_Fact_Load_Control\n   WHERE BatchKey= '@{pipeline().parameters.BatchKey}'",
+							"value": "SELECT        \nStartDateTime AS NOFormatStartDateTime,\nEndDateTime at time zone 'Central Standard Time' AS NOFormatEndDateTime,\nFORMAT (StartDateTime, 'yyyy-MM-dd hh:mm:ss') as StartDateTime,\nFORMAT (EndDateTime, 'yyyy-MM-dd hh:mm:ss') as EndDateTime\n\nFROM dbo.EDW_Fact_Load_Control\n   WHERE BatchKey= '@{pipeline().parameters.BatchKey}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -27,7 +27,8 @@
 					"dataset": {
 						"referenceName": "ds_EDWLoadControl",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -45,7 +46,7 @@
 				"typeProperties": {
 					"variableName": "StartDateTime",
 					"value": {
-						"value": "@activity('LoadDates').output.StartDateTime",
+						"value": "@activity('LoadDates').output.value[0].StartDateTime",
 						"type": "Expression"
 					}
 				}
@@ -65,7 +66,7 @@
 				"typeProperties": {
 					"variableName": "EndDateTime",
 					"value": {
-						"value": "@activity('LoadDates').output.EndDateTime",
+						"value": "@activity('LoadDates').output.value[0].EndDateTime",
 						"type": "Expression"
 					}
 				}
@@ -101,7 +102,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"dfStartDate": {
-								"value": "@formatDateTime(variables('StartDateTime'),'dd-MMM-yyyy hh:mm:ss')",
+								"value": "toDate(variables('StartDateTime')) ",
 								"type": "Expression"
 							}
 						}
