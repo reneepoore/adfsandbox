@@ -24,7 +24,7 @@
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     dfStartDate as string ($dfStartDate)",
+				"     dfStartDate as date ($dfStartDate)",
 				"}",
 				"source(output(",
 				"          CustomerID as integer,",
@@ -46,7 +46,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'select * from SalesLT.Customer_Source \\nwhere ModifiedDate=$dfStartDate',",
+				"     query: 'select * from SalesLT.Customer_Source \\nwhere ModifiedDate=\\'@{dfStartDate}\\'',",
 				"     format: 'query') ~> srcCustomSource",
 				"srcCustomSource sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",

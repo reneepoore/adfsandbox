@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT        \nStartDateTime AS NOFormatStartDateTime,\nEndDateTime AS NOFormatEndDateTime,\n\n FORMAT (StartDateTime, 'yyyy-MM-dd hh:mm:ss') as StartDateTime\n\n, FORMAT (EndDateTime, 'yyyy-MM-dd hh:mm:ss') as EndDateTime\n\nFROM dbo.EDW_Fact_Load_Control\nwhere BatchKey= '@{pipeline().parameters.BatchKey}'",
+							"value": "SELECT        \nStartDateTime AS NOFormatStartDateTime,\nEndDateTime AS NOFormatEndDateTime,\nFORMAT (StartDateTime, 'yyyy-MM-dd hh:mm:ss') as StartDateTime,\nFORMAT (EndDateTime, 'yyyy-MM-dd hh:mm:ss') as EndDateTime\n\nFROM dbo.EDW_Fact_Load_Control\n   WHERE BatchKey= '@{pipeline().parameters.BatchKey}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -101,7 +101,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"dfStartDate": {
-								"value": "@variables('StartDateTime')",
+								"value": "@formatDateTime(variables('StartDateTime'),'dd-MMM-yyyy hh:mm:ss')",
 								"type": "Expression"
 							}
 						}
