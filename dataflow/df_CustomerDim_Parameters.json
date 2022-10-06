@@ -29,7 +29,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: '\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey=\\'{BatchKey}\\'\"',",
+				"     query: '@\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey=\\'$BatchKey\\'\"',",
 				"     format: 'query') ~> srcCustomerDimwParameters"
 			]
 		}
