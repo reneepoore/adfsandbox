@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Dummy",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -24,7 +24,8 @@
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     dfStartDate as date (toDate('2000-01-01'))",
+				"     dfStartDate as string,",
+				"     formattedStartDate as date (toDate($dfStartDate))",
 				"}",
 				"source(output(",
 				"          CustomerID as integer,",
@@ -46,15 +47,19 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: (\"select * from SalesLT.Customer_Source where ModifiedDate> { toString($dfStartDate) }\"),",
+				"     query: (\"select * from SalesLT.Customer_Source where ModifiedDate> {$formattedStartDate} \"),",
 				"     format: 'query') ~> srcCustomSource",
 				"srcCustomSource sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          Column_1 as string",
-				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     preSQLs:['TRUNCATE TABLE dbo.CustomerTest'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}

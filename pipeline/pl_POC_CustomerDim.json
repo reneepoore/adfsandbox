@@ -102,7 +102,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"dfStartDate": {
-								"value": "todate(variables('StartDateTime'))",
+								"value": "'@{variables('StartDateTime')}'",
 								"type": "Expression"
 							}
 						}
