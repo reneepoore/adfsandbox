@@ -1,0 +1,52 @@
+{
+	"name": "df_CustomerDim_Parameters_copy1",
+	"properties": {
+		"description": "This is not working as expected.",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_EDWLoadControl",
+						"type": "DatasetReference"
+					},
+					"name": "srcCustomerDimwParameters"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"parameters{",
+				"     BatchKey as string ('B5F7BEFB9510472A97DC7EF27D405EA2')",
+				"}",
+				"source(output(",
+				"          ProcessID as integer,",
+				"          ProcessName as string,",
+				"          StartDateTime as timestamp,",
+				"          EndDateTime as timestamp,",
+				"          BatchKey as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: '@\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey=\\'$BatchKey\\'\"',",
+				"     format: 'query') ~> srcCustomerDimwParameters",
+				"srcCustomerDimwParameters sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

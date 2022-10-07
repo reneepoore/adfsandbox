@@ -16,13 +16,23 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DelimitedText1",
+						"referenceName": "Test_Date_Parameters",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
 				"parameters{",
 				"     BatchKey as string ('B5F7BEFB9510472A97DC7EF27D405EA2')",
@@ -39,13 +49,25 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: (\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey='{$BatchKey}'\"),",
 				"     format: 'query') ~> srcCustomerDimwParameters",
-				"srcCustomerDimwParameters sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
-				"          Column_1 as string",
+				"srcCustomerDimwParameters select(mapColumn(",
+				"          StartDateTime,",
+				"          EndDateTime,",
+				"          BatchKey",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 filter(BatchKey==$BatchKey) ~> filter1",
+				"filter1 derive(StartDateTime = toDate( toString( StartDateTime, 'dd-MMM-yyyy'))) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}

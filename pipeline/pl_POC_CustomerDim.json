@@ -104,6 +104,10 @@
 							"dfStartDate": {
 								"value": "'@{variables('StartDateTime')}'",
 								"type": "Expression"
+							},
+							"dfEndDate": {
+								"value": "'@{variables('EndDateTime')}'",
+								"type": "Expression"
 							}
 						}
 					},
