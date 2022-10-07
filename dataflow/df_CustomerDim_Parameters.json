@@ -14,7 +14,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "CustomerLoadTest",
+						"referenceName": "Customer_Test",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -23,7 +23,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Customer_Test",
+						"referenceName": "CustomerLoadTest",
 						"type": "DatasetReference"
 					},
 					"name": "CustomerLoadTest"
