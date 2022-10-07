@@ -1,13 +1,9 @@
 {
-	"name": "CustomerLoadTest",
+	"name": "Customer_Test",
 	"properties": {
-		"description": "This will load the Customers in the EDW. SCD 1",
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
 			"type": "LinkedServiceReference"
-		},
-		"folder": {
-			"name": "EDW"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
@@ -59,26 +55,25 @@
 			},
 			{
 				"name": "PasswordHash",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "PasswordSalt",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "rowguid",
-				"type": "uniqueidentifier"
+				"type": "nvarchar"
 			},
 			{
 				"name": "ModifiedDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
+				"type": "datetime2",
+				"scale": 7
 			}
 		],
 		"typeProperties": {
-			"schema": "SalesLT",
-			"table": "CustomerLoadTest"
+			"schema": "dbo",
+			"table": "CustomerTest"
 		}
 	}
 }

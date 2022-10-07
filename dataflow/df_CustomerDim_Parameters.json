@@ -11,9 +11,23 @@
 						"type": "DatasetReference"
 					},
 					"name": "srcCustomerDimwParameters"
+				},
+				{
+					"dataset": {
+						"referenceName": "CustomerLoadTest",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Customer_Test",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerLoadTest"
+				},
 				{
 					"dataset": {
 						"referenceName": "Test_Date_Parameters",
@@ -24,18 +38,15 @@
 			],
 			"transformations": [
 				{
-					"name": "select1"
-				},
-				{
 					"name": "filter1"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "lookup1"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     BatchKey as string ('B5F7BEFB9510472A97DC7EF27D405EA2')",
+				"     BatchKey as string",
 				"}",
 				"source(output(",
 				"          ProcessID as integer,",
@@ -49,16 +60,60 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: (\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey='{$BatchKey}'\"),",
 				"     format: 'query') ~> srcCustomerDimwParameters",
-				"srcCustomerDimwParameters select(mapColumn(",
-				"          StartDateTime,",
-				"          EndDateTime,",
-				"          BatchKey",
+				"source(output(",
+				"          CustomerID as integer,",
+				"          NameStyle as boolean,",
+				"          Title as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          Suffix as string,",
+				"          CompanyName as string,",
+				"          SalesPerson as string,",
+				"          EmailAddress as string,",
+				"          Phone as string,",
+				"          PasswordHash as string,",
+				"          PasswordSalt as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
 				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"srcCustomerDimwParameters filter(BatchKey==$BatchKey) ~> filter1",
+				"source1, filter1 lookup(ModifiedDate >= StartDateTime,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'right')~> lookup1",
+				"lookup1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CustomerID as integer,",
+				"          NameStyle as boolean,",
+				"          Title as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          Suffix as string,",
+				"          CompanyName as string,",
+				"          SalesPerson as string,",
+				"          EmailAddress as string,",
+				"          Phone as string,",
+				"          PasswordHash as string,",
+				"          PasswordSalt as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 filter(BatchKey==$BatchKey) ~> filter1",
-				"filter1 derive(StartDateTime = toDate( toString( StartDateTime, 'dd-MMM-yyyy'))) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> CustomerLoadTest",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",

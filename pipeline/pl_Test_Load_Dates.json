@@ -17,7 +17,13 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_CustomerDim_Parameters",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"BatchKey": {
+								"value": "'@{pipeline().parameters.BatchKey}'",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
@@ -27,6 +33,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"BatchKey": {
+				"type": "string",
+				"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
+			}
+		},
 		"annotations": []
 	}
 }
