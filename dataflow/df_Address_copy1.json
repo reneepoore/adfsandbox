@@ -1,5 +1,5 @@
 {
-	"name": "df_Address",
+	"name": "df_Address_copy1",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -29,6 +29,9 @@
 				}
 			],
 			"transformations": [
+				{
+					"name": "Checksum"
+				},
 				{
 					"name": "Exists"
 				},
@@ -71,7 +74,8 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> stgAddress",
-				"srcAddress, stgAddress exists(srcAddress@AddressID == stgAddress@AddressID,",
+				"srcAddress derive(checksum = sha1(AddressLine1,AddressLine2,City,StateProvince,CountryRegion,PostalCode)) ~> Checksum",
+				"Checksum, stgAddress exists(checksum == sha1(stgAddress@AddressLine1,stgAddress@AddressLine2,stgAddress@City,stgAddress@StateProvince,stgAddress@CountryRegion,stgAddress@PostalCode),",
 				"     negate:true,",
 				"     broadcast: 'auto')~> Exists",
 				"Exists alterRow(upsertIf(true())) ~> Upsert",

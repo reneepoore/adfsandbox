@@ -10,7 +10,46 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "AddressID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AddressLine1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "City",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CountryRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "rowguid",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "AddressIncrmUpdate"
