@@ -34,6 +34,9 @@
 				},
 				{
 					"name": "Upsert"
+				},
+				{
+					"name": "ModifiedDate"
 				}
 			],
 			"scriptLines": [
@@ -71,10 +74,11 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> stgAddress",
-				"srcAddress, stgAddress exists(srcAddress@AddressID == stgAddress@AddressID,",
+				"ModifiedDate, stgAddress exists(srcAddress@AddressID == stgAddress@AddressID,",
 				"     negate:true,",
 				"     broadcast: 'auto')~> Exists",
 				"Exists alterRow(upsertIf(true())) ~> Upsert",
+				"srcAddress derive(EDWCreateDate = currentTimestamp()) ~> ModifiedDate",
 				"Upsert sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
