@@ -1,0 +1,41 @@
+{
+	"name": "FactSalesOrder",
+	"properties": {
+		"description": "Pipeline for all fact jobs\n",
+		"activities": [
+			{
+				"name": "FactSalesOrderHeader",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "FactSalesOrderHeader",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine",
+					"continuationSettings": {
+						"customizedCheckpointKey": "ca569ac3-7dd4-4d95-8ef6-bad09c10d4cc"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Facts"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-10-10T14:13:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

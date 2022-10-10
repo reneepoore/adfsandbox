@@ -1,5 +1,5 @@
 {
-	"name": "DimCustomer",
+	"name": "DimAddress",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AdventureWorksLT2019",
@@ -12,57 +12,33 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "CustomerID",
+				"name": "AddressID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "NameStyle",
-				"type": "bit"
-			},
-			{
-				"name": "Title",
+				"name": "AddressLine1",
 				"type": "nvarchar"
 			},
 			{
-				"name": "FirstName",
+				"name": "AddressLine2",
 				"type": "nvarchar"
 			},
 			{
-				"name": "MiddleName",
+				"name": "City",
 				"type": "nvarchar"
 			},
 			{
-				"name": "LastName",
+				"name": "StateProvince",
 				"type": "nvarchar"
 			},
 			{
-				"name": "Suffix",
+				"name": "CountryRegion",
 				"type": "nvarchar"
 			},
 			{
-				"name": "CompanyName",
+				"name": "PostalCode",
 				"type": "nvarchar"
-			},
-			{
-				"name": "SalesPerson",
-				"type": "nvarchar"
-			},
-			{
-				"name": "EmailAddress",
-				"type": "nvarchar"
-			},
-			{
-				"name": "Phone",
-				"type": "nvarchar"
-			},
-			{
-				"name": "PasswordHash",
-				"type": "varchar"
-			},
-			{
-				"name": "PasswordSalt",
-				"type": "varchar"
 			},
 			{
 				"name": "rowguid",
@@ -77,7 +53,7 @@
 		],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "Customer"
+			"table": "Address"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

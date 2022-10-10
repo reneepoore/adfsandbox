@@ -1,0 +1,20 @@
+{
+	"name": "reportingSalesOrderHeader",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdventureWorksLT2019",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Staging"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "reporting_SalesOrderHeader"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
