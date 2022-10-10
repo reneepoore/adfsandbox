@@ -1,12 +1,12 @@
 {
-	"name": "reportingSalesOrderHeader",
+	"name": "targetSalesOrderHeader",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AdventureWorksLT2019",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Staging"
+			"name": "Fact"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
@@ -17,24 +17,7 @@
 				"precision": 10
 			},
 			{
-				"name": "RevisionNumber",
-				"type": "tinyint",
-				"precision": 3
-			},
-			{
 				"name": "OrderDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
-			},
-			{
-				"name": "DueDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
-			},
-			{
-				"name": "ShipDate",
 				"type": "datetime",
 				"precision": 23,
 				"scale": 3
@@ -43,10 +26,6 @@
 				"name": "Status",
 				"type": "tinyint",
 				"precision": 3
-			},
-			{
-				"name": "OnlineOrderFlag",
-				"type": "bit"
 			},
 			{
 				"name": "SalesOrderNumber",
@@ -61,27 +40,23 @@
 				"type": "nvarchar"
 			},
 			{
-				"name": "CustomerID",
+				"name": "CustomerDescription",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "ShipToAddressID",
+				"name": "ShipToAddressDescription",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "BillToAddressID",
+				"name": "BillToAddressDesciption",
 				"type": "int",
 				"precision": 10
 			},
 			{
 				"name": "ShipMethod",
 				"type": "nvarchar"
-			},
-			{
-				"name": "CreditCardApprovalCode",
-				"type": "varchar"
 			},
 			{
 				"name": "SubTotal",
@@ -108,14 +83,6 @@
 				"scale": 4
 			},
 			{
-				"name": "Comment",
-				"type": "nvarchar"
-			},
-			{
-				"name": "rowguid",
-				"type": "uniqueidentifier"
-			},
-			{
 				"name": "ModifiedDate",
 				"type": "datetime",
 				"precision": 23,
@@ -124,7 +91,7 @@
 		],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "reporting_SalesOrderHeader"
+			"table": "target_SalesOrderHeader"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
