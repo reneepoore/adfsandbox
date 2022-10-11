@@ -39,6 +39,8 @@
 				"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2022-10-11T13:47:40Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

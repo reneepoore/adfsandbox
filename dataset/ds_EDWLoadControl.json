@@ -41,5 +41,6 @@
 			"schema": "dbo",
 			"table": "EDW_Fact_Load_Control"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

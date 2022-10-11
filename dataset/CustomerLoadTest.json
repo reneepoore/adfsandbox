@@ -80,5 +80,6 @@
 			"schema": "SalesLT",
 			"table": "CustomerLoadTest"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

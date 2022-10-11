@@ -72,7 +72,7 @@
 			"name": "Logging"
 		},
 		"annotations": [],
-		"lastPublishTime": "2022-09-29T17:36:07Z"
+		"lastPublishTime": "2022-10-04T20:22:11Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

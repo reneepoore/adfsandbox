@@ -94,7 +94,7 @@
 			"name": "Mail Alert"
 		},
 		"annotations": [],
-		"lastPublishTime": "2022-09-29T17:56:26Z"
+		"lastPublishTime": "2022-10-04T20:18:01Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

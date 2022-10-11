@@ -1,9 +1,6 @@
 {
 	"name": "df_Normalize_Internet_Sales_w_Truncate",
 	"properties": {
-		"folder": {
-			"name": "POCWork"
-		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
