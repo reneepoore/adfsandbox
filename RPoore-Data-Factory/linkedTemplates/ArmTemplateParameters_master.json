@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "RPoore-Data-Factory"
 		},
+		"AdventureWorksLT2019_connectionString": {
+			"value": ""
+		},
 		"AzureBlobStorageRP_connectionString": {
 			"value": ""
 		},

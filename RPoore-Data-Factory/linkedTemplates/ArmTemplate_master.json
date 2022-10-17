@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "RPoore-Data-Factory"
 		},
+		"AdventureWorksLT2019_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AdventureWorksLT2019'"
+		},
 		"AzureBlobStorageRP_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageRP'"
@@ -62,6 +66,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AdventureWorksLT2019_connectionString": {
+						"value": "[parameters('AdventureWorksLT2019_connectionString')]"
+					},
 					"AzureBlobStorageRP_connectionString": {
 						"value": "[parameters('AzureBlobStorageRP_connectionString')]"
 					},
@@ -91,15 +98,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"SQLRMLAPTOP610_connectionString": {
-						"value": "[parameters('SQLRMLAPTOP610_connectionString')]"
-					},
-					"SQLRMLAPTOP610_password": {
-						"value": "[parameters('SQLRMLAPTOP610_password')]"
-					},
-					"SQLRMLAPTOP610_properties_typeProperties_userName": {
-						"value": "[parameters('SQLRMLAPTOP610_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -120,6 +118,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"SQLRMLAPTOP610_connectionString": {
+						"value": "[parameters('SQLRMLAPTOP610_connectionString')]"
+					},
+					"SQLRMLAPTOP610_password": {
+						"value": "[parameters('SQLRMLAPTOP610_password')]"
+					},
+					"SQLRMLAPTOP610_properties_typeProperties_userName": {
+						"value": "[parameters('SQLRMLAPTOP610_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -145,6 +152,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'RPoore-Data-Factory_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "RPoore-Data-Factory_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'RPoore-Data-Factory_ArmTemplate_3')]"
 			]
 		}
 	]

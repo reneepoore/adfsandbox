@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "RPoore-Data-Factory"
 		},
+		"AdventureWorksLT2019_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AdventureWorksLT2019'"
+		},
 		"AzureBlobStorageRP_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageRP'"
@@ -28,6 +32,19 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AdventureWorksLT2019')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AdventureWorksLT2019_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorageRP')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -277,7 +294,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -301,7 +318,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -325,7 +342,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -349,7 +366,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -373,7 +390,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "AdventureWorksLT2019/Source"
+					"name": "POCWork/AdventureWorksLT2019/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -437,11 +454,50 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "AdventureWorksLT2019/Target"
+					"name": "POCWork/AdventureWorksLT2019/Target"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvince",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "AddressIncrmUpdate"
@@ -460,6 +516,9 @@
 					"referenceName": "AzureSqlDatabaseAdventureWorks",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
@@ -473,6 +532,200 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "CustomerTest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CustomerLoadTest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This will load the Customers in the EDW. SCD 1",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "EDW"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "varchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "CustomerLoadTest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Customer_Test')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "CustomerTest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -480,6 +733,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorageRP",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "POCWork"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -501,466 +757,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorageRP')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_qt6')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_table": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "CURAPD01",
-					"table": {
-						"value": "@dataset().cw_table",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DimCustomer')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseAdventureWorks",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CustomerKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GeographyKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CustomerAlternateKey",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Title",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FirstName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MiddleName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LastName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "NameStyle",
-						"type": "bit"
-					},
-					{
-						"name": "BirthDate",
-						"type": "date"
-					},
-					{
-						"name": "MaritalStatus",
-						"type": "nchar"
-					},
-					{
-						"name": "Suffix",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Gender",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmailAddress",
-						"type": "nvarchar"
-					},
-					{
-						"name": "YearlyIncome",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "TotalChildren",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "NumberChildrenAtHome",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "EnglishEducation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SpanishEducation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchEducation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EnglishOccupation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SpanishOccupation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchOccupation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "HouseOwnerFlag",
-						"type": "nchar"
-					},
-					{
-						"name": "NumberCarsOwned",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "AddressLine1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AddressLine2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Phone",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DateFirstPurchase",
-						"type": "date"
-					},
-					{
-						"name": "CommuteDistance",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DimCustomer"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorks')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DimProduct')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseAdventureWorks",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ProductKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProductAlternateKey",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProductSubcategoryKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "WeightUnitMeasureCode",
-						"type": "nchar"
-					},
-					{
-						"name": "SizeUnitMeasureCode",
-						"type": "nchar"
-					},
-					{
-						"name": "EnglishProductName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SpanishProductName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchProductName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "StandardCost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "FinishedGoodsFlag",
-						"type": "bit"
-					},
-					{
-						"name": "Color",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SafetyStockLevel",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ReorderPoint",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ListPrice",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Size",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SizeRange",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Weight",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "DaysToManufacture",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProductLine",
-						"type": "nchar"
-					},
-					{
-						"name": "DealerPrice",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Class",
-						"type": "nchar"
-					},
-					{
-						"name": "Style",
-						"type": "nchar"
-					},
-					{
-						"name": "ModelName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LargePhoto",
-						"type": "varbinary"
-					},
-					{
-						"name": "EnglishDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ChineseDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ArabicDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "HebrewDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ThaiDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GermanDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "JapaneseDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TurkishDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "StartDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "EndDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Status",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DimProduct"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorks')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DimPromotion')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseAdventureWorks",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "PromotionKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PromotionAlternateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "EnglishPromotionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SpanishPromotionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchPromotionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DiscountPct",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "EnglishPromotionType",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SpanishPromotionType",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchPromotionType",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EnglishPromotionCategory",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SpanishPromotionCategory",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FrenchPromotionCategory",
-						"type": "nvarchar"
-					},
-					{
-						"name": "StartDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "EndDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "MinQty",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "MaxQty",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DimPromotion"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorks')]"
 			]
 		}
 	]

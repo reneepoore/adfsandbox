@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "RPoore-Data-Factory"
 		},
+		"AdventureWorksLT2019_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AdventureWorksLT2019'"
+		},
 		"AzureBlobStorageRP_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageRP'"
@@ -1180,7 +1184,7 @@
 					"name": "Mail Alert"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-29T17:56:26Z"
+				"lastPublishTime": "2022-10-04T20:18:01Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_Logging_Src_Test')]",
@@ -1298,7 +1302,7 @@
 					"name": "Mail Alert"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-29T17:56:26Z"
+				"lastPublishTime": "2022-10-04T20:18:01Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_Logging_Src_Test')]",
@@ -1317,7 +1321,7 @@
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
-							"timeout": "0.12:00:00",
+							"timeout": "0.00:03:00",
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
@@ -1368,7 +1372,7 @@
 					"name": "Logging"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-29T17:12:18Z"
+				"lastPublishTime": "2022-10-11T13:47:39Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_LoggingTarget')]"
@@ -1484,7 +1488,7 @@
 					"name": "Logging"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-29T17:12:18Z"
+				"lastPublishTime": "2022-10-04T20:22:11Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_Logging_Src_Test')]",
@@ -1578,7 +1582,7 @@
 					"name": "Logging"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-29T17:36:07Z"
+				"lastPublishTime": "2022-10-04T20:22:11Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_Logging_Src_Test')]",
@@ -1742,7 +1746,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_MASTER')]",
+			"name": "[concat(parameters('factoryName'), '/pl_MASTER_wEmailNotification')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1824,10 +1828,321 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2022-10-04T20:04:46Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pl_LogTesting_POC_Test_MailAlert')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_POC_CustomerDim')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadDates",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT        \nStartDateTime AS NOFormatStartDateTime,\nEndDateTime at time zone 'Central Standard Time' AS NOFormatEndDateTime,\nFORMAT (StartDateTime, 'yyyy-MM-dd hh:mm:ss') as StartDateTime,\nFORMAT (EndDateTime, 'yyyy-MM-dd hh:mm:ss') as EndDateTime\n\nFROM dbo.EDW_Fact_Load_Control\n   WHERE BatchKey= '@{pipeline().parameters.BatchKey}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_EDWLoadControl",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "StartDateTime",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LoadDates",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "StartDateTime",
+							"value": {
+								"value": "@activity('LoadDates').output.value[0].StartDateTime",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "EndDateTime",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LoadDates",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "EndDateTime",
+							"value": {
+								"value": "@activity('LoadDates').output.value[0].EndDateTime",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "df_DimCustomer",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "StartDateTime",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "EndDateTime",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_DimCustomer",
+								"type": "DataFlowReference",
+								"parameters": {
+									"dfStartDate": {
+										"value": "'@{variables('StartDateTime')}'",
+										"type": "Expression"
+									},
+									"dfEndDate": {
+										"value": "'@{variables('EndDateTime')}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"srcCustomSource": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"BatchKey": {
+						"type": "string",
+						"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
+					}
+				},
+				"variables": {
+					"StartDateTime": {
+						"type": "String"
+					},
+					"EndDateTime": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-10-11T13:47:40Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_EDWLoadControl')]",
+				"[concat(variables('factoryId'), '/dataflows/df_DimCustomer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_POC_CustomerDim_Working_Backup')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadDates",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT        \nStartDateTime AS NOFormatStartDateTime,\nEndDateTime at time zone 'Central Standard Time' AS NOFormatEndDateTime,\nFORMAT (StartDateTime, 'yyyy-MM-dd hh:mm:ss') as StartDateTime,\nFORMAT (EndDateTime, 'yyyy-MM-dd hh:mm:ss') as EndDateTime\n\nFROM dbo.EDW_Fact_Load_Control\n   WHERE BatchKey= '@{pipeline().parameters.BatchKey}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_EDWLoadControl",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "StartDateTime",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LoadDates",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "StartDateTime",
+							"value": {
+								"value": "@activity('LoadDates').output.value[0].StartDateTime",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "EndDateTime",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LoadDates",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "EndDateTime",
+							"value": {
+								"value": "@activity('LoadDates').output.value[0].EndDateTime",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "df_DimCustomer",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "StartDateTime",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "EndDateTime",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_DimCustomer",
+								"type": "DataFlowReference",
+								"parameters": {
+									"dfStartDate": {
+										"value": "todate(variables('StartDateTime'))",
+										"type": "Expression"
+									},
+									"dfEndDate": {
+										"value": "'@{todate(variables('EndDateTime'))}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"srcCustomSource": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"BatchKey": {
+						"type": "string",
+						"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
+					}
+				},
+				"variables": {
+					"StartDateTime": {
+						"type": "String"
+					},
+					"EndDateTime": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-10-11T13:47:40Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_EDWLoadControl')]",
+				"[concat(variables('factoryId'), '/dataflows/df_DimCustomer')]"
 			]
 		},
 		{
@@ -2037,6 +2352,67 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_Test_Load_Dates')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_CustomerDim_Parameters",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_CustomerDim_Parameters",
+								"type": "DataFlowReference",
+								"parameters": {
+									"BatchKey": {
+										"value": "'@{pipeline().parameters.BatchKey}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"srcCustomerDimwParameters": {},
+									"source1": {},
+									"CustomerLoadTest": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"BatchKey": {
+						"type": "string",
+						"defaultValue": "B5F7BEFB9510472A97DC7EF27D405EA2"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-10-11T13:47:40Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_CustomerDim_Parameters')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_Test_Logging_w_SP_Copy_Table')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2243,7 +2619,7 @@
 					"name": "ODS"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-27T15:35:19Z"
+				"lastPublishTime": "2022-10-04T20:04:46Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseODSCuramStage')]",
@@ -2457,7 +2833,7 @@
 					"name": "ODS"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-27T15:35:19Z"
+				"lastPublishTime": "2022-10-04T20:50:10Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseODSCuramStage')]",
@@ -2718,7 +3094,7 @@
 					"name": "ODS"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-09-27T18:58:30Z"
+				"lastPublishTime": "2022-10-04T20:04:45Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Fact_InternetSales')]",
@@ -2918,6 +3294,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"srcAddress": {},
+									"stgAddress": {},
 									"trgtAddress": {}
 								}
 							},
@@ -3128,6 +3505,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"srcAddress": {},
+									"stgAddress": {},
 									"trgtAddress": {}
 								}
 							},
@@ -3322,7 +3700,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -3346,7 +3724,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -3370,7 +3748,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -3394,7 +3772,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target ODS Database"
+					"name": "POCWork/Target ODS Database"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -3418,7 +3796,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "AdventureWorksLT2019/Source"
+					"name": "POCWork/AdventureWorksLT2019/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -3482,11 +3860,50 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "AdventureWorksLT2019/Target"
+					"name": "POCWork/AdventureWorksLT2019/Target"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvince",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "AddressIncrmUpdate"
@@ -3505,6 +3922,9 @@
 					"referenceName": "AzureSqlDatabaseAdventureWorks",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
@@ -3515,6 +3935,27 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorks')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "CustomerTest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
 			]
 		},
 		{
@@ -3642,6 +4083,179 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CustomerLoadTest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This will load the Customers in the EDW. SCD 1",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "EDW"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "varchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "CustomerLoadTest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Customer_Test')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "CustomerTest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3649,6 +4263,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorageRP",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "POCWork"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -3686,6 +4303,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
@@ -3699,6 +4319,70 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimAddress')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dimensions"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvince",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Address"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorksLT2019')]"
 			]
 		},
 		{
@@ -3859,7 +4543,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4044,7 +4728,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4142,7 +4826,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4192,6 +4876,9 @@
 					"referenceName": "AzureBlobStorageRP",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
@@ -4224,7 +4911,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4248,7 +4935,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4263,6 +4950,141 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/FactSalesOrderHeader')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Facts"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Status",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "bit"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipMethod",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "SubTotal",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalDue",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "SalesOrderHeader"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorksLT2019')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FactSalesProducts')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4272,7 +5094,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [
 					"TEST"
@@ -4298,7 +5120,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4460,7 +5282,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4484,7 +5306,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_di4_20220829"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -4516,7 +5338,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_di4_20220829"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4554,7 +5376,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_di4_20220829"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -4584,7 +5406,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_fgf_20220829"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -4616,7 +5438,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_fgf_20220829"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4654,7 +5476,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_fgf_20220829"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -4684,7 +5506,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_vrc_20220829"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -4716,7 +5538,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_vrc_20220829"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4754,7 +5576,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_vrc_20220829"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -5020,6 +5842,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "SqlServerTable",
 				"schema": [],
@@ -5036,6 +5861,115 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Test_Date_Parameters')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Test_Date_Parameters"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_CustomerSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "varchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Customer_Source"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_DimCustomer_Target')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -5045,7 +5979,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -5184,6 +6118,56 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_EDWLoadControl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Logging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProcessID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ProcessName",
+						"type": "varchar"
+					},
+					{
+						"name": "StartDateTime",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "EndDateTime",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "BatchKey",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EDW_Fact_Load_Control"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorksLT2019')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_Resellers_Sales')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -5193,7 +6177,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -5358,6 +6342,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "POCWork"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -5534,6 +6521,9 @@
 					"referenceName": "AzureBlobStorageRP",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
@@ -5551,6 +6541,19 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorageRP')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AdventureWorksLT2019')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AdventureWorksLT2019_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorageRP')]",
@@ -5674,6 +6677,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "srcAddress"
+						},
+						{
+							"dataset": {
+								"referenceName": "AddressIncrmUpdate",
+								"type": "DatasetReference"
+							},
+							"name": "stgAddress"
 						}
 					],
 					"sinks": [
@@ -5685,7 +6695,17 @@
 							"name": "trgtAddress"
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "Exists"
+						},
+						{
+							"name": "Upsert"
+						},
+						{
+							"name": "ModifiedDate"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
 						"          AddressID as integer,",
@@ -5698,7 +6718,7 @@
 						"          rowguid as string,",
 						"          ModifiedDate as timestamp",
 						"     ),",
-						"     allowSchemaDrift: true,",
+						"     allowSchemaDrift: false,",
 						"     validateSchema: false,",
 						"     enableCdc: true,",
 						"     mode: 'read',",
@@ -5706,12 +6726,44 @@
 						"     waterMarkColumn: 'ModifiedDate',",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> srcAddress",
-						"srcAddress sink(allowSchemaDrift: true,",
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: false,",
 						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgAddress",
+						"ModifiedDate, stgAddress exists(srcAddress@AddressID == stgAddress@AddressID,",
+						"     negate:true,",
+						"     broadcast: 'auto')~> Exists",
+						"Exists alterRow(upsertIf(true())) ~> Upsert",
+						"srcAddress derive(EDWCreateDate = currentTimestamp()) ~> ModifiedDate",
+						"Upsert sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
 						"     deletable:false,",
-						"     insertable:true,",
+						"     insertable:false,",
 						"     updateable:false,",
-						"     upsertable:false,",
+						"     upsertable:true,",
+						"     keys:['AddressID'],",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -5729,6 +6781,9 @@
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"folder": {
+					"name": "POCWork"
+				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
@@ -5803,6 +6858,388 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Address')]",
 				"[concat(variables('factoryId'), '/datasets/ds_SCD1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Address_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Address",
+								"type": "DatasetReference"
+							},
+							"name": "srcAddress"
+						},
+						{
+							"dataset": {
+								"referenceName": "AddressIncrmUpdate",
+								"type": "DatasetReference"
+							},
+							"name": "stgAddress"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AddressIncrmUpdate",
+								"type": "DatasetReference"
+							},
+							"name": "trgtAddress"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Checksum"
+						},
+						{
+							"name": "Exists"
+						},
+						{
+							"name": "Upsert"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     enableCdc: true,",
+						"     mode: 'read',",
+						"     skipInitialLoad: false,",
+						"     waterMarkColumn: 'ModifiedDate',",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcAddress",
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgAddress",
+						"srcAddress derive(checksum = sha1(AddressLine1,AddressLine2,City,StateProvince,CountryRegion,PostalCode)) ~> Checksum",
+						"Checksum, stgAddress exists(checksum == sha1(stgAddress@AddressLine1,stgAddress@AddressLine2,stgAddress@City,stgAddress@StateProvince,stgAddress@CountryRegion,stgAddress@PostalCode),",
+						"     negate:true,",
+						"     broadcast: 'auto')~> Exists",
+						"Exists alterRow(upsertIf(true())) ~> Upsert",
+						"Upsert sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['AddressID'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> trgtAddress"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Address')]",
+				"[concat(variables('factoryId'), '/datasets/AddressIncrmUpdate')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_CustomerDim_Parameters')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is not working as expected.",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_EDWLoadControl",
+								"type": "DatasetReference"
+							},
+							"name": "srcCustomerDimwParameters"
+						},
+						{
+							"dataset": {
+								"referenceName": "Customer_Test",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "CustomerLoadTest",
+								"type": "DatasetReference"
+							},
+							"name": "CustomerLoadTest"
+						},
+						{
+							"dataset": {
+								"referenceName": "Test_Date_Parameters",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "lookup1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     BatchKey as string",
+						"}",
+						"source(output(",
+						"          ProcessID as integer,",
+						"          ProcessName as string,",
+						"          StartDateTime as timestamp,",
+						"          EndDateTime as timestamp,",
+						"          BatchKey as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: (\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey='{$BatchKey}'\"),",
+						"     format: 'query') ~> srcCustomerDimwParameters",
+						"source(output(",
+						"          CustomerID as integer,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          Suffix as string,",
+						"          CompanyName as string,",
+						"          SalesPerson as string,",
+						"          EmailAddress as string,",
+						"          Phone as string,",
+						"          PasswordHash as string,",
+						"          PasswordSalt as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"srcCustomerDimwParameters filter(BatchKey==$BatchKey) ~> filter1",
+						"source1, filter1 lookup(ModifiedDate >= StartDateTime,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'right')~> lookup1",
+						"lookup1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          CustomerID as integer,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          Suffix as string,",
+						"          CompanyName as string,",
+						"          SalesPerson as string,",
+						"          EmailAddress as string,",
+						"          Phone as string,",
+						"          PasswordHash as string,",
+						"          PasswordSalt as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> CustomerLoadTest",
+						"filter1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_EDWLoadControl')]",
+				"[concat(variables('factoryId'), '/datasets/Customer_Test')]",
+				"[concat(variables('factoryId'), '/datasets/CustomerLoadTest')]",
+				"[concat(variables('factoryId'), '/datasets/Test_Date_Parameters')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_CustomerDim_Parameters_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is not working as expected.",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_EDWLoadControl",
+								"type": "DatasetReference"
+							},
+							"name": "srcCustomerDimwParameters"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"parameters{",
+						"     BatchKey as string ('B5F7BEFB9510472A97DC7EF27D405EA2')",
+						"}",
+						"source(output(",
+						"          ProcessID as integer,",
+						"          ProcessName as string,",
+						"          StartDateTime as timestamp,",
+						"          EndDateTime as timestamp,",
+						"          BatchKey as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: '@\"SELECT StartDateTime ,EndDateTime ,BatchKey FROM dbo.EDW_Fact_Load_Control WHERE BatchKey=\\'$BatchKey\\'\"',",
+						"     format: 'query') ~> srcCustomerDimwParameters",
+						"srcCustomerDimwParameters sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Column_1 as string",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_EDWLoadControl')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_DimCustomer')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_CustomerSource",
+								"type": "DatasetReference"
+							},
+							"name": "srcCustomSource"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable2",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"parameters{",
+						"     dfStartDate as string,",
+						"     formattedStartDate as date (toDate($dfStartDate)),",
+						"     dfEndDate as string,",
+						"     formattedEndDate as date (toDate($dfEndDate))",
+						"}",
+						"source(output(",
+						"          CustomerID as integer,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          Suffix as string,",
+						"          CompanyName as string,",
+						"          SalesPerson as string,",
+						"          EmailAddress as string,",
+						"          Phone as string,",
+						"          PasswordHash as string,",
+						"          PasswordSalt as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: (concat(\"select * from SalesLT.Customer_Source where ModifiedDate> \",toString($formattedStartDate) )),",
+						"     format: 'query') ~> srcCustomSource",
+						"srcCustomSource sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     preSQLs:['TRUNCATE TABLE dbo.CustomerTest'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_CustomerSource')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]"
 			]
 		},
 		{
@@ -7291,6 +8728,9 @@
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"folder": {
+					"name": "POCWork"
+				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
@@ -7378,6 +8818,9 @@
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"folder": {
+					"name": "POCWork"
+				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [

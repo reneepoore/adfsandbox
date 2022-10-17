@@ -6,24 +6,529 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "RPoore-Data-Factory"
-		},
-		"SQLRMLAPTOP610_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQLRMLAPTOP610'"
-		},
-		"SQLRMLAPTOP610_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SQLRMLAPTOP610'"
-		},
-		"SQLRMLAPTOP610_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "CORPORATE\\rpoore"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_qt6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "POCWork"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "CURAPD01",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimAddress')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dimensions"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvince",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Address"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimCustomer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Source"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GeographyKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerAlternateKey",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "BirthDate",
+						"type": "date"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "nchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "YearlyIncome",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalChildren",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "NumberChildrenAtHome",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "EnglishEducation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpanishEducation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchEducation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EnglishOccupation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpanishOccupation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchOccupation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HouseOwnerFlag",
+						"type": "nchar"
+					},
+					{
+						"name": "NumberCarsOwned",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DateFirstPurchase",
+						"type": "date"
+					},
+					{
+						"name": "CommuteDistance",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DimCustomer"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimProduct')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "POCWork/Source"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProductKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductAlternateKey",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ProductSubcategoryKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WeightUnitMeasureCode",
+						"type": "nchar"
+					},
+					{
+						"name": "SizeUnitMeasureCode",
+						"type": "nchar"
+					},
+					{
+						"name": "EnglishProductName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpanishProductName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchProductName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StandardCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "FinishedGoodsFlag",
+						"type": "bit"
+					},
+					{
+						"name": "Color",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SafetyStockLevel",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReorderPoint",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ListPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Size",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SizeRange",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Weight",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "DaysToManufacture",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductLine",
+						"type": "nchar"
+					},
+					{
+						"name": "DealerPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Class",
+						"type": "nchar"
+					},
+					{
+						"name": "Style",
+						"type": "nchar"
+					},
+					{
+						"name": "ModelName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LargePhoto",
+						"type": "varbinary"
+					},
+					{
+						"name": "EnglishDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ChineseDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArabicDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HebrewDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ThaiDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GermanDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "JapaneseDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TurkishDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StartDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "EndDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Status",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DimProduct"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimPromotion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "POCWork/Source"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "PromotionKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PromotionAlternateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "EnglishPromotionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpanishPromotionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchPromotionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DiscountPct",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "EnglishPromotionType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpanishPromotionType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchPromotionType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EnglishPromotionCategory",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpanishPromotionCategory",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FrenchPromotionCategory",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StartDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "EndDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "MinQty",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "MaxQty",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DimPromotion"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DimSalesTerritory')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -34,7 +539,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -82,6 +587,9 @@
 					"referenceName": "AzureBlobStorageRP",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "POCWork"
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
@@ -112,7 +620,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -134,7 +642,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -142,6 +650,139 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "Fact_Resellers_Sales_ODS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FactSalesOrderHeader')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Facts"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Status",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "bit"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipMethod",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "SubTotal",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalDue",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "SalesOrderHeader"
 				}
 			},
 			"dependsOn": []
@@ -156,7 +797,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [
 					"TEST"
@@ -180,7 +821,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Source"
+					"name": "POCWork/Source"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -340,7 +981,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -370,7 +1011,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_di4_20220829"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -406,7 +1047,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_fgf_20220829"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -442,7 +1083,7 @@
 					}
 				},
 				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_vrc_20220829"
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_vrc_20220829"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -461,6 +1102,111 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Test_Date_Parameters')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Test_Date_Parameters"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_CustomerSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "varchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Customer_Source"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_DimCustomer_Target')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -470,7 +1216,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Target AdWrks"
+					"name": "POCWork/Target AdWrks"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -607,172 +1353,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_Resellers_Sales')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseAdventureWorks",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ProductKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "OrderDateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DueDateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ShipDateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ResellerKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "EmployeeKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PromotionKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CurrencyKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SalesTerritoryKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SalesOrderNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SalesOrderLineNumber",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "RevisionNumber",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "OrderQuantity",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "UnitPrice",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "ExtendedAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "UnitPriceDiscountPct",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "DiscountAmount",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "ProductStandardCost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "TotalProductCost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "SalesAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "TaxAmt",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Freight",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "CarrierTrackingNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CustomerPONumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OrderDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "DueDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "ShipDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "FactResellerSales"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_SCD1')]",
+			"name": "[concat(parameters('factoryName'), '/ds_EDWLoadControl')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -780,624 +1361,44 @@
 					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
 					"type": "LinkedServiceReference"
 				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "AddressSCD"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_person')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseODSCuramStage",
-					"type": "LinkedServiceReference"
-				},
 				"folder": {
-					"name": "Curam"
+					"name": "Logging"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "CONCERNROLEID",
-						"type": "bigint",
-						"precision": 19
+						"name": "ProcessID",
+						"type": "smallint",
+						"precision": 5
 					},
 					{
-						"name": "PERSONBIRTHNAME",
+						"name": "ProcessName",
 						"type": "varchar"
 					},
 					{
-						"name": "DATEOFBIRTH",
-						"type": "date"
+						"name": "StartDateTime",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
 					},
 					{
-						"name": "DATEOFDEATH",
-						"type": "date"
+						"name": "EndDateTime",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
 					},
 					{
-						"name": "GENDER",
-						"type": "char"
-					},
-					{
-						"name": "SPECIALINTERESTCODE",
-						"type": "char"
-					},
-					{
-						"name": "LASTWRITTEN",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "UPPERPERSONBIRTHNAME",
-						"type": "varchar"
-					},
-					{
-						"name": "UPPERMOTHERBIRTHSURNAME",
-						"type": "varchar"
-					},
-					{
-						"name": "RACE",
-						"type": "varchar"
-					},
-					{
-						"name": "INDIGENOUSGROUPCODE",
-						"type": "varchar"
-					},
-					{
-						"name": "INDIGENOUSPERSONIND",
-						"type": "char"
-					},
-					{
-						"name": "VERSIONNO",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PRIMARYALTERNATENAMEID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "ETHNICORIGINCODE",
-						"type": "char"
-					},
-					{
-						"name": "PAYMENTFREQUENCY",
-						"type": "char"
-					},
-					{
-						"name": "NEXTPAYMENTDATE",
-						"type": "date"
-					},
-					{
-						"name": "CURRENCYTYPE",
-						"type": "char"
-					},
-					{
-						"name": "METHODOFPMTCODE",
-						"type": "char"
-					},
-					{
-						"name": "DATEOFBIRTHVERIND",
-						"type": "char"
-					},
-					{
-						"name": "DATEOFDEATHVERIND",
-						"type": "char"
-					},
-					{
-						"name": "PRIMARYALTERNATEID",
-						"type": "char"
-					},
-					{
-						"name": "COUNTRYOFBIRTH",
-						"type": "char"
-					},
-					{
-						"name": "PLACEOFBIRTH",
-						"type": "char"
-					},
-					{
-						"name": "PINNUMBER",
-						"type": "char"
-					},
-					{
-						"name": "MARITALSTATUSCODE",
-						"type": "char"
-					},
-					{
-						"name": "NATIONALITYCODE",
-						"type": "char"
-					},
-					{
-						"name": "RESIDENCYABROADIND",
-						"type": "char"
-					},
-					{
-						"name": "MOTHERBIRTHSURNAME",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMENTS",
-						"type": "varchar"
-					},
-					{
-						"name": "TYPE",
+						"name": "BatchKey",
 						"type": "char"
 					}
 				],
-				"typeProperties": {
-					"schema": "CURAPD01",
-					"table": "PERSON"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/rowswritten')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorageRP",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "rowswritten.txt",
-						"container": "newcontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SQLRMLAPTOP610')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Renee's Lapto[",
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SQLRMLAPTOP610_connectionString')]",
-					"userName": "[parameters('SQLRMLAPTOP610_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SQLRMLAPTOP610_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "mssqltips-selfhosted-ir",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_copy_data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "\n",
-				"activities": [
-					{
-						"name": "CopyDataCreateTable",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "TruncateSalesTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Fact_InternetSales",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Fact_InternetSales_Copy",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "TruncateSalesTable",
-						"type": "Script",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "Truncate TABLE [dbo].[Fact_Internet_Sales_ODS]"
-								}
-							]
-						}
-					},
-					{
-						"name": "LogExecutionSuccess",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "CopyDataCreateTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@string(activity('CopyDataCreateTable').output.executionDetails)\n\n",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "LogExecutionFailure",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "CopyDataCreateTable",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@activity('CopyDataCreateTable').error.message",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-09-27T18:58:30Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Fact_InternetSales')]",
-				"[concat(variables('factoryId'), '/datasets/Fact_InternetSales_Copy')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CodeTableHeader')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SQLRMLAPTOP610",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Curam"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "TABLENAME",
-						"type": "char"
-					},
-					{
-						"name": "TIMEENTERED",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "DEFAULTCODE",
-						"type": "char"
-					},
-					{
-						"name": "PARENTCODETABLE",
-						"type": "char"
-					},
-					{
-						"name": "VERSIONNO",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "LASTWRITTEN",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
-				"typeProperties": {
-					"schema": "CURAPD01",
-					"table": "CODETABLEHEADER"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CodeTableItem')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SQLRMLAPTOP610",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Curam"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "TABLENAME",
-						"type": "char"
-					},
-					{
-						"name": "CODE",
-						"type": "char"
-					},
-					{
-						"name": "DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "ANNOTATION",
-						"type": "varchar"
-					},
-					{
-						"name": "ISENABLED",
-						"type": "char"
-					},
-					{
-						"name": "SORTORDER",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "LOCALEIDENTIFIER",
-						"type": "char"
-					},
-					{
-						"name": "PARENTCODE",
-						"type": "char"
-					},
-					{
-						"name": "COMMENTS",
-						"type": "varchar"
-					},
-					{
-						"name": "VERSIONNO",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "LASTWRITTEN",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
-				"typeProperties": {
-					"schema": "CURAPD01",
-					"table": "CODETABLEITEM"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_di4_ControlDS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SQLRMLAPTOP610",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_di4_20220829"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "MainControlTable_di4"
+					"table": "EDW_Fact_Load_Control"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
