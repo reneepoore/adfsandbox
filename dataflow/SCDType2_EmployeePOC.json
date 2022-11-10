@@ -40,7 +40,7 @@
 						"referenceName": "tgtDimEmployee",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "SinkInactive"
 				}
 			],
 			"transformations": [
@@ -268,7 +268,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkInactive"
 			]
 		}
 	}
