@@ -29,7 +29,11 @@
 					"name": "SinkNewData"
 				},
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "tgtDimEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "SinkUpdates"
 				}
 			],
 			"transformations": [
@@ -49,7 +53,7 @@
 					"name": "CheckForChanges"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "AddIsActive"
 				}
 			],
 			"scriptLines": [
@@ -150,7 +154,7 @@
 				"SelectToRename@Status!=tgtDimEmployee@Status,",
 				"     negate:false,",
 				"     broadcast: 'auto')~> CheckForChanges",
-				"CheckForChanges derive() ~> derivedColumn1",
+				"CheckForChanges derive(IsActive = 1) ~> AddIsActive",
 				"SetIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -179,10 +183,34 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> SinkNewData",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"AddIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkUpdates"
 			]
 		}
 	}
