@@ -1,0 +1,178 @@
+{
+	"name": "SCDType2_EmployeePOC",
+	"properties": {
+		"description": "POC for SCD Type 2 with Adventure Works Data",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "stgSourceEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "srcEmployeeData"
+				},
+				{
+					"dataset": {
+						"referenceName": "tgtDimEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "tgtDimEmployee"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "tgtDimEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "SinkNewData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SetIsActive"
+				},
+				{
+					"name": "CheckNewRecords"
+				},
+				{
+					"name": "CheckExists"
+				},
+				{
+					"name": "SelectToRename"
+				},
+				{
+					"name": "CheckForChanges"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcEmployeeData",
+				"source(output(",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> tgtDimEmployee",
+				"CheckNewRecords@NewRecords derive(IsActive = 1) ~> SetIsActive",
+				"CheckExists split(ERROR_FUNCTION(''),",
+				"     disjoint: false) ~> CheckNewRecords@(NewRecords, CheckForUpdates)",
+				"srcEmployeeData, tgtDimEmployee lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> CheckExists",
+				"CheckNewRecords@CheckForUpdates select(mapColumn(",
+				"          FirstName = CheckNewRecords@CheckForUpdates@FirstName,",
+				"          LastName = CheckNewRecords@CheckForUpdates@LastName,",
+				"          MiddleName = CheckNewRecords@CheckForUpdates@MiddleName,",
+				"          Title = CheckNewRecords@CheckForUpdates@Title,",
+				"          HireDate = CheckNewRecords@CheckForUpdates@HireDate,",
+				"          BirthDate = CheckNewRecords@CheckForUpdates@BirthDate,",
+				"          Phone = CheckNewRecords@CheckForUpdates@Phone,",
+				"          MaritalStatus = CheckNewRecords@CheckForUpdates@MaritalStatus,",
+				"          EmergencyContactName = CheckNewRecords@CheckForUpdates@EmergencyContactName,",
+				"          EmergencyContactPhone = CheckNewRecords@CheckForUpdates@EmergencyContactPhone,",
+				"          SalariedFlag = CheckNewRecords@CheckForUpdates@SalariedFlag,",
+				"          Gender = CheckNewRecords@CheckForUpdates@Gender,",
+				"          DepartmentName = CheckNewRecords@CheckForUpdates@DepartmentName,",
+				"          StartDate = CheckNewRecords@CheckForUpdates@StartDate,",
+				"          EndDate = CheckNewRecords@CheckForUpdates@EndDate,",
+				"          Status = CheckNewRecords@CheckForUpdates@Status,",
+				"          FirstName = CheckNewRecords@CheckForUpdates@FirstName,",
+				"          LastName = CheckNewRecords@CheckForUpdates@LastName,",
+				"          MiddleName = CheckNewRecords@CheckForUpdates@MiddleName,",
+				"          Title = CheckNewRecords@CheckForUpdates@Title,",
+				"          HireDate = CheckNewRecords@CheckForUpdates@HireDate,",
+				"          BirthDate = CheckNewRecords@CheckForUpdates@BirthDate,",
+				"          Phone = CheckNewRecords@CheckForUpdates@Phone,",
+				"          MaritalStatus = CheckNewRecords@CheckForUpdates@MaritalStatus,",
+				"          EmergencyContactName = CheckNewRecords@CheckForUpdates@EmergencyContactName,",
+				"          EmergencyContactPhone = CheckNewRecords@CheckForUpdates@EmergencyContactPhone,",
+				"          SalariedFlag = CheckNewRecords@CheckForUpdates@SalariedFlag,",
+				"          Gender = CheckNewRecords@CheckForUpdates@Gender,",
+				"          DepartmentName = CheckNewRecords@CheckForUpdates@DepartmentName,",
+				"          StartDate = CheckNewRecords@CheckForUpdates@StartDate,",
+				"          EndDate = CheckNewRecords@CheckForUpdates@EndDate,",
+				"          Status = CheckNewRecords@CheckForUpdates@Status",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectToRename",
+				"SelectToRename, tgtDimEmployee exists(SelectToRename@LastName!=tgtDimEmployee@LastName||\r",
+				"SelectToRename@Title!=tgtDimEmployee@Title||\r",
+				"SelectToRename@Phone!=tgtDimEmployee@Phone||\r",
+				"SelectToRename@MaritalStatus!=tgtDimEmployee@MaritalStatus||\r",
+				"SelectToRename@SalariedFlag!=tgtDimEmployee@SalariedFlag||\r",
+				"SelectToRename@DepartmentName!=tgtDimEmployee@DepartmentName||\r",
+				"SelectToRename@EndDate!=tgtDimEmployee@EndDate||\r",
+				"SelectToRename@Status!=tgtDimEmployee@Status,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> CheckForChanges",
+				"SetIsActive sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkNewData"
+			]
+		}
+	}
+}
