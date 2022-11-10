@@ -34,6 +34,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkUpdates"
+				},
+				{
+					"dataset": {
+						"referenceName": "tgtDimEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -54,6 +61,15 @@
 				},
 				{
 					"name": "AddIsActive"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -155,6 +171,20 @@
 				"     negate:false,",
 				"     broadcast: 'auto')~> CheckForChanges",
 				"CheckForChanges derive(IsActive = 1) ~> AddIsActive",
+				"CheckForChanges derive(IsActive = 0) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          LastName,",
+				"          Title,",
+				"          Phone,",
+				"          MaritalStatus,",
+				"          SalariedFlag,",
+				"          DepartmentName,",
+				"          EndDate,",
+				"          Status",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 alterRow(updateIf(true())) ~> alterRow1",
 				"SetIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -210,7 +240,35 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> SinkUpdates"
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkUpdates",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
