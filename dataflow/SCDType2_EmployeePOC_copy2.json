@@ -44,6 +44,9 @@
 				},
 				{
 					"name": "SelectSinkColumns"
+				},
+				{
+					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -122,7 +125,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
-				"SelectSinkColumns sink(allowSchemaDrift: true,",
+				"SelectSinkColumns alterRow(insertIf(true())) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
