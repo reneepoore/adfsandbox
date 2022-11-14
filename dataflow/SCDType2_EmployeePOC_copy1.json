@@ -63,7 +63,7 @@
 					"name": "ChangeIsActive"
 				},
 				{
-					"name": "SelectInactiveFields"
+					"name": "SelectInactiveColumns"
 				},
 				{
 					"name": "alterRow1"
@@ -72,19 +72,16 @@
 					"name": "LkpEmployee"
 				},
 				{
-					"name": "SelectSinkColumns"
+					"name": "SelectColumns"
 				},
 				{
 					"name": "FilterCurrent"
 				},
 				{
-					"name": "filter1"
+					"name": "SelectSinkColumns"
 				},
 				{
-					"name": "select2"
-				},
-				{
-					"name": "select3"
+					"name": "SelectSinkUpdateColumns"
 				}
 			],
 			"scriptLines": [
@@ -135,7 +132,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> tgtDimEmployee",
 				"CheckNewRecords@NewRecords derive(IsActive = 1) ~> SetIsActive",
-				"SelectSinkColumns split(isNull(tgtIsActive),",
+				"SelectColumns split(isNull(tgtIsActive),",
 				"     disjoint: false) ~> CheckNewRecords@(NewRecords, CheckForUpdates)",
 				"CheckNewRecords@CheckForUpdates select(mapColumn(",
 				"          FirstName,",
@@ -190,8 +187,8 @@
 				"          Status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectInactiveFields",
-				"SelectInactiveFields alterRow(updateIf(true())) ~> alterRow1",
+				"     skipDuplicateMapOutputs: true) ~> SelectInactiveColumns",
+				"SelectInactiveColumns alterRow(updateIf(true())) ~> alterRow1",
 				"FilterCurrent, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
 				"     && srcEmployeeData@LastName == tgtDimEmployee@LastName",
 				"     && srcEmployeeData@BirthDate == tgtDimEmployee@BirthDate,",
@@ -226,9 +223,8 @@
 				"          tgtIsActive = IsActive",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
-				"srcEmployeeData filter(Status=='Current') ~> FilterCurrent",
-				"tgtDimEmployee filter(Status=='Current') ~> filter1",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+				"srcEmployeeData filter(Status=='Termed') ~> FilterCurrent",
 				"SetIsActive select(mapColumn(",
 				"          FirstName,",
 				"          LastName,",
@@ -249,7 +245,7 @@
 				"          IsActive",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
+				"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
 				"AddIsActive select(mapColumn(",
 				"          LastName,",
 				"          Title,",
@@ -262,8 +258,8 @@
 				"          IsActive",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3",
-				"select2 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectSinkUpdateColumns",
+				"SelectSinkColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -273,7 +269,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> SinkNewData",
-				"select3 sink(allowSchemaDrift: true,",
+				"SelectSinkUpdateColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
