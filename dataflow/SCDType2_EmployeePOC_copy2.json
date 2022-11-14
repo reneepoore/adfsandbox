@@ -43,7 +43,7 @@
 					"name": "filter1"
 				},
 				{
-					"name": "select1"
+					"name": "SelectSinkColumns"
 				}
 			],
 			"scriptLines": [
@@ -121,8 +121,8 @@
 				"          IsActive",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
+				"SelectSinkColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
