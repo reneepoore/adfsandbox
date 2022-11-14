@@ -1,0 +1,138 @@
+{
+	"name": "SCDType2_EmployeePOC_copy2",
+	"properties": {
+		"description": "POC for SCD Type 2 with Adventure Works Data",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "stgSourceEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "srcEmployeeData"
+				},
+				{
+					"dataset": {
+						"referenceName": "tgtDimEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "tgtDimEmployee"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "tgtDimEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "SinkUpdates"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddIsActive"
+				},
+				{
+					"name": "LkpEmployee"
+				},
+				{
+					"name": "FilterCurrent"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcEmployeeData",
+				"source(output(",
+				"          EmployeeKey as integer,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          MiddleName as string,",
+				"          Title as string,",
+				"          HireDate as date,",
+				"          BirthDate as date,",
+				"          Phone as string,",
+				"          MaritalStatus as string,",
+				"          EmergencyContactName as string,",
+				"          EmergencyContactPhone as string,",
+				"          SalariedFlag as boolean,",
+				"          Gender as string,",
+				"          DepartmentName as string,",
+				"          StartDate as date,",
+				"          EndDate as date,",
+				"          Status as string,",
+				"          IsActive as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> tgtDimEmployee",
+				"LkpEmployee derive(IsActive = 1) ~> AddIsActive",
+				"FilterCurrent, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
+				"     && srcEmployeeData@LastName == tgtDimEmployee@LastName",
+				"     && srcEmployeeData@BirthDate == tgtDimEmployee@BirthDate,",
+				"     multiple: true,",
+				"     broadcast: 'right')~> LkpEmployee",
+				"srcEmployeeData filter(Status=='Current') ~> FilterCurrent",
+				"tgtDimEmployee filter(Status=='Current') ~> filter1",
+				"AddIsActive select(mapColumn(",
+				"          FirstName = srcEmployeeData@FirstName,",
+				"          LastName = srcEmployeeData@LastName,",
+				"          MiddleName = srcEmployeeData@MiddleName,",
+				"          Title = srcEmployeeData@Title,",
+				"          HireDate = srcEmployeeData@HireDate,",
+				"          BirthDate = srcEmployeeData@BirthDate,",
+				"          Phone = srcEmployeeData@Phone,",
+				"          MaritalStatus = srcEmployeeData@MaritalStatus,",
+				"          EmergencyContactName = srcEmployeeData@EmergencyContactName,",
+				"          EmergencyContactPhone = srcEmployeeData@EmergencyContactPhone,",
+				"          SalariedFlag = srcEmployeeData@SalariedFlag,",
+				"          Gender = srcEmployeeData@Gender,",
+				"          DepartmentName = srcEmployeeData@DepartmentName,",
+				"          StartDate = srcEmployeeData@StartDate,",
+				"          EndDate = srcEmployeeData@EndDate,",
+				"          Status = srcEmployeeData@Status,",
+				"          IsActive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkUpdates"
+			]
+		}
+	}
+}
