@@ -72,13 +72,19 @@
 					"name": "LkpEmployee"
 				},
 				{
-					"name": "select1"
+					"name": "SelectSinkColumns"
 				},
 				{
 					"name": "FilterCurrent"
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "select3"
 				}
 			],
 			"scriptLines": [
@@ -129,7 +135,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> tgtDimEmployee",
 				"CheckNewRecords@NewRecords derive(IsActive = 1) ~> SetIsActive",
-				"select1 split(isNull(tgtIsActive),",
+				"SelectSinkColumns split(isNull(tgtIsActive),",
 				"     disjoint: false) ~> CheckNewRecords@(NewRecords, CheckForUpdates)",
 				"CheckNewRecords@CheckForUpdates select(mapColumn(",
 				"          FirstName,",
@@ -220,10 +226,44 @@
 				"          tgtIsActive = IsActive",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
 				"srcEmployeeData filter(Status=='Current') ~> FilterCurrent",
 				"tgtDimEmployee filter(Status=='Current') ~> filter1",
-				"SetIsActive sink(allowSchemaDrift: true,",
+				"SetIsActive select(mapColumn(",
+				"          FirstName,",
+				"          LastName,",
+				"          MiddleName,",
+				"          Title,",
+				"          HireDate,",
+				"          BirthDate,",
+				"          Phone,",
+				"          MaritalStatus,",
+				"          EmergencyContactName,",
+				"          EmergencyContactPhone,",
+				"          SalariedFlag,",
+				"          Gender,",
+				"          DepartmentName,",
+				"          StartDate,",
+				"          EndDate,",
+				"          Status,",
+				"          IsActive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"AddIsActive select(mapColumn(",
+				"          LastName,",
+				"          Title,",
+				"          Phone,",
+				"          MaritalStatus,",
+				"          SalariedFlag,",
+				"          DepartmentName,",
+				"          EndDate,",
+				"          Status,",
+				"          IsActive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -233,7 +273,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> SinkNewData",
-				"AddIsActive sink(allowSchemaDrift: true,",
+				"select3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
