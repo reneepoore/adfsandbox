@@ -1,5 +1,5 @@
 {
-	"name": "DimEmployeeLoader21",
+	"name": "DimEmployeeLoaderWorkingExampleFromADF",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
