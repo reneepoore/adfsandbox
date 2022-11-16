@@ -1,5 +1,5 @@
 {
-	"name": "SCDType2_EmployeePOC_copy2",
+	"name": "SCDType2_EmployeePOC_YouTubeLogic",
 	"properties": {
 		"description": "POC for SCD Type 2 with Adventure Works Data",
 		"type": "MappingDataFlow",
@@ -35,6 +35,9 @@
 				},
 				{
 					"name": "LkpEmployee"
+				},
+				{
+					"name": "FilterCurrent"
 				},
 				{
 					"name": "filter1"
@@ -94,11 +97,12 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> tgtDimEmployee",
 				"LkpEmployee derive(IsActive = 1) ~> AddIsActive",
-				"srcEmployeeData, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
+				"FilterCurrent, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
 				"     && srcEmployeeData@LastName == tgtDimEmployee@LastName",
 				"     && srcEmployeeData@BirthDate == tgtDimEmployee@BirthDate,",
 				"     multiple: true,",
 				"     broadcast: 'right')~> LkpEmployee",
+				"srcEmployeeData filter(Status=='Current') ~> FilterCurrent",
 				"tgtDimEmployee filter(Status=='Current') ~> filter1",
 				"AddIsActive select(mapColumn(",
 				"          FirstName = srcEmployeeData@FirstName,",
