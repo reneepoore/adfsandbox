@@ -1,5 +1,5 @@
 {
-	"name": "DimEmployeePipeline1",
+	"name": "DimEmployeePipelineWorkingADFExample",
 	"properties": {
 		"activities": [
 			{
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "DimEmployeeLoader21",
+						"referenceName": "DimEmployeeLoaderWorkingExampleFromADF",
 						"type": "DataFlowReference"
 					},
 					"compute": {
