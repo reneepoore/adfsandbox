@@ -13,6 +13,1208 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SDDenormalizedecision')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Curam"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SDDENORMALIZEDDECISIONID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "INTEGRATEDCASEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PRODUCTDELIVERYCASEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PARTICIPANTID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CREOLECASEDETERMINATIONID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "TIMELINESTARTDATE",
+						"type": "date"
+					},
+					{
+						"name": "TIMELINEENDDATE",
+						"type": "date"
+					},
+					{
+						"name": "ISELIGIBLE",
+						"type": "char"
+					},
+					{
+						"name": "PRODUCTID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CASEDECISIONSTATUSCODE",
+						"type": "char"
+					},
+					{
+						"name": "ISHOUSEHOLDMEMBERELIGIBLE",
+						"type": "char"
+					},
+					{
+						"name": "BENEFITAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "AIDCODE",
+						"type": "char"
+					},
+					{
+						"name": "RECORDSTATUS",
+						"type": "char"
+					},
+					{
+						"name": "RULEOBJECTSNAPSHOTDATAID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "UNEARNEDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "EARNEDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SELFEMPLOYMENTINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "INCOMEDEDUCTIONS",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "NETINDIVIDUALINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "ADJUSTEDGROSSINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "HOUSEHOLDSIZE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDCOVERAGECODE",
+						"type": "char"
+					},
+					{
+						"name": "SDCOPAYVALUE",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDMONTHLYGROSSINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDISRETROACTIVE",
+						"type": "char"
+					},
+					{
+						"name": "SDPOVERTYLEVEL",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDMEMBERPERCENTPOVERTYLEVEL",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDMEMBERCREDITABLEINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDISPREGNANT",
+						"type": "char"
+					},
+					{
+						"name": "SDMAGIHOUSEHOLDSIZE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDMAGIMONTHLYHOUSEHOLDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SDSTATEHOUSEHOLDSIZE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SDSTATEMONTHLYHOUSEHOLDINCOME",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "TOTALSHAREOFCOSTAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "LASTWRITTEN",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ISUTILIZINGALLBENEFITS",
+						"type": "char"
+					},
+					{
+						"name": "LOTTERWINNINGSAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "UNCOMPENSATEDIRTAMOUNT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "DAILYPRIVATEPAYRATE",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "CURAPD01",
+					"table": "SDDENORMALIZEDDECISION"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_qt6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "POCWork"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "CURAPD01",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimEmployeeLoaderWorkingExampleFromADF')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "EmployeeFiles1",
+								"type": "DatasetReference"
+							},
+							"name": "Employees1",
+							"description": " Source employees file, changes every day"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimEmp1",
+								"type": "DatasetReference"
+							},
+							"name": "DimEmployees",
+							"description": "Current rows in DimEmployees DW table"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimEmp1",
+								"type": "DatasetReference"
+							},
+							"name": "sinkNew",
+							"description": " "
+						},
+						{
+							"dataset": {
+								"referenceName": "DimEmp1",
+								"type": "DatasetReference"
+							},
+							"name": "sinkUpdates",
+							"description": " "
+						},
+						{
+							"dataset": {
+								"referenceName": "DimEmp1",
+								"type": "DatasetReference"
+							},
+							"name": "sinkInactive",
+							"description": " Age out old rows"
+						}
+					],
+					"transformations": [
+						{
+							"name": "TypeConversions"
+						},
+						{
+							"name": "TypeConversionsAndSetAttrs"
+						},
+						{
+							"name": "LookupIDs"
+						},
+						{
+							"name": "ConditionalSplit1"
+						},
+						{
+							"name": "checkForChanges"
+						},
+						{
+							"name": "SetAttrsForNew"
+						},
+						{
+							"name": "SetAttrsInactive",
+							"description": "make iscurrent 0"
+						},
+						{
+							"name": "SetAttrsUpdate"
+						},
+						{
+							"name": "NormNames"
+						},
+						{
+							"name": "InactiveFields"
+						},
+						{
+							"name": "AlterRow1"
+						},
+						{
+							"name": "NullFilter",
+							"description": "Filter out NULLs from source file"
+						},
+						{
+							"name": "NameNorm2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          EmpID as string,",
+						"          Region as string,",
+						"          Status as string,",
+						"          Function as string,",
+						"          Level as string,",
+						"          Role as string,",
+						"          StartDate as string,",
+						"          EndDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     purgeFiles: true) ~> Employees1",
+						"source(output(",
+						"          EmpID as integer,",
+						"          surrogatekey as string,",
+						"          Region as string,",
+						"          Status as string,",
+						"          EmpFunction as string,",
+						"          Level as string,",
+						"          Role as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          iscurrent as integer,",
+						"          processtime as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimEmployees",
+						"DimEmployees derive(EmpID = toInteger(EmpID)) ~> TypeConversions",
+						"NullFilter derive(EmpID = toInteger(EmpID),",
+						"          StartDate = toDate(StartDate,'MM/dd/yyyy'),",
+						"          EndDate = toDate(EndDate,'MM/dd/yyyy'),",
+						"          processtime = currentTimestamp()) ~> TypeConversionsAndSetAttrs",
+						"TypeConversionsAndSetAttrs, TypeConversions lookup(TypeConversionsAndSetAttrs@EmpID == TypeConversions@EmpID,",
+						"     multiple: true,",
+						"     broadcast: 'auto')~> LookupIDs",
+						"NormNames split(isNull(iscurrent),",
+						"     disjoint: false) ~> ConditionalSplit1@(NewRow, CheckForUpdates)",
+						"NameNorm2, TypeConversions exists(NameNorm2@EmpID == TypeConversions@EmpID,",
+						"     negate:false,",
+						"     broadcast: 'auto')~> checkForChanges",
+						"ConditionalSplit1@NewRow derive(iscurrent = 1,",
+						"          surrogatekey = toString(crc32(EmpID,EmpFunction))) ~> SetAttrsForNew",
+						"checkForChanges derive(iscurrent = 0) ~> SetAttrsInactive",
+						"checkForChanges derive(iscurrent = 1) ~> SetAttrsUpdate",
+						"LookupIDs select(mapColumn(",
+						"          EmpID = TypeConversionsAndSetAttrs@EmpID,",
+						"          Region = Employees1@Region,",
+						"          Status = Employees1@Status,",
+						"          Level = Employees1@Level,",
+						"          Role = Employees1@Role,",
+						"          StartDate = TypeConversionsAndSetAttrs@StartDate,",
+						"          EndDate = TypeConversionsAndSetAttrs@EndDate,",
+						"          EmpFunction = Function,",
+						"          iscurrent,",
+						"          processtime = TypeConversionsAndSetAttrs@processtime,",
+						"          surrogatekey",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> NormNames",
+						"SetAttrsInactive select(mapColumn(",
+						"          EmpID,",
+						"          Status,",
+						"          EndDate,",
+						"          iscurrent,",
+						"          processtime",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> InactiveFields",
+						"InactiveFields alterRow(updateIf(true())) ~> AlterRow1",
+						"Employees1 filter(!isNull(EmpID)) ~> NullFilter",
+						"ConditionalSplit1@CheckForUpdates select(mapColumn(",
+						"          EmpID,",
+						"          Region,",
+						"          Status,",
+						"          Level,",
+						"          Role,",
+						"          StartDate,",
+						"          EndDate,",
+						"          EmpFunction,",
+						"          iscurrent,",
+						"          processtime,",
+						"          surrogatekey",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> NameNorm2",
+						"SetAttrsForNew sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          EmpID as integer,",
+						"          surrogatekey as string,",
+						"          Region as string,",
+						"          Status as string,",
+						"          EmpFunction as string,",
+						"          Level as string,",
+						"          Role as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          iscurrent as integer,",
+						"          processtime as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     batchSize: 50,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('roundRobin', 4)) ~> sinkNew",
+						"SetAttrsUpdate sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          EmpID as integer,",
+						"          surrogatekey as string,",
+						"          Region as string,",
+						"          Status as string,",
+						"          EmpFunction as string,",
+						"          Level as string,",
+						"          Role as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          iscurrent as integer,",
+						"          processtime as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     batchSize: 50,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('roundRobin', 4)) ~> sinkUpdates",
+						"AlterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          EmpID as integer,",
+						"          surrogatekey as string,",
+						"          Region as string,",
+						"          Status as string,",
+						"          EmpFunction as string,",
+						"          Level as string,",
+						"          Role as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          iscurrent as integer,",
+						"          processtime as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['EmpID'],",
+						"     format: 'table',",
+						"     batchSize: 50,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          EmpID,",
+						"          EndDate,",
+						"          iscurrent,",
+						"          processtime",
+						"     ),",
+						"     partitionBy('roundRobin', 4)) ~> sinkInactive"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCDType2_EmployeePOC_TEST')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "POC for SCD Type 2 with Adventure Works Data",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "stgSourceEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "srcEmployeeData"
+						},
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "tgtDimEmployee"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "SinkNewData"
+						},
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "SinkInsertUpdates"
+						},
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "SinkInactive"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SetIsActive"
+						},
+						{
+							"name": "CheckNewRecords"
+						},
+						{
+							"name": "SelectToRename"
+						},
+						{
+							"name": "CheckForChanges"
+						},
+						{
+							"name": "AddIsActive"
+						},
+						{
+							"name": "ChangeIsActive"
+						},
+						{
+							"name": "SelectInactiveColumns"
+						},
+						{
+							"name": "UpdateColumns"
+						},
+						{
+							"name": "LkpEmployee"
+						},
+						{
+							"name": "SelectColumns"
+						},
+						{
+							"name": "FilterCurrent"
+						},
+						{
+							"name": "SelectSinkColumns"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          FirstName as string,",
+						"          LastName as string,",
+						"          MiddleName as string,",
+						"          Title as string,",
+						"          HireDate as date,",
+						"          BirthDate as date,",
+						"          Phone as string,",
+						"          MaritalStatus as string,",
+						"          EmergencyContactName as string,",
+						"          EmergencyContactPhone as string,",
+						"          SalariedFlag as boolean,",
+						"          Gender as string,",
+						"          DepartmentName as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcEmployeeData",
+						"source(output(",
+						"          EmployeeKey as integer,",
+						"          FirstName as string,",
+						"          LastName as string,",
+						"          MiddleName as string,",
+						"          Title as string,",
+						"          HireDate as date,",
+						"          BirthDate as date,",
+						"          Phone as string,",
+						"          MaritalStatus as string,",
+						"          EmergencyContactName as string,",
+						"          EmergencyContactPhone as string,",
+						"          SalariedFlag as boolean,",
+						"          Gender as string,",
+						"          DepartmentName as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          Status as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> tgtDimEmployee",
+						"CheckNewRecords@NewRecords derive(IsActive = 1) ~> SetIsActive",
+						"SelectColumns split(isNull(tgtIsActive),",
+						"     disjoint: false) ~> CheckNewRecords@(NewRecords, CheckForUpdates)",
+						"CheckNewRecords@CheckForUpdates select(mapColumn(",
+						"          FirstName,",
+						"          LastName,",
+						"          MiddleName,",
+						"          Title,",
+						"          HireDate,",
+						"          BirthDate,",
+						"          Phone,",
+						"          MaritalStatus,",
+						"          EmergencyContactName,",
+						"          EmergencyContactPhone,",
+						"          SalariedFlag,",
+						"          Gender,",
+						"          DepartmentName,",
+						"          StartDate,",
+						"          EndDate,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> SelectToRename",
+						"SelectToRename, tgtDimEmployee exists(SelectToRename@FirstName ==tgtDimEmployee@FirstName&&\r",
+						"SelectToRename@LastName==tgtDimEmployee@LastName&&\r",
+						"SelectToRename@BirthDate==tgtDimEmployee@BirthDate&&\r",
+						"\r",
+						"(\r",
+						"SelectToRename@LastName!=tgtDimEmployee@LastName||\r",
+						"SelectToRename@Title!=tgtDimEmployee@Title||\r",
+						"SelectToRename@Phone!=tgtDimEmployee@Phone||\r",
+						"SelectToRename@MaritalStatus!=tgtDimEmployee@MaritalStatus||\r",
+						"SelectToRename@SalariedFlag!=tgtDimEmployee@SalariedFlag||\r",
+						"SelectToRename@DepartmentName!=tgtDimEmployee@DepartmentName||\r",
+						"SelectToRename@EndDate!=tgtDimEmployee@EndDate||\r",
+						"SelectToRename@Status!=tgtDimEmployee@Status),",
+						"     negate:false,",
+						"     broadcast: 'left')~> CheckForChanges",
+						"CheckForChanges derive(IsActive = 1) ~> AddIsActive",
+						"CheckForChanges derive(drvIsActive = 0,",
+						"          drvEndDate = currentDate(),",
+						"          drvStatus = 'Termed') ~> ChangeIsActive",
+						"ChangeIsActive select(mapColumn(",
+						"          EndDate = drvEndDate,",
+						"          Status = drvStatus,",
+						"          IsActive = drvIsActive,",
+						"          FirstName,",
+						"          LastName,",
+						"          BirthDate",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectInactiveColumns",
+						"SelectInactiveColumns alterRow(updateIf(true())) ~> UpdateColumns",
+						"FilterCurrent, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
+						"     && srcEmployeeData@LastName == tgtDimEmployee@LastName",
+						"     && srcEmployeeData@BirthDate == tgtDimEmployee@BirthDate,",
+						"     multiple: true,",
+						"     broadcast: 'right')~> LkpEmployee",
+						"LkpEmployee select(mapColumn(",
+						"          FirstName = srcEmployeeData@FirstName,",
+						"          LastName = srcEmployeeData@LastName,",
+						"          MiddleName = srcEmployeeData@MiddleName,",
+						"          Title = srcEmployeeData@Title,",
+						"          HireDate = srcEmployeeData@HireDate,",
+						"          BirthDate = srcEmployeeData@BirthDate,",
+						"          Phone = srcEmployeeData@Phone,",
+						"          MaritalStatus = srcEmployeeData@MaritalStatus,",
+						"          EmergencyContactName = srcEmployeeData@EmergencyContactName,",
+						"          EmergencyContactPhone = srcEmployeeData@EmergencyContactPhone,",
+						"          SalariedFlag = srcEmployeeData@SalariedFlag,",
+						"          Gender = srcEmployeeData@Gender,",
+						"          DepartmentName = srcEmployeeData@DepartmentName,",
+						"          StartDate = srcEmployeeData@StartDate,",
+						"          EndDate = srcEmployeeData@EndDate,",
+						"          Status = srcEmployeeData@Status,",
+						"          EmployeeKey,",
+						"          tgtLastName = tgtDimEmployee@LastName,",
+						"          tgtTitle = tgtDimEmployee@Title,",
+						"          tgtPhone = tgtDimEmployee@Phone,",
+						"          tgtMaritalStatus = tgtDimEmployee@MaritalStatus,",
+						"          tgtSalariedFlag = tgtDimEmployee@SalariedFlag,",
+						"          tgtDepartmentName = tgtDimEmployee@DepartmentName,",
+						"          tgtEndDate = tgtDimEmployee@EndDate,",
+						"          tgtStatus = tgtDimEmployee@Status,",
+						"          tgtIsActive = IsActive",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+						"srcEmployeeData filter(Status=='Current') ~> FilterCurrent",
+						"SetIsActive select(mapColumn(",
+						"          FirstName,",
+						"          LastName,",
+						"          MiddleName,",
+						"          Title,",
+						"          HireDate,",
+						"          BirthDate,",
+						"          Phone,",
+						"          MaritalStatus,",
+						"          EmergencyContactName,",
+						"          EmergencyContactPhone,",
+						"          SalariedFlag,",
+						"          Gender,",
+						"          DepartmentName,",
+						"          StartDate,",
+						"          EndDate,",
+						"          Status,",
+						"          IsActive",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
+						"SelectSinkColumns sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 1,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> SinkNewData",
+						"AddIsActive sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 3,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> SinkInsertUpdates",
+						"UpdateColumns sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['FirstName','LastName','BirthDate'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 2,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> SinkInactive"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCDType2_EmployeePOC_YouTubeLogic')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "POC for SCD Type 2 with Adventure Works Data",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "stgSourceEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "srcEmployeeData"
+						},
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "tgtDimEmployee"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "SinkUpdates"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AddIsActive"
+						},
+						{
+							"name": "LkpEmployee"
+						},
+						{
+							"name": "FilterCurrent"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "SelectSinkColumns"
+						},
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          FirstName as string,",
+						"          LastName as string,",
+						"          MiddleName as string,",
+						"          Title as string,",
+						"          HireDate as date,",
+						"          BirthDate as date,",
+						"          Phone as string,",
+						"          MaritalStatus as string,",
+						"          EmergencyContactName as string,",
+						"          EmergencyContactPhone as string,",
+						"          SalariedFlag as boolean,",
+						"          Gender as string,",
+						"          DepartmentName as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcEmployeeData",
+						"source(output(",
+						"          EmployeeKey as integer,",
+						"          FirstName as string,",
+						"          LastName as string,",
+						"          MiddleName as string,",
+						"          Title as string,",
+						"          HireDate as date,",
+						"          BirthDate as date,",
+						"          Phone as string,",
+						"          MaritalStatus as string,",
+						"          EmergencyContactName as string,",
+						"          EmergencyContactPhone as string,",
+						"          SalariedFlag as boolean,",
+						"          Gender as string,",
+						"          DepartmentName as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          Status as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> tgtDimEmployee",
+						"LkpEmployee derive(IsActive = 1) ~> AddIsActive",
+						"FilterCurrent, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
+						"     && srcEmployeeData@LastName == tgtDimEmployee@LastName",
+						"     && srcEmployeeData@BirthDate == tgtDimEmployee@BirthDate,",
+						"     multiple: true,",
+						"     broadcast: 'right')~> LkpEmployee",
+						"srcEmployeeData filter(Status=='Current') ~> FilterCurrent",
+						"tgtDimEmployee filter(Status=='Current') ~> filter1",
+						"AddIsActive select(mapColumn(",
+						"          FirstName = srcEmployeeData@FirstName,",
+						"          LastName = srcEmployeeData@LastName,",
+						"          MiddleName = srcEmployeeData@MiddleName,",
+						"          Title = srcEmployeeData@Title,",
+						"          HireDate = srcEmployeeData@HireDate,",
+						"          BirthDate = srcEmployeeData@BirthDate,",
+						"          Phone = srcEmployeeData@Phone,",
+						"          MaritalStatus = srcEmployeeData@MaritalStatus,",
+						"          EmergencyContactName = srcEmployeeData@EmergencyContactName,",
+						"          EmergencyContactPhone = srcEmployeeData@EmergencyContactPhone,",
+						"          SalariedFlag = srcEmployeeData@SalariedFlag,",
+						"          Gender = srcEmployeeData@Gender,",
+						"          DepartmentName = srcEmployeeData@DepartmentName,",
+						"          StartDate = srcEmployeeData@StartDate,",
+						"          EndDate = srcEmployeeData@EndDate,",
+						"          Status = srcEmployeeData@Status,",
+						"          IsActive",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
+						"SelectSinkColumns alterRow(insertIf(true())) ~> alterRow1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> SinkUpdates"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCDType2_EmployeePOC_copy2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "POC for SCD Type 2 with Adventure Works Data",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "stgSourceEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "srcEmployeeData"
+						},
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "tgtDimEmployee"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tgtDimEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "SinkUpdates"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AddIsActive"
+						},
+						{
+							"name": "LkpEmployee"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "SelectSinkColumns"
+						},
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          FirstName as string,",
+						"          LastName as string,",
+						"          MiddleName as string,",
+						"          Title as string,",
+						"          HireDate as date,",
+						"          BirthDate as date,",
+						"          Phone as string,",
+						"          MaritalStatus as string,",
+						"          EmergencyContactName as string,",
+						"          EmergencyContactPhone as string,",
+						"          SalariedFlag as boolean,",
+						"          Gender as string,",
+						"          DepartmentName as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcEmployeeData",
+						"source(output(",
+						"          EmployeeKey as integer,",
+						"          FirstName as string,",
+						"          LastName as string,",
+						"          MiddleName as string,",
+						"          Title as string,",
+						"          HireDate as date,",
+						"          BirthDate as date,",
+						"          Phone as string,",
+						"          MaritalStatus as string,",
+						"          EmergencyContactName as string,",
+						"          EmergencyContactPhone as string,",
+						"          SalariedFlag as boolean,",
+						"          Gender as string,",
+						"          DepartmentName as string,",
+						"          StartDate as date,",
+						"          EndDate as date,",
+						"          Status as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> tgtDimEmployee",
+						"LkpEmployee derive(IsActive = 1) ~> AddIsActive",
+						"srcEmployeeData, tgtDimEmployee lookup(srcEmployeeData@FirstName == tgtDimEmployee@FirstName",
+						"     && srcEmployeeData@LastName == tgtDimEmployee@LastName",
+						"     && srcEmployeeData@BirthDate == tgtDimEmployee@BirthDate,",
+						"     multiple: true,",
+						"     broadcast: 'right')~> LkpEmployee",
+						"tgtDimEmployee filter(Status=='Current') ~> filter1",
+						"AddIsActive select(mapColumn(",
+						"          FirstName = srcEmployeeData@FirstName,",
+						"          LastName = srcEmployeeData@LastName,",
+						"          MiddleName = srcEmployeeData@MiddleName,",
+						"          Title = srcEmployeeData@Title,",
+						"          HireDate = srcEmployeeData@HireDate,",
+						"          BirthDate = srcEmployeeData@BirthDate,",
+						"          Phone = srcEmployeeData@Phone,",
+						"          MaritalStatus = srcEmployeeData@MaritalStatus,",
+						"          EmergencyContactName = srcEmployeeData@EmergencyContactName,",
+						"          EmergencyContactPhone = srcEmployeeData@EmergencyContactPhone,",
+						"          SalariedFlag = srcEmployeeData@SalariedFlag,",
+						"          Gender = srcEmployeeData@Gender,",
+						"          DepartmentName = srcEmployeeData@DepartmentName,",
+						"          StartDate = srcEmployeeData@StartDate,",
+						"          EndDate = srcEmployeeData@EndDate,",
+						"          Status = srcEmployeeData@Status,",
+						"          IsActive",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectSinkColumns",
+						"SelectSinkColumns alterRow(insertIf(true())) ~> alterRow1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> SinkUpdates"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Address')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Address",
+								"type": "DatasetReference"
+							},
+							"name": "srcAddress"
+						},
+						{
+							"dataset": {
+								"referenceName": "AddressIncrmUpdate",
+								"type": "DatasetReference"
+							},
+							"name": "stgAddress"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AddressIncrmUpdate",
+								"type": "DatasetReference"
+							},
+							"name": "trgtAddress"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Exists"
+						},
+						{
+							"name": "Upsert"
+						},
+						{
+							"name": "ModifiedDate"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     enableCdc: true,",
+						"     mode: 'read',",
+						"     skipInitialLoad: false,",
+						"     waterMarkColumn: 'ModifiedDate',",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcAddress",
+						"source(output(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgAddress",
+						"ModifiedDate, stgAddress exists(srcAddress@AddressID == stgAddress@AddressID,",
+						"     negate:true,",
+						"     broadcast: 'auto')~> Exists",
+						"Exists alterRow(upsertIf(true())) ~> Upsert",
+						"srcAddress derive(EDWCreateDate = currentTimestamp()) ~> ModifiedDate",
+						"Upsert sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          AddressID as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          City as string,",
+						"          StateProvince as string,",
+						"          CountryRegion as string,",
+						"          PostalCode as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['AddressID'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> trgtAddress"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/df_Address_SCD')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1996,1131 +3198,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_Sales_Product_Normalized')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "POCWork"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Fact_InternetSales",
-								"type": "DatasetReference"
-							},
-							"name": "GetFactInternetSalesData"
-						},
-						{
-							"dataset": {
-								"referenceName": "DimProduct",
-								"type": "DatasetReference"
-							},
-							"name": "DimProduct"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "FactSalesProducts",
-								"type": "DatasetReference"
-							},
-							"name": "TargetTable"
-						}
-					],
-					"transformations": [
-						{
-							"name": "GetSalesData"
-						},
-						{
-							"name": "lkupProduct"
-						},
-						{
-							"name": "TargetSalesData"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          ProductKey as integer,",
-						"          OrderDateKey as integer,",
-						"          DueDateKey as integer,",
-						"          ShipDateKey as integer,",
-						"          CustomerKey as integer,",
-						"          PromotionKey as integer,",
-						"          CurrencyKey as integer,",
-						"          SalesTerritoryKey as integer,",
-						"          SalesOrderNumber as string,",
-						"          SalesOrderLineNumber as integer,",
-						"          RevisionNumber as integer,",
-						"          OrderQuantity as integer,",
-						"          UnitPrice as decimal(19,4),",
-						"          ExtendedAmount as decimal(19,4),",
-						"          UnitPriceDiscountPct as double,",
-						"          DiscountAmount as double,",
-						"          ProductStandardCost as decimal(19,4),",
-						"          TotalProductCost as decimal(19,4),",
-						"          SalesAmount as decimal(19,4),",
-						"          TaxAmt as decimal(19,4),",
-						"          Freight as decimal(19,4),",
-						"          CarrierTrackingNumber as string,",
-						"          CustomerPONumber as string,",
-						"          OrderDate as timestamp,",
-						"          DueDate as timestamp,",
-						"          ShipDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> GetFactInternetSalesData",
-						"source(output(",
-						"          ProductKey as integer,",
-						"          ProductAlternateKey as string,",
-						"          ProductSubcategoryKey as integer,",
-						"          WeightUnitMeasureCode as string,",
-						"          SizeUnitMeasureCode as string,",
-						"          EnglishProductName as string,",
-						"          SpanishProductName as string,",
-						"          FrenchProductName as string,",
-						"          StandardCost as decimal(19,4),",
-						"          FinishedGoodsFlag as boolean,",
-						"          Color as string,",
-						"          SafetyStockLevel as integer,",
-						"          ReorderPoint as integer,",
-						"          ListPrice as decimal(19,4),",
-						"          Size as string,",
-						"          SizeRange as string,",
-						"          Weight as double,",
-						"          DaysToManufacture as integer,",
-						"          ProductLine as string,",
-						"          DealerPrice as decimal(19,4),",
-						"          Class as string,",
-						"          Style as string,",
-						"          ModelName as string,",
-						"          LargePhoto as binary,",
-						"          EnglishDescription as string,",
-						"          FrenchDescription as string,",
-						"          ChineseDescription as string,",
-						"          ArabicDescription as string,",
-						"          HebrewDescription as string,",
-						"          ThaiDescription as string,",
-						"          GermanDescription as string,",
-						"          JapaneseDescription as string,",
-						"          TurkishDescription as string,",
-						"          StartDate as timestamp,",
-						"          EndDate as timestamp,",
-						"          Status as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DimProduct",
-						"GetFactInternetSalesData select(mapColumn(",
-						"          ProductKey,",
-						"          SalesOrderNumber,",
-						"          SalesOrderLineNumber,",
-						"          OrderQuantity,",
-						"          UnitPrice,",
-						"          ExtendedAmount,",
-						"          UnitPriceDiscountPct,",
-						"          DiscountAmount,",
-						"          ProductStandardCost,",
-						"          TotalProductCost,",
-						"          SalesAmount,",
-						"          TaxAmt,",
-						"          Freight,",
-						"          CarrierTrackingNumber,",
-						"          CustomerPONumber",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> GetSalesData",
-						"GetSalesData, DimProduct lookup(GetSalesData@ProductKey == DimProduct@ProductKey,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> lkupProduct",
-						"lkupProduct select(mapColumn(",
-						"          SalesOrderNumber,",
-						"          SalesOrderLineNumber,",
-						"          OrderQuantity,",
-						"          UnitPrice,",
-						"          ExtendedAmount,",
-						"          UnitPriceDiscountPct,",
-						"          DiscountAmount,",
-						"          ProductStandardCost,",
-						"          TotalProductCost,",
-						"          SalesAmount,",
-						"          TaxAmt,",
-						"          Freight,",
-						"          CarrierTrackingNumber,",
-						"          CustomerPONumber,",
-						"          ProductKey = DimProduct@ProductKey,",
-						"          WeightUnitMeasureCode,",
-						"          SizeUnitMeasureCode,",
-						"          EnglishProductName,",
-						"          StandardCost,",
-						"          FinishedGoodsFlag,",
-						"          Color,",
-						"          SafetyStockLevel,",
-						"          ReorderPoint,",
-						"          ListPrice,",
-						"          Size,",
-						"          SizeRange,",
-						"          Weight,",
-						"          DaysToManufacture,",
-						"          ProductLine,",
-						"          DealerPrice,",
-						"          Class,",
-						"          Style,",
-						"          ModelName,",
-						"          EnglishDescription,",
-						"          Status",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> TargetSalesData",
-						"TargetSalesData sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     recreate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> TargetTable"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DimEmployeePipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LoadDimEmployee",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 3,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "DimEmployeeLoader2",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Employees1": {},
-									"DimEmployees": {},
-									"sinkNew": {},
-									"sinkUpdates": {},
-									"sinkInactive": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Demos"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_fgf_BottomLevel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "This pipeline will copy objects from one group. The objects belonging to this group will be copied parallelly.",
-				"activities": [
-					{
-						"name": "ListObjectsFromOneGroup",
-						"description": "List objects from one group and iterate each of them to downstream activities",
-						"type": "ForEach",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@pipeline().parameters.ObjectsPerGroupToCopy",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "RouteJobsBasedOnLoadingBehavior",
-									"description": "Check the loading behavior for each object if it requires full load or incremental load. If it is Default or FullLoad case, do full load. If it is DeltaLoad case, do incremental load.",
-									"type": "Switch",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"on": {
-											"value": "@json(item().DataLoadingBehaviorSettings).dataLoadingBehavior",
-											"type": "Expression"
-										},
-										"cases": [
-											{
-												"value": "FullLoad",
-												"activities": [
-													{
-														"name": "FullLoadOneObject",
-														"description": "Take a full snapshot on this object and copy it to the destination",
-														"type": "Copy",
-														"dependsOn": [],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [
-															{
-																"name": "Source",
-																"value": "@{json(item().SourceObjectSettings).schema}.@{json(item().SourceObjectSettings).table}"
-															},
-															{
-																"name": "Destination",
-																"value": "@{json(item().SinkObjectSettings).schema}.@{json(item().SinkObjectSettings).table}"
-															}
-														],
-														"typeProperties": {
-															"source": {
-																"type": "SqlServerSource",
-																"sqlReaderQuery": {
-																	"value": "@json(item().CopySourceSettings).sqlReaderQuery",
-																	"type": "Expression"
-																},
-																"partitionOption": {
-																	"value": "@json(item().CopySourceSettings).partitionOption",
-																	"type": "Expression"
-																},
-																"partitionSettings": {
-																	"partitionColumnName": {
-																		"value": "@json(item().CopySourceSettings).partitionColumnName",
-																		"type": "Expression"
-																	},
-																	"partitionUpperBound": {
-																		"value": "@json(item().CopySourceSettings).partitionUpperBound",
-																		"type": "Expression"
-																	},
-																	"partitionLowerBound": {
-																		"value": "@json(item().CopySourceSettings).partitionLowerBound",
-																		"type": "Expression"
-																	},
-																	"partitionNames": "@json(item().CopySourceSettings).partitionNames"
-																}
-															},
-															"sink": {
-																"type": "AzureSqlSink",
-																"preCopyScript": {
-																	"value": "@json(item().CopySinkSettings).preCopyScript",
-																	"type": "Expression"
-																},
-																"tableOption": {
-																	"value": "@json(item().CopySinkSettings).tableOption",
-																	"type": "Expression"
-																}
-															},
-															"enableStaging": false,
-															"validateDataConsistency": false,
-															"translator": {
-																"value": "@json(item().CopyActivitySettings).translator",
-																"type": "Expression"
-															}
-														},
-														"inputs": [
-															{
-																"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
-																"type": "DatasetReference",
-																"parameters": {
-																	"cw_schema": {
-																		"value": "@json(item().SourceObjectSettings).schema",
-																		"type": "Expression"
-																	},
-																	"cw_table": {
-																		"value": "@json(item().SourceObjectSettings).table",
-																		"type": "Expression"
-																	}
-																}
-															}
-														],
-														"outputs": [
-															{
-																"referenceName": "MetadataDrivenCopyTask_fgf_DestinationDS",
-																"type": "DatasetReference",
-																"parameters": {
-																	"cw_schema": {
-																		"value": "@json(item().SinkObjectSettings).schema",
-																		"type": "Expression"
-																	},
-																	"cw_table": {
-																		"value": "@json(item().SinkObjectSettings).table",
-																		"type": "Expression"
-																	}
-																}
-															}
-														]
-													}
-												]
-											},
-											{
-												"value": "DeltaLoad",
-												"activities": [
-													{
-														"name": "GetMaxWatermarkValue",
-														"description": "Query the source object to get the max value from watermark column",
-														"type": "Lookup",
-														"dependsOn": [],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [],
-														"typeProperties": {
-															"source": {
-																"type": "SqlServerSource",
-																"sqlReaderQuery": {
-																	"value": "select max([@{json(item().DataLoadingBehaviorSettings).watermarkColumnName}]) as CurrentMaxWaterMarkColumnValue from [@{json(item().SourceObjectSettings).schema}].[@{json(item().SourceObjectSettings).table}]",
-																	"type": "Expression"
-																},
-																"partitionOption": "None"
-															},
-															"dataset": {
-																"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
-																"type": "DatasetReference",
-																"parameters": {
-																	"cw_schema": {
-																		"value": "@json(item().SourceObjectSettings).schema",
-																		"type": "Expression"
-																	},
-																	"cw_table": {
-																		"value": "@json(item().SourceObjectSettings).table",
-																		"type": "Expression"
-																	}
-																}
-															}
-														}
-													},
-													{
-														"name": "DeltaLoadOneObject",
-														"description": "Copy the changed data only from last time via comparing the value in watermark column to identify changes.",
-														"type": "Copy",
-														"dependsOn": [
-															{
-																"activity": "GetMaxWatermarkValue",
-																"dependencyConditions": [
-																	"Succeeded"
-																]
-															}
-														],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [
-															{
-																"name": "Source",
-																"value": "@{json(item().SourceObjectSettings).schema}.@{json(item().SourceObjectSettings).table}"
-															},
-															{
-																"name": "Destination",
-																"value": "@{json(item().SinkObjectSettings).schema}.@{json(item().SinkObjectSettings).table}"
-															}
-														],
-														"typeProperties": {
-															"source": {
-																"type": "SqlServerSource",
-																"sqlReaderQuery": {
-																	"value": "select * from [@{json(item().SourceObjectSettings).schema}].[@{json(item().SourceObjectSettings).table}] \n    where [@{json(item().DataLoadingBehaviorSettings).watermarkColumnName}] > @{if(contains(json(item().DataLoadingBehaviorSettings).watermarkColumnType, 'Int'),\n    json(item().DataLoadingBehaviorSettings).watermarkColumnStartValue, \n    concat('''', json(item().DataLoadingBehaviorSettings).watermarkColumnStartValue, ''''))}\n    and [@{json(item().DataLoadingBehaviorSettings).watermarkColumnName}] <= @{if(contains(json(item().DataLoadingBehaviorSettings).watermarkColumnType, 'Int'),\n    activity('GetMaxWatermarkValue').output.firstRow.CurrentMaxWaterMarkColumnValue, \n    concat('''', activity('GetMaxWatermarkValue').output.firstRow.CurrentMaxWaterMarkColumnValue, ''''))}",
-																	"type": "Expression"
-																},
-																"partitionOption": {
-																	"value": "@json(item().CopySourceSettings).partitionOption",
-																	"type": "Expression"
-																},
-																"partitionSettings": {
-																	"partitionColumnName": {
-																		"value": "@json(item().CopySourceSettings).partitionColumnName",
-																		"type": "Expression"
-																	},
-																	"partitionUpperBound": {
-																		"value": "@json(item().CopySourceSettings).partitionUpperBound",
-																		"type": "Expression"
-																	},
-																	"partitionLowerBound": {
-																		"value": "@json(item().CopySourceSettings).partitionLowerBound",
-																		"type": "Expression"
-																	},
-																	"partitionNames": "@json(item().CopySourceSettings).partitionNames"
-																}
-															},
-															"sink": {
-																"type": "AzureSqlSink",
-																"preCopyScript": {
-																	"value": "@json(item().CopySinkSettings).preCopyScript",
-																	"type": "Expression"
-																},
-																"tableOption": {
-																	"value": "@json(item().CopySinkSettings).tableOption",
-																	"type": "Expression"
-																}
-															},
-															"enableStaging": false,
-															"validateDataConsistency": false,
-															"translator": {
-																"value": "@json(item().CopyActivitySettings).translator",
-																"type": "Expression"
-															}
-														},
-														"inputs": [
-															{
-																"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
-																"type": "DatasetReference",
-																"parameters": {
-																	"cw_schema": {
-																		"value": "@json(item().SourceObjectSettings).schema",
-																		"type": "Expression"
-																	},
-																	"cw_table": {
-																		"value": "@json(item().SourceObjectSettings).table",
-																		"type": "Expression"
-																	}
-																}
-															}
-														],
-														"outputs": [
-															{
-																"referenceName": "MetadataDrivenCopyTask_fgf_DestinationDS",
-																"type": "DatasetReference",
-																"parameters": {
-																	"cw_schema": {
-																		"value": "@json(item().SinkObjectSettings).schema",
-																		"type": "Expression"
-																	},
-																	"cw_table": {
-																		"value": "@json(item().SinkObjectSettings).table",
-																		"type": "Expression"
-																	}
-																}
-															}
-														]
-													},
-													{
-														"name": "UpdateWatermarkColumnValue",
-														"type": "SqlServerStoredProcedure",
-														"dependsOn": [
-															{
-																"activity": "DeltaLoadOneObject",
-																"dependencyConditions": [
-																	"Succeeded"
-																]
-															}
-														],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [],
-														"typeProperties": {
-															"storedProcedureName": "[[dbo].[UpdateWatermarkColumnValue_fgf]",
-															"storedProcedureParameters": {
-																"Id": {
-																	"value": {
-																		"value": "@item().Id",
-																		"type": "Expression"
-																	},
-																	"type": "Int32"
-																},
-																"watermarkColumnStartValue": {
-																	"value": {
-																		"value": "@activity('GetMaxWatermarkValue').output.firstRow.CurrentMaxWaterMarkColumnValue",
-																		"type": "Expression"
-																	},
-																	"type": "String"
-																}
-															}
-														},
-														"linkedServiceName": {
-															"referenceName": "SQLRMLAPTOP610",
-															"type": "LinkedServiceReference"
-														}
-													}
-												]
-											}
-										],
-										"defaultActivities": [
-											{
-												"name": "DefaultFullLoadOneObject",
-												"description": "Take a full snapshot on this object and copy it to the destination",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [
-													{
-														"name": "Source",
-														"value": "@{json(item().SourceObjectSettings).schema}.@{json(item().SourceObjectSettings).table}"
-													},
-													{
-														"name": "Destination",
-														"value": "@{json(item().SinkObjectSettings).schema}.@{json(item().SinkObjectSettings).table}"
-													}
-												],
-												"typeProperties": {
-													"source": {
-														"type": "SqlServerSource",
-														"sqlReaderQuery": {
-															"value": "@json(item().CopySourceSettings).sqlReaderQuery",
-															"type": "Expression"
-														},
-														"partitionOption": {
-															"value": "@json(item().CopySourceSettings).partitionOption",
-															"type": "Expression"
-														},
-														"partitionSettings": {
-															"partitionColumnName": {
-																"value": "@json(item().CopySourceSettings).partitionColumnName",
-																"type": "Expression"
-															},
-															"partitionUpperBound": {
-																"value": "@json(item().CopySourceSettings).partitionUpperBound",
-																"type": "Expression"
-															},
-															"partitionLowerBound": {
-																"value": "@json(item().CopySourceSettings).partitionLowerBound",
-																"type": "Expression"
-															},
-															"partitionNames": "@json(item().CopySourceSettings).partitionNames"
-														}
-													},
-													"sink": {
-														"type": "AzureSqlSink",
-														"preCopyScript": {
-															"value": "@json(item().CopySinkSettings).preCopyScript",
-															"type": "Expression"
-														},
-														"tableOption": {
-															"value": "@json(item().CopySinkSettings).tableOption",
-															"type": "Expression"
-														}
-													},
-													"enableStaging": false,
-													"validateDataConsistency": false,
-													"translator": {
-														"value": "@json(item().CopyActivitySettings).translator",
-														"type": "Expression"
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "MetadataDrivenCopyTask_fgf_SourceDS",
-														"type": "DatasetReference",
-														"parameters": {
-															"cw_schema": {
-																"value": "@json(item().SourceObjectSettings).schema",
-																"type": "Expression"
-															},
-															"cw_table": {
-																"value": "@json(item().SourceObjectSettings).table",
-																"type": "Expression"
-															}
-														}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "MetadataDrivenCopyTask_fgf_DestinationDS",
-														"type": "DatasetReference",
-														"parameters": {
-															"cw_schema": {
-																"value": "@json(item().SinkObjectSettings).schema",
-																"type": "Expression"
-															},
-															"cw_table": {
-																"value": "@json(item().SinkObjectSettings).table",
-																"type": "Expression"
-															}
-														}
-													}
-												]
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"ObjectsPerGroupToCopy": {
-						"type": "Array"
-					}
-				},
-				"folder": {
-					"name": "ODS/MetadataDrivenCopyTask_fgf_20220829"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-09-19T15:15:08Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pL_Copy_CodeTableHeader')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "srcCopyLocal",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "TruncateTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CodeTableHeader",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AST_CodeTableHeader",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "TruncateTable",
-						"type": "Script",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "TRUNCATE TABLE [dbo].[ODS_CodeTableHeader]"
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ODS/Curam Tables"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-09-19T20:08:37Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pL_Copy_CodeTableItem')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "srcCopyLocal",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "TruncateTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CodeTableItem",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AST_CodeTableItem",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "TruncateTable",
-						"type": "Script",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "TRUNCATE TABLE v[dbo].[ODS_CodeTableItem]"
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ODS/Curam Tables"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-09-19T20:08:37Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_Copy_SDDenormalizedecision')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SDDENORMALIZEDDECISION",
-				"activities": [
-					{
-						"name": "srcCopyLocal",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "TruncateTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SDDenormalizedecision",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AST_SDdenormalizedecision",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "TruncateTable",
-						"type": "Script",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "TRUNCATE TABLE  [dbo].[ODDS_SDdenormalizedecision]"
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ODS/Curam Tables"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-09-19T20:08:37Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_LogTesting_POC_Test_MailAlert')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "df_Logging_Src_Test",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_Logging_Src_Test",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcDimCustomer": {},
-									"tgtDimCustomerTarget": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "Create Error Output File",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "df_Logging_Src_Test",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "SELECT \n'@{activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.rowsWritten}' as rowswritten,\n'@{activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState}' as status\n",
-									"type": "Expression"
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "rowswritten",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Mail Alert"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-04T20:18:01Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_Logging_Src_Test')]"
-			]
 		}
 	]
 }

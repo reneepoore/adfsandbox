@@ -25,6 +25,111 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Test_Date_Parameters')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Test_Date_Parameters"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_CustomerSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorksLT2019",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "varchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Customer_Source"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_DimCustomer_Target')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -582,6 +687,109 @@
 					"quoteChar": "\""
 				},
 				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/stgSourceEmployee')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HireDate",
+						"type": "date"
+					},
+					{
+						"name": "BirthDate",
+						"type": "date"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "nchar"
+					},
+					{
+						"name": "EmergencyContactName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmergencyContactPhone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalariedFlag",
+						"type": "bit"
+					},
+					{
+						"name": "Gender",
+						"type": "nchar"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StartDate",
+						"type": "date"
+					},
+					{
+						"name": "EndDate",
+						"type": "date"
+					},
+					{
+						"name": "Status",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "stgSourceEmployee"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tgtDimEmployee')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tgtDimEmployee"
+				}
 			},
 			"dependsOn": []
 		},
@@ -1175,646 +1383,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SDDenormalizedecision')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SQLRMLAPTOP610",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Curam"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "SDDENORMALIZEDDECISIONID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "INTEGRATEDCASEID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PRODUCTDELIVERYCASEID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PARTICIPANTID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CREOLECASEDETERMINATIONID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "TIMELINESTARTDATE",
-						"type": "date"
-					},
-					{
-						"name": "TIMELINEENDDATE",
-						"type": "date"
-					},
-					{
-						"name": "ISELIGIBLE",
-						"type": "char"
-					},
-					{
-						"name": "PRODUCTID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CASEDECISIONSTATUSCODE",
-						"type": "char"
-					},
-					{
-						"name": "ISHOUSEHOLDMEMBERELIGIBLE",
-						"type": "char"
-					},
-					{
-						"name": "BENEFITAMOUNT",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "AIDCODE",
-						"type": "char"
-					},
-					{
-						"name": "RECORDSTATUS",
-						"type": "char"
-					},
-					{
-						"name": "RULEOBJECTSNAPSHOTDATAID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "UNEARNEDINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "EARNEDINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "SELFEMPLOYMENTINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "INCOMEDEDUCTIONS",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "NETINDIVIDUALINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "ADJUSTEDGROSSINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "HOUSEHOLDSIZE",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SDCOVERAGECODE",
-						"type": "char"
-					},
-					{
-						"name": "SDCOPAYVALUE",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "SDMONTHLYGROSSINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "SDISRETROACTIVE",
-						"type": "char"
-					},
-					{
-						"name": "SDPOVERTYLEVEL",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SDMEMBERPERCENTPOVERTYLEVEL",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "SDMEMBERCREDITABLEINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "SDISPREGNANT",
-						"type": "char"
-					},
-					{
-						"name": "SDMAGIHOUSEHOLDSIZE",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SDMAGIMONTHLYHOUSEHOLDINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "SDSTATEHOUSEHOLDSIZE",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SDSTATEMONTHLYHOUSEHOLDINCOME",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "TOTALSHAREOFCOSTAMOUNT",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "LASTWRITTEN",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "ISUTILIZINGALLBENEFITS",
-						"type": "char"
-					},
-					{
-						"name": "LOTTERWINNINGSAMOUNT",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "UNCOMPENSATEDIRTAMOUNT",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					},
-					{
-						"name": "DAILYPRIVATEPAYRATE",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "CURAPD01",
-					"table": "SDDENORMALIZEDDECISION"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_qt6')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SQLRMLAPTOP610",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_table": {
-						"type": "String"
-					}
-				},
-				"folder": {
-					"name": "POCWork"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "CURAPD01",
-					"table": {
-						"value": "@dataset().cw_table",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DimEmployeeLoader2')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "EmployeeFiles",
-								"type": "DatasetReference"
-							},
-							"name": "Employees1",
-							"description": " Source employees file, changes every day"
-						},
-						{
-							"dataset": {
-								"referenceName": "DimEmp",
-								"type": "DatasetReference"
-							},
-							"name": "DimEmployees",
-							"description": "Current rows in DimEmployees DW table"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DimEmp",
-								"type": "DatasetReference"
-							},
-							"name": "sinkNew",
-							"description": " "
-						},
-						{
-							"dataset": {
-								"referenceName": "DimEmp",
-								"type": "DatasetReference"
-							},
-							"name": "sinkUpdates",
-							"description": " "
-						},
-						{
-							"dataset": {
-								"referenceName": "DimEmp",
-								"type": "DatasetReference"
-							},
-							"name": "sinkInactive",
-							"description": " Age out old rows"
-						}
-					],
-					"transformations": [
-						{
-							"name": "TypeConversions"
-						},
-						{
-							"name": "TypeConversionsAndSetAttrs"
-						},
-						{
-							"name": "LookupIDs"
-						},
-						{
-							"name": "ConditionalSplit1"
-						},
-						{
-							"name": "checkForChanges"
-						},
-						{
-							"name": "SetAttrsForNew"
-						},
-						{
-							"name": "SetAttrsInactive",
-							"description": "make iscurrent 0"
-						},
-						{
-							"name": "SetAttrsUpdate"
-						},
-						{
-							"name": "NormNames"
-						},
-						{
-							"name": "InactiveFields"
-						},
-						{
-							"name": "AlterRow1"
-						},
-						{
-							"name": "NullFilter",
-							"description": "Filter out NULLs from source file"
-						},
-						{
-							"name": "NameNorm2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          EmpID as string,",
-						"          Region as string,",
-						"          Status as string,",
-						"          Function as string,",
-						"          Level as string,",
-						"          Role as string,",
-						"          StartDate as string,",
-						"          EndDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     purgeFiles: true,",
-						"     wildcardPaths:['SampleData/Emps/today/*.csv']) ~> Employees1",
-						"source(output(",
-						"          EmpID as integer,",
-						"          surrogatekey as string,",
-						"          Region as string,",
-						"          Status as string,",
-						"          EmpFunction as string,",
-						"          Level as string,",
-						"          Role as string,",
-						"          StartDate as date,",
-						"          EndDate as date,",
-						"          iscurrent as integer,",
-						"          processtime as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DimEmployees",
-						"DimEmployees derive(EmpID = toInteger(EmpID)) ~> TypeConversions",
-						"NullFilter derive(EmpID = toInteger(EmpID),",
-						"          StartDate = toDate(StartDate,'MM/dd/yyyy'),",
-						"          EndDate = toDate(EndDate,'MM/dd/yyyy'),",
-						"          processtime = currentTimestamp()) ~> TypeConversionsAndSetAttrs",
-						"TypeConversionsAndSetAttrs, TypeConversions lookup(TypeConversionsAndSetAttrs@EmpID == TypeConversions@EmpID,",
-						"     multiple: true,",
-						"     broadcast: 'auto')~> LookupIDs",
-						"NormNames split(isNull(iscurrent),",
-						"     disjoint: false) ~> ConditionalSplit1@(NewRow, CheckForUpdates)",
-						"NameNorm2, TypeConversions exists(NameNorm2@EmpID == TypeConversions@EmpID,",
-						"     negate:false,",
-						"     broadcast: 'auto')~> checkForChanges",
-						"ConditionalSplit1@NewRow derive(iscurrent = 1,",
-						"          surrogatekey = toString(crc32(EmpID,EmpFunction))) ~> SetAttrsForNew",
-						"checkForChanges derive(iscurrent = 0) ~> SetAttrsInactive",
-						"checkForChanges derive(iscurrent = 1) ~> SetAttrsUpdate",
-						"LookupIDs select(mapColumn(",
-						"          EmpID = TypeConversionsAndSetAttrs@EmpID,",
-						"          Region = Employees1@Region,",
-						"          Status = Employees1@Status,",
-						"          Level = Employees1@Level,",
-						"          Role = Employees1@Role,",
-						"          StartDate = TypeConversionsAndSetAttrs@StartDate,",
-						"          EndDate = TypeConversionsAndSetAttrs@EndDate,",
-						"          EmpFunction = Function,",
-						"          iscurrent,",
-						"          processtime = TypeConversionsAndSetAttrs@processtime,",
-						"          surrogatekey",
-						"     ),",
-						"     skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> NormNames",
-						"SetAttrsInactive select(mapColumn(",
-						"          EmpID,",
-						"          Status,",
-						"          EndDate,",
-						"          iscurrent,",
-						"          processtime",
-						"     ),",
-						"     skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> InactiveFields",
-						"InactiveFields alterRow(updateIf(true())) ~> AlterRow1",
-						"Employees1 filter(!isNull(EmpID)) ~> NullFilter",
-						"ConditionalSplit1@CheckForUpdates select(mapColumn(",
-						"          EmpID,",
-						"          Region,",
-						"          Status,",
-						"          Level,",
-						"          Role,",
-						"          StartDate,",
-						"          EndDate,",
-						"          EmpFunction,",
-						"          iscurrent,",
-						"          processtime,",
-						"          surrogatekey",
-						"     ),",
-						"     skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> NameNorm2",
-						"SetAttrsForNew sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          EmpID as integer,",
-						"          surrogatekey as string,",
-						"          Region as string,",
-						"          Status as string,",
-						"          EmpFunction as string,",
-						"          Level as string,",
-						"          Role as string,",
-						"          StartDate as date,",
-						"          EndDate as date,",
-						"          iscurrent as integer,",
-						"          processtime as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     batchSize: 50,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     partitionBy('roundRobin', 4)) ~> sinkNew",
-						"SetAttrsUpdate sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          EmpID as integer,",
-						"          surrogatekey as string,",
-						"          Region as string,",
-						"          Status as string,",
-						"          EmpFunction as string,",
-						"          Level as string,",
-						"          Role as string,",
-						"          StartDate as date,",
-						"          EndDate as date,",
-						"          iscurrent as integer,",
-						"          processtime as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     batchSize: 50,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     partitionBy('roundRobin', 4)) ~> sinkUpdates",
-						"AlterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          EmpID as integer,",
-						"          surrogatekey as string,",
-						"          Region as string,",
-						"          Status as string,",
-						"          EmpFunction as string,",
-						"          Level as string,",
-						"          Role as string,",
-						"          StartDate as date,",
-						"          EndDate as date,",
-						"          iscurrent as integer,",
-						"          processtime as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:true,",
-						"     upsertable:false,",
-						"     keys:['EmpID'],",
-						"     format: 'table',",
-						"     batchSize: 50,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          EmpID,",
-						"          EndDate,",
-						"          iscurrent,",
-						"          processtime",
-						"     ),",
-						"     partitionBy('roundRobin', 4)) ~> sinkInactive"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_Address')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Address",
-								"type": "DatasetReference"
-							},
-							"name": "srcAddress"
-						},
-						{
-							"dataset": {
-								"referenceName": "AddressIncrmUpdate",
-								"type": "DatasetReference"
-							},
-							"name": "stgAddress"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AddressIncrmUpdate",
-								"type": "DatasetReference"
-							},
-							"name": "trgtAddress"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Exists"
-						},
-						{
-							"name": "Upsert"
-						},
-						{
-							"name": "ModifiedDate"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          AddressID as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          City as string,",
-						"          StateProvince as string,",
-						"          CountryRegion as string,",
-						"          PostalCode as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: false,",
-						"     validateSchema: false,",
-						"     enableCdc: true,",
-						"     mode: 'read',",
-						"     skipInitialLoad: false,",
-						"     waterMarkColumn: 'ModifiedDate',",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> srcAddress",
-						"source(output(",
-						"          AddressID as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          City as string,",
-						"          StateProvince as string,",
-						"          CountryRegion as string,",
-						"          PostalCode as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: false,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> stgAddress",
-						"ModifiedDate, stgAddress exists(srcAddress@AddressID == stgAddress@AddressID,",
-						"     negate:true,",
-						"     broadcast: 'auto')~> Exists",
-						"Exists alterRow(upsertIf(true())) ~> Upsert",
-						"srcAddress derive(EDWCreateDate = currentTimestamp()) ~> ModifiedDate",
-						"Upsert sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          AddressID as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          City as string,",
-						"          StateProvince as string,",
-						"          CountryRegion as string,",
-						"          PostalCode as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:true,",
-						"     keys:['AddressID'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> trgtAddress"
-					]
-				}
-			},
-			"dependsOn": []
 		}
 	]
 }
