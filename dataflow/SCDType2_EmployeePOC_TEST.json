@@ -1,5 +1,5 @@
 {
-	"name": "SCDType2_EmployeePOC_copy1",
+	"name": "SCDType2_EmployeePOC_TEST",
 	"properties": {
 		"description": "POC for SCD Type 2 with Adventure Works Data",
 		"type": "MappingDataFlow",
