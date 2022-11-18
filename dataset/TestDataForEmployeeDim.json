@@ -1,0 +1,16 @@
+{
+	"name": "TestDataForEmployeeDim",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseAdventureWorks",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TestDataForEmployeeDim"
+		}
+	}
+}
