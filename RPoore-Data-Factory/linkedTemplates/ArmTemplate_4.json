@@ -2863,7 +2863,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_SCD2_BILearn')]",
+			"name": "[concat(parameters('factoryName'), '/pl_SCD2_POC_SouthDakota')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
