@@ -1,0 +1,48 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "csv"
+				},
+				{
+					"name": "sql"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sqlsink"
+				},
+				{
+					"name": "sqlsink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "HASHInput"
+				},
+				{
+					"name": "HASHRef"
+				},
+				{
+					"name": "SetToActive"
+				},
+				{
+					"name": "ExistsCheckforUpdatesorNew"
+				},
+				{
+					"name": "ExistsCheckforObsolete"
+				},
+				{
+					"name": "SetToInActive"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"script": "source(output(\n\t\tid as short,\n\t\tname as string,\n\t\tdept as string,\n\t\tstartdate as date 'MM/dd/yyyy'\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\twildcardPaths:['2021/*.csv']) ~> csv\nsource(output(\n\t\tid as integer,\n\t\tname as string,\n\t\tdept as string,\n\t\tisactive as integer,\n\t\tstartdate as date,\n\t\tenddate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> sql\ncsv derive(inputhash = md5(name,dept)) ~> HASHInput\nsql derive(sqlhash = md5(name,dept)) ~> HASHRef\nExistsCheckforUpdatesorNew derive(isactive = 1,\n\t\tenddate = toDate('9999-12-31')) ~> SetToActive\nHASHInput, HASHRef exists(inputhash == sqlhash,\n\tnegate:true,\n\tbroadcast: 'auto')~> ExistsCheckforUpdatesorNew\nHASHRef, SetToActive exists(sql@id == csv@id\n\t&& sql@name == csv@name,\n\tnegate:false,\n\tbroadcast: 'auto')~> ExistsCheckforObsolete\nExistsCheckforObsolete derive(enddate = toDate(currentUTC()),\n\t\tisactive = 0) ~> SetToInActive\nSetToInActive alterRow(updateIf(true())) ~> AlterRow1\nSetToActive sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tid,\n\t\tname,\n\t\tdept,\n\t\tisactive,\n\t\tstartdate,\n\t\tenddate\n\t),\n\tformat: 'table') ~> sqlsink\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tid,\n\t\tname,\n\t\tdept,\n\t\tisactive,\n\t\tenddate\n\t),\n\tformat: 'table') ~> sqlsink2"
+		}
+	}
+}
