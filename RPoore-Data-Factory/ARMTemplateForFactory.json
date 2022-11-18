@@ -2290,6 +2290,70 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "SCDType2_EmployeePOC_YouTubeLogic",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "SCDType2_EmployeePOC_YouTubeLogic",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcEmployeeData": {},
+									"tgtDimEmployee": {},
+									"SinkUpdates": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DimEmployeeLoaderWorkingExampleFromADF",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DimEmployeeLoaderWorkingExampleFromADF",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Employees1": {},
+									"DimEmployees": {},
+									"sinkNew": {},
+									"sinkUpdates": {},
+									"sinkInactive": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -2299,7 +2363,58 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/SCDType2_EmployeePOC_TEST')]"
+				"[concat(variables('factoryId'), '/dataflows/SCDType2_EmployeePOC_TEST')]",
+				"[concat(variables('factoryId'), '/dataflows/SCDType2_EmployeePOC_YouTubeLogic')]",
+				"[concat(variables('factoryId'), '/dataflows/DimEmployeeLoaderWorkingExampleFromADF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_SCD2_BILearn')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SCD2_BILearn",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "SCD2_BILearn",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcEmployee": {},
+									"srcEmployeeDim": {},
+									"SinkEmployeeDimInsert": {},
+									"SinkEmployeeDimUpdate": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/SCD2_BILearn')]"
 			]
 		},
 		{
@@ -6223,6 +6338,48 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/TestDataForEmployee')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TestDataForEmployee"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorks')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TestDataForEmployeeDim')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseAdventureWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TestDataForEmployeeDim"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseAdventureWorks')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Test_Date_Parameters')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -7398,6 +7555,82 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/EmployeeFiles1')]",
 				"[concat(variables('factoryId'), '/datasets/DimEmp1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD2_BILearn')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "TestDataForEmployee",
+								"type": "DatasetReference"
+							},
+							"name": "srcEmployee"
+						},
+						{
+							"dataset": {
+								"referenceName": "TestDataForEmployeeDim",
+								"type": "DatasetReference"
+							},
+							"name": "srcEmployeeDim"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "TestDataForEmployeeDim",
+								"type": "DatasetReference"
+							},
+							"name": "SinkEmployeeDimInsert"
+						},
+						{
+							"dataset": {
+								"referenceName": "TestDataForEmployeeDim",
+								"type": "DatasetReference"
+							},
+							"name": "SinkEmployeeDimUpdate"
+						}
+					],
+					"transformations": [
+						{
+							"name": "HASHInput"
+						},
+						{
+							"name": "HASHRef"
+						},
+						{
+							"name": "SetToActive"
+						},
+						{
+							"name": "ExistsCheckforUpdates"
+						},
+						{
+							"name": "ExistsCheckforObsolete"
+						},
+						{
+							"name": "SetToInActive"
+						},
+						{
+							"name": "AlterRow1"
+						},
+						{
+							"name": "SelectColumns"
+						},
+						{
+							"name": "FilterForTesting"
+						}
+					],
+					"script": "source(output(\n\t\tEmpID as short,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tMiddleName as string,\n\t\tTitle as string,\n\t\tHireDate as date,\n\t\tBirthDate as date,\n\t\tPhone as string,\n\t\tMaritalStatus as string,\n\t\tEmergencyContactName as string,\n\t\tEmergencyContactPhone as string,\n\t\tSalariedFlag as boolean,\n\t\tGender as string,\n\t\tDepartmentName as string,\n\t\tStartDate as date,\n\t\tEndDate as string,\n\t\tStatus as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table',\n\twildcardPaths:['2021/*.csv']) ~> srcEmployee\nsource(output(\n\t\tEmployeeKey as integer,\n\t\tEmpID as short,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tMiddleName as string,\n\t\tTitle as string,\n\t\tHireDate as date,\n\t\tBirthDate as date,\n\t\tPhone as string,\n\t\tMaritalStatus as string,\n\t\tEmergencyContactName as string,\n\t\tEmergencyContactPhone as string,\n\t\tSalariedFlag as boolean,\n\t\tGender as string,\n\t\tDepartmentName as string,\n\t\tStartDate as date,\n\t\tEndDate as string,\n\t\tStatus as string,\n\t\tIsActive as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcEmployeeDim\nSelectColumns derive(inputhash = md5(EmpID,LastName,Title,Phone,MaritalStatus,SalariedFlag,DepartmentName)) ~> HASHInput\nsrcEmployeeDim derive(sqlhash = md5(EmpID,LastName,Title,Phone,MaritalStatus,SalariedFlag,DepartmentName)) ~> HASHRef\nExistsCheckforUpdates derive(IsActive = 1,\n\t\tEndDate = toDate('9999-12-31')) ~> SetToActive\nHASHInput, HASHRef exists(inputhash == sqlhash,\n\tnegate:true,\n\tbroadcast: 'auto')~> ExistsCheckforUpdates\nHASHRef, SetToActive exists(srcEmployeeDim@EmpID == SelectColumns@EmpID,\n\tnegate:false,\n\tbroadcast: 'auto')~> ExistsCheckforObsolete\nExistsCheckforObsolete derive(EndDate = toDate(currentUTC()),\n\t\tIsActive = 0,\n\t\tStatus = 'Termed') ~> SetToInActive\nSetToInActive alterRow(updateIf(true())) ~> AlterRow1\nFilterForTesting select(mapColumn(\n\t\tEmpID,\n\t\tFirstName,\n\t\tLastName,\n\t\tMiddleName,\n\t\tTitle,\n\t\tHireDate,\n\t\tBirthDate,\n\t\tPhone,\n\t\tMaritalStatus,\n\t\tEmergencyContactName,\n\t\tEmergencyContactPhone,\n\t\tSalariedFlag,\n\t\tGender,\n\t\tDepartmentName,\n\t\tStartDate,\n\t\tEndDate,\n\t\tStatus\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectColumns\nsrcEmployee filter(EmpID ==1002) ~> FilterForTesting\nSetToActive sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tEmpID,\n\t\tFirstName,\n\t\tLastName,\n\t\tMiddleName,\n\t\tTitle,\n\t\tHireDate,\n\t\tBirthDate,\n\t\tPhone,\n\t\tMaritalStatus,\n\t\tEmergencyContactName,\n\t\tEmergencyContactPhone,\n\t\tSalariedFlag,\n\t\tGender,\n\t\tDepartmentName,\n\t\tStartDate,\n\t\tEndDate,\n\t\tStatus,\n\t\tIsActive\n\t)) ~> SinkEmployeeDimInsert\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['EmployeeKey'],\n\tskipKeyWrites:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tEmployeeKey,\n\t\tEmpID,\n\t\tFirstName,\n\t\tLastName,\n\t\tMiddleName,\n\t\tTitle,\n\t\tHireDate,\n\t\tBirthDate,\n\t\tPhone,\n\t\tMaritalStatus,\n\t\tEmergencyContactName,\n\t\tEmergencyContactPhone,\n\t\tSalariedFlag,\n\t\tGender,\n\t\tDepartmentName,\n\t\tStartDate,\n\t\tEndDate,\n\t\tStatus,\n\t\tIsActive\n\t)) ~> SinkEmployeeDimUpdate"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/TestDataForEmployee')]",
+				"[concat(variables('factoryId'), '/datasets/TestDataForEmployeeDim')]"
 			]
 		},
 		{

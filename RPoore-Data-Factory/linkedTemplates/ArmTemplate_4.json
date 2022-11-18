@@ -13,6 +13,971 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/df_Normalize_Internet_Sales')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Fact_InternetSales",
+								"type": "DatasetReference"
+							},
+							"name": "srcFactInternetSales"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimPromotion",
+								"type": "DatasetReference"
+							},
+							"name": "DimPromotion"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimSalesTerritory",
+								"type": "DatasetReference"
+							},
+							"name": "DimSalesTerritory"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "DimCustomer"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimProduct",
+								"type": "DatasetReference"
+							},
+							"name": "DimProduct"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactInternetSalesNormalized",
+								"type": "DatasetReference"
+							},
+							"name": "TargetData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "joinPromotion"
+						},
+						{
+							"name": "lkupSalesTerritory"
+						},
+						{
+							"name": "lkupCustomer"
+						},
+						{
+							"name": "lkupProduct"
+						},
+						{
+							"name": "slctTargetData"
+						},
+						{
+							"name": "drvCustomerName"
+						},
+						{
+							"name": "slctTarget"
+						},
+						{
+							"name": "slctAfterLkups"
+						},
+						{
+							"name": "surrKey"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          CustomerKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcFactInternetSales",
+						"source(output(",
+						"          PromotionKey as integer,",
+						"          PromotionAlternateKey as integer,",
+						"          EnglishPromotionName as string,",
+						"          SpanishPromotionName as string,",
+						"          FrenchPromotionName as string,",
+						"          DiscountPct as double,",
+						"          EnglishPromotionType as string,",
+						"          SpanishPromotionType as string,",
+						"          FrenchPromotionType as string,",
+						"          EnglishPromotionCategory as string,",
+						"          SpanishPromotionCategory as string,",
+						"          FrenchPromotionCategory as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          MinQty as integer,",
+						"          MaxQty as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimPromotion",
+						"source(output(",
+						"          SalesTerritoryKey as integer,",
+						"          SalesTerritoryAlternateKey as integer,",
+						"          SalesTerritoryRegion as string,",
+						"          SalesTerritoryCountry as string,",
+						"          SalesTerritoryGroup as string,",
+						"          SalesTerritoryImage as binary",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimSalesTerritory",
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          GeographyKey as integer,",
+						"          CustomerAlternateKey as string,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          NameStyle as boolean,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Suffix as string,",
+						"          Gender as string,",
+						"          EmailAddress as string,",
+						"          YearlyIncome as decimal(19,4),",
+						"          TotalChildren as integer,",
+						"          NumberChildrenAtHome as integer,",
+						"          EnglishEducation as string,",
+						"          SpanishEducation as string,",
+						"          FrenchEducation as string,",
+						"          EnglishOccupation as string,",
+						"          SpanishOccupation as string,",
+						"          FrenchOccupation as string,",
+						"          HouseOwnerFlag as string,",
+						"          NumberCarsOwned as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          Phone as string,",
+						"          DateFirstPurchase as date,",
+						"          CommuteDistance as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimCustomer",
+						"source(output(",
+						"          ProductKey as integer,",
+						"          ProductAlternateKey as string,",
+						"          ProductSubcategoryKey as integer,",
+						"          WeightUnitMeasureCode as string,",
+						"          SizeUnitMeasureCode as string,",
+						"          EnglishProductName as string,",
+						"          SpanishProductName as string,",
+						"          FrenchProductName as string,",
+						"          StandardCost as decimal(19,4),",
+						"          FinishedGoodsFlag as boolean,",
+						"          Color as string,",
+						"          SafetyStockLevel as integer,",
+						"          ReorderPoint as integer,",
+						"          ListPrice as decimal(19,4),",
+						"          Size as string,",
+						"          SizeRange as string,",
+						"          Weight as double,",
+						"          DaysToManufacture as integer,",
+						"          ProductLine as string,",
+						"          DealerPrice as decimal(19,4),",
+						"          Class as string,",
+						"          Style as string,",
+						"          ModelName as string,",
+						"          LargePhoto as binary,",
+						"          EnglishDescription as string,",
+						"          FrenchDescription as string,",
+						"          ChineseDescription as string,",
+						"          ArabicDescription as string,",
+						"          HebrewDescription as string,",
+						"          ThaiDescription as string,",
+						"          GermanDescription as string,",
+						"          JapaneseDescription as string,",
+						"          TurkishDescription as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimProduct",
+						"srcFactInternetSales, DimPromotion join(srcFactInternetSales@PromotionKey == DimPromotion@PromotionKey,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinPromotion",
+						"joinPromotion, DimSalesTerritory lookup(srcFactInternetSales@SalesTerritoryKey == DimSalesTerritory@SalesTerritoryKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupSalesTerritory",
+						"lkupSalesTerritory, DimCustomer lookup(srcFactInternetSales@CustomerKey == DimCustomer@CustomerKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupCustomer",
+						"lkupCustomer, DimProduct lookup(srcFactInternetSales@ProductKey == DimProduct@ProductKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupProduct",
+						"slctAfterLkups select(mapColumn(",
+						"          ProductKey,",
+						"          OrderDateKey,",
+						"          DueDateKey,",
+						"          ShipDateKey,",
+						"          CustomerKey,",
+						"          PromotionKey,",
+						"          CurrencyKey,",
+						"          SalesTerritoryKey,",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          RevisionNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          OrderDate,",
+						"          DueDate,",
+						"          ShipDate,",
+						"          PromotionAlternateKey,",
+						"          EnglishPromotionName,",
+						"          SpanishPromotionName,",
+						"          FrenchPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          SpanishPromotionType,",
+						"          FrenchPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          SpanishPromotionCategory,",
+						"          FrenchPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          SalesTerritoryImage,",
+						"          GeographyKey,",
+						"          CustomerAlternateKey,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          TotalChildren,",
+						"          NumberChildrenAtHome,",
+						"          EnglishEducation,",
+						"          SpanishEducation,",
+						"          FrenchEducation,",
+						"          EnglishOccupation,",
+						"          SpanishOccupation,",
+						"          FrenchOccupation,",
+						"          HouseOwnerFlag,",
+						"          NumberCarsOwned,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          ProductAlternateKey,",
+						"          ProductSubcategoryKey,",
+						"          WeightUnitMeasureCode,",
+						"          SizeUnitMeasureCode,",
+						"          EnglishProductName,",
+						"          SpanishProductName,",
+						"          FrenchProductName,",
+						"          StandardCost,",
+						"          FinishedGoodsFlag,",
+						"          Color,",
+						"          SafetyStockLevel,",
+						"          ReorderPoint,",
+						"          ListPrice,",
+						"          Size,",
+						"          SizeRange,",
+						"          Weight,",
+						"          DaysToManufacture,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          LargePhoto,",
+						"          EnglishDescription,",
+						"          FrenchDescription,",
+						"          ChineseDescription,",
+						"          ArabicDescription,",
+						"          HebrewDescription,",
+						"          ThaiDescription,",
+						"          GermanDescription,",
+						"          JapaneseDescription,",
+						"          TurkishDescription,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctTargetData",
+						"slctTargetData derive(CustomerName = FirstName + ' '+LastName) ~> drvCustomerName",
+						"drvCustomerName select(mapColumn(",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          EnglishPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryKey,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          EnglishEducation,",
+						"          EnglishOccupation,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          EnglishProductName,",
+						"          StandardCost,",
+						"          Color,",
+						"          ListPrice,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          Status,",
+						"          Customer_Name = CustomerName",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> slctTarget",
+						"lkupProduct select(mapColumn(",
+						"          each(match(/* All input columns */true()),",
+						"               /* Input name */$$ = $$)",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctAfterLkups",
+						"slctTarget keyGenerate(output(SalesNormalizedKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrKey",
+						"surrKey sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetData"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Normalize_Internet_Sales_w_Truncate')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Fact_InternetSales",
+								"type": "DatasetReference"
+							},
+							"name": "srcFactInternetSales"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimPromotion",
+								"type": "DatasetReference"
+							},
+							"name": "DimPromotion"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimSalesTerritory",
+								"type": "DatasetReference"
+							},
+							"name": "DimSalesTerritory"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "DimCustomer"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimProduct",
+								"type": "DatasetReference"
+							},
+							"name": "DimProduct"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactInternetSalesNormalized",
+								"type": "DatasetReference"
+							},
+							"name": "TargetData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "joinPromotion"
+						},
+						{
+							"name": "lkupSalesTerritory"
+						},
+						{
+							"name": "lkupCustomer"
+						},
+						{
+							"name": "lkupProduct"
+						},
+						{
+							"name": "slctTargetData"
+						},
+						{
+							"name": "drvCustomerName"
+						},
+						{
+							"name": "slctTarget"
+						},
+						{
+							"name": "slctAfterLkups"
+						},
+						{
+							"name": "surrKey"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          CustomerKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcFactInternetSales",
+						"source(output(",
+						"          PromotionKey as integer,",
+						"          PromotionAlternateKey as integer,",
+						"          EnglishPromotionName as string,",
+						"          SpanishPromotionName as string,",
+						"          FrenchPromotionName as string,",
+						"          DiscountPct as double,",
+						"          EnglishPromotionType as string,",
+						"          SpanishPromotionType as string,",
+						"          FrenchPromotionType as string,",
+						"          EnglishPromotionCategory as string,",
+						"          SpanishPromotionCategory as string,",
+						"          FrenchPromotionCategory as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          MinQty as integer,",
+						"          MaxQty as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimPromotion",
+						"source(output(",
+						"          SalesTerritoryKey as integer,",
+						"          SalesTerritoryAlternateKey as integer,",
+						"          SalesTerritoryRegion as string,",
+						"          SalesTerritoryCountry as string,",
+						"          SalesTerritoryGroup as string,",
+						"          SalesTerritoryImage as binary",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimSalesTerritory",
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          GeographyKey as integer,",
+						"          CustomerAlternateKey as string,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          NameStyle as boolean,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Suffix as string,",
+						"          Gender as string,",
+						"          EmailAddress as string,",
+						"          YearlyIncome as decimal(19,4),",
+						"          TotalChildren as integer,",
+						"          NumberChildrenAtHome as integer,",
+						"          EnglishEducation as string,",
+						"          SpanishEducation as string,",
+						"          FrenchEducation as string,",
+						"          EnglishOccupation as string,",
+						"          SpanishOccupation as string,",
+						"          FrenchOccupation as string,",
+						"          HouseOwnerFlag as string,",
+						"          NumberCarsOwned as integer,",
+						"          AddressLine1 as string,",
+						"          AddressLine2 as string,",
+						"          Phone as string,",
+						"          DateFirstPurchase as date,",
+						"          CommuteDistance as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimCustomer",
+						"source(output(",
+						"          ProductKey as integer,",
+						"          ProductAlternateKey as string,",
+						"          ProductSubcategoryKey as integer,",
+						"          WeightUnitMeasureCode as string,",
+						"          SizeUnitMeasureCode as string,",
+						"          EnglishProductName as string,",
+						"          SpanishProductName as string,",
+						"          FrenchProductName as string,",
+						"          StandardCost as decimal(19,4),",
+						"          FinishedGoodsFlag as boolean,",
+						"          Color as string,",
+						"          SafetyStockLevel as integer,",
+						"          ReorderPoint as integer,",
+						"          ListPrice as decimal(19,4),",
+						"          Size as string,",
+						"          SizeRange as string,",
+						"          Weight as double,",
+						"          DaysToManufacture as integer,",
+						"          ProductLine as string,",
+						"          DealerPrice as decimal(19,4),",
+						"          Class as string,",
+						"          Style as string,",
+						"          ModelName as string,",
+						"          LargePhoto as binary,",
+						"          EnglishDescription as string,",
+						"          FrenchDescription as string,",
+						"          ChineseDescription as string,",
+						"          ArabicDescription as string,",
+						"          HebrewDescription as string,",
+						"          ThaiDescription as string,",
+						"          GermanDescription as string,",
+						"          JapaneseDescription as string,",
+						"          TurkishDescription as string,",
+						"          StartDate as timestamp,",
+						"          EndDate as timestamp,",
+						"          Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimProduct",
+						"srcFactInternetSales, DimPromotion join(srcFactInternetSales@PromotionKey == DimPromotion@PromotionKey,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinPromotion",
+						"joinPromotion, DimSalesTerritory lookup(srcFactInternetSales@SalesTerritoryKey == DimSalesTerritory@SalesTerritoryKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupSalesTerritory",
+						"lkupSalesTerritory, DimCustomer lookup(srcFactInternetSales@CustomerKey == DimCustomer@CustomerKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupCustomer",
+						"lkupCustomer, DimProduct lookup(srcFactInternetSales@ProductKey == DimProduct@ProductKey,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lkupProduct",
+						"slctAfterLkups select(mapColumn(",
+						"          ProductKey,",
+						"          OrderDateKey,",
+						"          DueDateKey,",
+						"          ShipDateKey,",
+						"          CustomerKey,",
+						"          PromotionKey,",
+						"          CurrencyKey,",
+						"          SalesTerritoryKey,",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          RevisionNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          OrderDate,",
+						"          DueDate,",
+						"          ShipDate,",
+						"          PromotionAlternateKey,",
+						"          EnglishPromotionName,",
+						"          SpanishPromotionName,",
+						"          FrenchPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          SpanishPromotionType,",
+						"          FrenchPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          SpanishPromotionCategory,",
+						"          FrenchPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          SalesTerritoryImage,",
+						"          GeographyKey,",
+						"          CustomerAlternateKey,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          TotalChildren,",
+						"          NumberChildrenAtHome,",
+						"          EnglishEducation,",
+						"          SpanishEducation,",
+						"          FrenchEducation,",
+						"          EnglishOccupation,",
+						"          SpanishOccupation,",
+						"          FrenchOccupation,",
+						"          HouseOwnerFlag,",
+						"          NumberCarsOwned,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          ProductAlternateKey,",
+						"          ProductSubcategoryKey,",
+						"          WeightUnitMeasureCode,",
+						"          SizeUnitMeasureCode,",
+						"          EnglishProductName,",
+						"          SpanishProductName,",
+						"          FrenchProductName,",
+						"          StandardCost,",
+						"          FinishedGoodsFlag,",
+						"          Color,",
+						"          SafetyStockLevel,",
+						"          ReorderPoint,",
+						"          ListPrice,",
+						"          Size,",
+						"          SizeRange,",
+						"          Weight,",
+						"          DaysToManufacture,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          LargePhoto,",
+						"          EnglishDescription,",
+						"          FrenchDescription,",
+						"          ChineseDescription,",
+						"          ArabicDescription,",
+						"          HebrewDescription,",
+						"          ThaiDescription,",
+						"          GermanDescription,",
+						"          JapaneseDescription,",
+						"          TurkishDescription,",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctTargetData",
+						"slctTargetData derive(CustomerName = FirstName + ' '+LastName) ~> drvCustomerName",
+						"drvCustomerName select(mapColumn(",
+						"          SalesOrderNumber,",
+						"          SalesOrderLineNumber,",
+						"          OrderQuantity,",
+						"          UnitPrice,",
+						"          ExtendedAmount,",
+						"          UnitPriceDiscountPct,",
+						"          DiscountAmount,",
+						"          ProductStandardCost,",
+						"          TotalProductCost,",
+						"          SalesAmount,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          CarrierTrackingNumber,",
+						"          CustomerPONumber,",
+						"          EnglishPromotionName,",
+						"          DiscountPct,",
+						"          EnglishPromotionType,",
+						"          EnglishPromotionCategory,",
+						"          StartDate,",
+						"          EndDate,",
+						"          MinQty,",
+						"          MaxQty,",
+						"          SalesTerritoryKey,",
+						"          SalesTerritoryAlternateKey,",
+						"          SalesTerritoryRegion,",
+						"          SalesTerritoryCountry,",
+						"          SalesTerritoryGroup,",
+						"          Title,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          NameStyle,",
+						"          BirthDate,",
+						"          MaritalStatus,",
+						"          Suffix,",
+						"          Gender,",
+						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          EnglishEducation,",
+						"          EnglishOccupation,",
+						"          AddressLine1,",
+						"          AddressLine2,",
+						"          Phone,",
+						"          DateFirstPurchase,",
+						"          CommuteDistance,",
+						"          EnglishProductName,",
+						"          StandardCost,",
+						"          Color,",
+						"          ListPrice,",
+						"          ProductLine,",
+						"          DealerPrice,",
+						"          Class,",
+						"          Style,",
+						"          ModelName,",
+						"          Status,",
+						"          Customer_Name = CustomerName",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> slctTarget",
+						"lkupProduct select(mapColumn(",
+						"          each(match(/* All input columns */true()),",
+						"               /* Input name */$$ = $$)",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> slctAfterLkups",
+						"slctTarget keyGenerate(output(SalesNormalizedKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrKey",
+						"surrKey sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetData"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Resellers_Sales_w_Transformations')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "POCWork"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_Resellers_Sales",
+								"type": "DatasetReference"
+							},
+							"name": "srcResellersSales"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactResellersSales",
+								"type": "DatasetReference"
+							},
+							"name": "TargetTable"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FilterDate"
+						},
+						{
+							"name": "drvTotalCostwFrieghtTax"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ProductKey as integer,",
+						"          OrderDateKey as integer,",
+						"          DueDateKey as integer,",
+						"          ShipDateKey as integer,",
+						"          ResellerKey as integer,",
+						"          EmployeeKey as integer,",
+						"          PromotionKey as integer,",
+						"          CurrencyKey as integer,",
+						"          SalesTerritoryKey as integer,",
+						"          SalesOrderNumber as string,",
+						"          SalesOrderLineNumber as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderQuantity as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          ExtendedAmount as decimal(19,4),",
+						"          UnitPriceDiscountPct as double,",
+						"          DiscountAmount as double,",
+						"          ProductStandardCost as decimal(19,4),",
+						"          TotalProductCost as decimal(19,4),",
+						"          SalesAmount as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          CarrierTrackingNumber as string,",
+						"          CustomerPONumber as string,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcResellersSales",
+						"srcResellersSales filter(toDate(OrderDate) >=    toDate('2013-01-28 00:00:00.000')) ~> FilterDate",
+						"FilterDate derive(TotalCostFrghtTx = TotalProductCost+TaxAmt+Freight) ~> drvTotalCostwFrieghtTax",
+						"drvTotalCostwFrieghtTax sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> TargetTable"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/df_Sales_Product_Normalized')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1823,6 +2788,117 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "SCDType2_EmployeePOC_YouTubeLogic",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "SCDType2_EmployeePOC_YouTubeLogic",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcEmployeeData": {},
+									"tgtDimEmployee": {},
+									"SinkUpdates": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DimEmployeeLoaderWorkingExampleFromADF",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DimEmployeeLoaderWorkingExampleFromADF",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Employees1": {},
+									"DimEmployees": {},
+									"sinkNew": {},
+									"sinkUpdates": {},
+									"sinkInactive": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_SCD2_BILearn')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SCD2_BILearn",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "SCD2_BILearn",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcEmployee": {},
+									"srcEmployeeDim": {},
+									"SinkEmployeeDimInsert": {},
+									"SinkEmployeeDimUpdate": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -2038,798 +3114,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-11T13:47:40Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_Test_Logging_w_SP_Copy_Table')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Test Logging\n",
-				"activities": [
-					{
-						"name": "LogExecutionSuccess",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "df_Logging_Src_Test",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState)",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "df_Logging_Src_Test",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_Logging_Src_Test",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcDimCustomer": {},
-									"tgtDimCustomerTarget": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "LogExecutionFailure",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "df_Logging_Src_Test",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@activity('df_Logging_Src_Test').error.message",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"variables": {
-					"test": {
-						"type": "Boolean"
-					}
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-04T20:04:46Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_Test_Logging_w_SP_Copy_Table_USEFORTESTING')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Test Logging\n",
-				"activities": [
-					{
-						"name": "LogExecutionSuccess",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "df_Logging_Src_Test",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@string(activity('df_Logging_Src_Test').output.runStatus.metrics.tgtDimCustomerTarget.progressState)",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "df_Logging_Src_Test",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_Logging_Src_Test",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcDimCustomer": {},
-									"tgtDimCustomerTarget": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "LogExecutionFailure",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "df_Logging_Src_Test",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@activity('df_Logging_Src_Test').error.message",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"variables": {
-					"test": {
-						"type": "Boolean"
-					}
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-04T20:50:10Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_copy_data_clone')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Target is Fact_InternetSales_Copy\n",
-				"activities": [
-					{
-						"name": "CopyDataCreateTable",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "TruncateSalesTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Fact_InternetSales",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Fact_InternetSales_Copy",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "TruncateSalesTable",
-						"type": "Script",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "Truncate TABLE [dbo].[Fact_InternetSales_Copy]"
-								}
-							]
-						}
-					},
-					{
-						"name": "LogExecutionDataExtended",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "df_Address",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"errorcodeloggedtime": {
-									"value": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									},
-									"type": "Datetime"
-								},
-								"errordescription": {
-									"value": {
-										"value": "@activity('df_Address').output.runstatus.executorVersion",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "df_Address",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "CopyDataCreateTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_Address",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcAddress": {},
-									"stgAddress": {},
-									"trgtAddress": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine",
-							"continuationSettings": {
-								"customizedCheckpointKey": "a992fff9-e1aa-42a7-b8b1-73fa9362dc63"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [
-					"Target is Fact_InternetSales_Copy"
-				],
-				"lastPublishTime": "2022-09-27T16:52:12Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_filter_derived_column')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Target is FactResellersSales\n",
-				"activities": [
-					{
-						"name": "df_Resellers_Sales_w_Transformations",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "TruncateSalesTable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_Resellers_Sales_w_Transformations",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcResellersSales": {},
-									"TargetTable": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "TruncateSalesTable",
-						"type": "Script",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "Truncate TABLE   [dbo].[Fact_Resellers_Sales_ODS]"
-								}
-							]
-						}
-					},
-					{
-						"name": "LogExecutionDataExtended",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "df_Resellers_Sales_w_Transformations",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[usp_adfPipelineExecutions]",
-							"storedProcedureParameters": {
-								"adfName": {
-									"value": {
-										"value": "@pipeline().DataFactory",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"pipelineName": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"runID": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerName": {
-									"value": {
-										"value": "@pipeline().TriggerName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"triggerTime": {
-									"value": {
-										"value": "@pipeline().TriggerTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabaseODSCuramStage",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [
-					"FactResellersSales"
-				],
-				"lastPublishTime": "2022-09-27T14:49:57Z"
 			},
 			"dependsOn": []
 		}
