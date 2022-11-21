@@ -19,7 +19,7 @@
 						"referenceName": "CaseHeader",
 						"type": "DatasetReference"
 					},
-					"name": "source5"
+					"name": "srcCaseHeader"
 				}
 			],
 			"sinks": [
@@ -54,49 +54,49 @@
 					"name": "CaseTypeCode"
 				},
 				{
-					"name": "select4"
+					"name": "SelectCaseColumns"
 				},
 				{
-					"name": "lookup1"
+					"name": "LookupCaseObjective"
 				},
 				{
-					"name": "select5"
+					"name": "SelectCaseObjective"
 				},
 				{
-					"name": "lookup2"
+					"name": "LookupStatus"
 				},
 				{
-					"name": "select6"
+					"name": "SelectCaseStatus"
 				},
 				{
-					"name": "lookup3"
+					"name": "LookupCasePriority"
 				},
 				{
-					"name": "select7"
+					"name": "SelectCasePriority"
 				},
 				{
-					"name": "lookup4"
+					"name": "LookupCaseOutcome"
 				},
 				{
-					"name": "select8"
+					"name": "SelectCaseOutcome"
 				},
 				{
-					"name": "lookup5"
+					"name": "LookupTypeCode"
 				},
 				{
-					"name": "select9"
+					"name": "SelectCaseCatTypeCode"
 				},
 				{
-					"name": "lookup6"
+					"name": "LookupClassification"
 				},
 				{
-					"name": "select10"
+					"name": "SelectClassification"
 				},
 				{
-					"name": "lookup7"
+					"name": "LookupCaseTypeCode"
 				},
 				{
-					"name": "select11"
+					"name": "SelectCaseTypeCode"
 				},
 				{
 					"name": "TrimCodeFields"
@@ -146,7 +146,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source5",
+				"     format: 'table') ~> srcCaseHeader",
 				"source3 filter(TABLENAME=='CaseObjective') ~> CaseObjective",
 				"source3 filter(TABLENAME=='CaseStatus') ~> CaseStatus",
 				"source3 filter(TABLENAME=='CasePriority') ~> CasePriority",
@@ -167,12 +167,12 @@
 				"          STATUSCODE",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select4",
-				"select4, CaseObjective lookup(OBJECTIVECODE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCaseColumns",
+				"SelectCaseColumns, CaseObjective lookup(OBJECTIVECODE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup1",
-				"lookup1 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupCaseObjective",
+				"LookupCaseObjective select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -185,12 +185,12 @@
 				"          CaseObj_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select5",
-				"select5, CaseStatus lookup(STATUSCODE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCaseObjective",
+				"SelectCaseObjective, CaseStatus lookup(STATUSCODE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup2",
-				"lookup2 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupStatus",
+				"LookupStatus select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -204,12 +204,12 @@
 				"          CaseStatus_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select6",
-				"select6, CasePriority lookup(PRIORITYCODE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCaseStatus",
+				"SelectCaseStatus, CasePriority lookup(PRIORITYCODE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup3",
-				"lookup3 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupCasePriority",
+				"LookupCasePriority select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -224,12 +224,12 @@
 				"          CasePriority_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select7",
-				"select7, CaseOutcome lookup(OUTCOMECODE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCasePriority",
+				"SelectCasePriority, CaseOutcome lookup(OUTCOMECODE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup4",
-				"lookup4 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupCaseOutcome",
+				"LookupCaseOutcome select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -245,12 +245,12 @@
 				"          CaseOutcome_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select8",
-				"select8, CaseCatTypeCode lookup(INTEGRATEDCASETYPE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCaseOutcome",
+				"SelectCaseOutcome, CaseCatTypeCode lookup(INTEGRATEDCASETYPE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup5",
-				"lookup5 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupTypeCode",
+				"LookupTypeCode select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -267,12 +267,12 @@
 				"          CaseCatType_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select9",
-				"select9, CaseClassification lookup(CLASSIFICATIONCODE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCaseCatTypeCode",
+				"SelectCaseCatTypeCode, CaseClassification lookup(CLASSIFICATIONCODE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup6",
-				"lookup6 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupClassification",
+				"LookupClassification select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -290,12 +290,12 @@
 				"          CaseClass_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select10",
-				"select10, CaseTypeCode lookup(CASETYPECODE == CODE,",
+				"     skipDuplicateMapOutputs: true) ~> SelectClassification",
+				"SelectClassification, CaseTypeCode lookup(CASETYPECODE == CODE,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup7",
-				"lookup7 select(mapColumn(",
+				"     broadcast: 'auto')~> LookupCaseTypeCode",
+				"LookupCaseTypeCode select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          CASETYPECODE,",
@@ -314,15 +314,15 @@
 				"          CaseType_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select11",
-				"source5 derive(OBJECTIVECODE = trim(OBJECTIVECODE),",
+				"     skipDuplicateMapOutputs: true) ~> SelectCaseTypeCode",
+				"srcCaseHeader derive(OBJECTIVECODE = trim(OBJECTIVECODE),",
 				"          CASETYPECODE = trim(CASETYPECODE),",
 				"          CLASSIFICATIONCODE = trim(CLASSIFICATIONCODE),",
 				"          INTEGRATEDCASETYPE = trim(INTEGRATEDCASETYPE),",
 				"          PRIORITYCODE = trim(PRIORITYCODE),",
 				"          STATUSCODE = trim(STATUSCODE),",
 				"          OUTCOMECODE = trim(OUTCOMECODE)) ~> TrimCodeFields",
-				"select11 sink(allowSchemaDrift: true,",
+				"SelectCaseTypeCode sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Column_1 as string",
