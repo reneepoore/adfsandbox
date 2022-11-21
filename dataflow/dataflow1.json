@@ -9,24 +9,10 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "CodeTables",
+						"referenceName": "CodeTableHeader",
 						"type": "DatasetReference"
 					},
 					"name": "srcCaseHeader"
-				},
-				{
-					"dataset": {
-						"referenceName": "CodeTables",
-						"type": "DatasetReference"
-					},
-					"name": "source1"
-				},
-				{
-					"dataset": {
-						"referenceName": "CodeTables",
-						"type": "DatasetReference"
-					},
-					"name": "source2"
 				},
 				{
 					"dataset": {
@@ -69,31 +55,16 @@
 			"scriptLines": [
 				"source(output(",
 				"          TABLENAME as string,",
-				"          CODE as string,",
-				"          DESCRIPTION as string",
+				"          TIMEENTERED as timestamp,",
+				"          DEFAULTCODE as string,",
+				"          PARENTCODETABLE as string,",
+				"          VERSIONNO as integer,",
+				"          LASTWRITTEN as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcCaseHeader",
-				"source(output(",
-				"          TABLENAME as string,",
-				"          CODE as string,",
-				"          DESCRIPTION as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source(output(",
-				"          TABLENAME as string,",
-				"          CODE as string,",
-				"          DESCRIPTION as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
 				"source(output(",
 				"          TABLENAME as string,",
 				"          CODE as string,",
