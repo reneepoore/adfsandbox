@@ -99,7 +99,7 @@
 					"name": "select11"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "TrimCodeFields"
 				}
 			],
 			"scriptLines": [
@@ -154,7 +154,7 @@
 				"source3 filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
 				"source3 filter(TABLENAME=='CaseClassification') ~> CaseClassification",
 				"source3 filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
-				"derivedColumn1 select(mapColumn(",
+				"TrimCodeFields select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
 				"          INTEGRATEDCASEID,",
@@ -321,7 +321,7 @@
 				"          INTEGRATEDCASETYPE = trim(INTEGRATEDCASETYPE),",
 				"          PRIORITYCODE = trim(PRIORITYCODE),",
 				"          STATUSCODE = trim(STATUSCODE),",
-				"          OUTCOMECODE = trim(OUTCOMECODE)) ~> derivedColumn1",
+				"          OUTCOMECODE = trim(OUTCOMECODE)) ~> TrimCodeFields",
 				"select11 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
