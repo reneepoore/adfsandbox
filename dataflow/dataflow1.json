@@ -22,7 +22,15 @@
 					"name": "source5"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Dummy",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "CaseObjective"
@@ -65,6 +73,30 @@
 				},
 				{
 					"name": "select7"
+				},
+				{
+					"name": "lookup4"
+				},
+				{
+					"name": "select8"
+				},
+				{
+					"name": "lookup5"
+				},
+				{
+					"name": "select9"
+				},
+				{
+					"name": "lookup6"
+				},
+				{
+					"name": "select10"
+				},
+				{
+					"name": "lookup7"
+				},
+				{
+					"name": "select11"
 				}
 			],
 			"scriptLines": [
@@ -188,7 +220,104 @@
 				"          CasePriority_DESCRIPTION = DESCRIPTION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select7"
+				"     skipDuplicateMapOutputs: true) ~> select7",
+				"select7, CaseOutcome lookup(OUTCOMECODE == CODE,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup4",
+				"lookup4 select(mapColumn(",
+				"          APPEALINDICATOR,",
+				"          CASEID,",
+				"          CASETYPECODE,",
+				"          CLASSIFICATIONCODE,",
+				"          OBJECTIVECODE,",
+				"          OUTCOMECODE,",
+				"          PRIORITYCODE,",
+				"          STATUSCODE,",
+				"          INTEGRATEDCASETYPE,",
+				"          CaseObj_DESCRIPTION,",
+				"          CaseStatus_DESCRIPTION,",
+				"          CasePriority_DESCRIPTION,",
+				"          CaseOutcome_DESCRIPTION = DESCRIPTION",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select8",
+				"select8, CaseCatTypeCode lookup(INTEGRATEDCASETYPE == CODE,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup5",
+				"lookup5 select(mapColumn(",
+				"          APPEALINDICATOR,",
+				"          CASEID,",
+				"          CASETYPECODE,",
+				"          CLASSIFICATIONCODE,",
+				"          OBJECTIVECODE,",
+				"          OUTCOMECODE,",
+				"          PRIORITYCODE,",
+				"          STATUSCODE,",
+				"          INTEGRATEDCASETYPE,",
+				"          CaseObj_DESCRIPTION,",
+				"          CaseStatus_DESCRIPTION,",
+				"          CasePriority_DESCRIPTION,",
+				"          CaseOutcome_DESCRIPTION,",
+				"          CaseCatType_DESCRIPTION = DESCRIPTION",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select9",
+				"select9, CaseClassification lookup(CLASSIFICATIONCODE == CODE,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup6",
+				"lookup6 select(mapColumn(",
+				"          APPEALINDICATOR,",
+				"          CASEID,",
+				"          CASETYPECODE,",
+				"          CLASSIFICATIONCODE,",
+				"          OBJECTIVECODE,",
+				"          OUTCOMECODE,",
+				"          PRIORITYCODE,",
+				"          STATUSCODE,",
+				"          INTEGRATEDCASETYPE,",
+				"          CaseObj_DESCRIPTION,",
+				"          CaseStatus_DESCRIPTION,",
+				"          CasePriority_DESCRIPTION,",
+				"          CaseOutcome_DESCRIPTION,",
+				"          CaseCatType_DESCRIPTION,",
+				"          CaseClass_DESCRIPTION = DESCRIPTION",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select10",
+				"select10, CaseTypeCode lookup(CASETYPECODE == CODE,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup7",
+				"lookup7 select(mapColumn(",
+				"          APPEALINDICATOR,",
+				"          CASEID,",
+				"          CASETYPECODE,",
+				"          CLASSIFICATIONCODE,",
+				"          OBJECTIVECODE,",
+				"          OUTCOMECODE,",
+				"          PRIORITYCODE,",
+				"          STATUSCODE,",
+				"          INTEGRATEDCASETYPE,",
+				"          CaseObj_DESCRIPTION,",
+				"          CaseStatus_DESCRIPTION,",
+				"          CasePriority_DESCRIPTION,",
+				"          CaseOutcome_DESCRIPTION,",
+				"          CaseCatType_DESCRIPTION,",
+				"          CaseClass_DESCRIPTION,",
+				"          CaseType_DESCRIPTION = DESCRIPTION",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select11",
+				"select11 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
