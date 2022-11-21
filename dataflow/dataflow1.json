@@ -55,6 +55,15 @@
 				},
 				{
 					"name": "CaseOutcome"
+				},
+				{
+					"name": "CaseCatTypeCode"
+				},
+				{
+					"name": "CaseClassification"
+				},
+				{
+					"name": "CaseTypeCode"
 				}
 			],
 			"scriptLines": [
@@ -105,7 +114,10 @@
 				"source3 filter(TABLENAME=='CaseObjective') ~> CaseObjective",
 				"source3 filter(TABLENAME=='CaseStatus') ~> CaseStatus",
 				"source3 filter(TABLENAME=='CasePriority') ~> CasePriority",
-				"source3 filter(TABLENAME=='CaseOutcome') ~> CaseOutcome"
+				"source3 filter(TABLENAME=='CaseOutcome') ~> CaseOutcome",
+				"source3 filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
+				"source3 filter(TABLENAME=='CaseClassification') ~> CaseClassification",
+				"source3 filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode"
 			]
 		}
 	}
