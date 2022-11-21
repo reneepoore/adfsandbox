@@ -46,13 +46,7 @@
 					"name": "CaseTypeCode"
 				},
 				{
-					"name": "select1"
-				},
-				{
-					"name": "select2"
-				},
-				{
-					"name": "select3"
+					"name": "select4"
 				}
 			],
 			"scriptLines": [
@@ -107,12 +101,19 @@
 				"source3 filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
 				"source3 filter(TABLENAME=='CaseClassification') ~> CaseClassification",
 				"source3 filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
-				"select2 select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select3 select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"source5 select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3"
+				"source5 select(mapColumn(",
+				"          APPEALINDICATOR,",
+				"          CASEID,",
+				"          CASETYPECODE,",
+				"          CLASSIFICATIONCODE,",
+				"          OBJECTIVECODE,",
+				"          OUTCOMECODE,",
+				"          PRIORITYCODE,",
+				"          STATUSCODE,",
+				"          INTEGRATEDCASETYPE",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4"
 			]
 		}
 	}
