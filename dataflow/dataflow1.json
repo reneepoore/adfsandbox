@@ -9,27 +9,21 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "CodeTableHeader",
-						"type": "DatasetReference"
-					},
-					"name": "srcCaseHeader"
-				},
-				{
-					"dataset": {
 						"referenceName": "CodeTables",
 						"type": "DatasetReference"
 					},
 					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "CaseHeader",
+						"type": "DatasetReference"
+					},
+					"name": "source5"
 				}
 			],
 			"sinks": [],
 			"transformations": [
-				{
-					"name": "filter1"
-				},
-				{
-					"name": "select1"
-				},
 				{
 					"name": "CaseObjective"
 				},
@@ -50,21 +44,18 @@
 				},
 				{
 					"name": "CaseTypeCode"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "select3"
 				}
 			],
 			"scriptLines": [
-				"source(output(",
-				"          TABLENAME as string,",
-				"          TIMEENTERED as timestamp,",
-				"          DEFAULTCODE as string,",
-				"          PARENTCODETABLE as string,",
-				"          VERSIONNO as integer,",
-				"          LASTWRITTEN as timestamp",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> srcCaseHeader",
 				"source(output(",
 				"          TABLENAME as string,",
 				"          CODE as string,",
@@ -74,21 +65,54 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source3",
-				"select1 filter(TABLENAME=='CaseCatTypeCode') ~> filter1",
-				"srcCaseHeader select(mapColumn(",
-				"          TABLENAME,",
-				"          CODE,",
-				"          DESCRIPTION",
+				"source(output(",
+				"          APPEALINDICATOR as string,",
+				"          CASEID as long,",
+				"          INTEGRATEDCASEID as long,",
+				"          CASEREFERENCE as string,",
+				"          CASETYPECODE as string,",
+				"          CLASSIFICATIONCODE as string,",
+				"          EXPECTEDOUTCOME as long,",
+				"          ACTUALOUTCOME as string,",
+				"          OWNERORGOBJECTLINKID as long,",
+				"          VERSIONNO as integer,",
+				"          LASTWRITTEN as timestamp,",
+				"          INTEGRATEDCASETYPE as string,",
+				"          OBJECTIVECODE as string,",
+				"          OUTCOMECODE as string,",
+				"          PLANID as long,",
+				"          PRIORITYCODE as string,",
+				"          RECEIVEDDATE as date,",
+				"          EFFECTIVEDATE as date,",
+				"          STATUSCODE as string,",
+				"          ENDDATE as date,",
+				"          EXPECTEDENDDATE as date,",
+				"          EXPECTEDSTARTDATE as date,",
+				"          FIRSTREVIEWDATE as date,",
+				"          COMMENTS as string,",
+				"          CONCERNROLEID as long,",
+				"          REGISTRATIONDATE as date,",
+				"          STARTDATE as date,",
+				"          DEFAULTCURRENCYTYPECODE as string,",
+				"          DEFAULTDELIVERYMETHODTYPE as string",
 				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source5",
 				"source3 filter(TABLENAME=='CaseObjective') ~> CaseObjective",
 				"source3 filter(TABLENAME=='CaseStatus') ~> CaseStatus",
 				"source3 filter(TABLENAME=='CasePriority') ~> CasePriority",
 				"source3 filter(TABLENAME=='CaseOutcome') ~> CaseOutcome",
 				"source3 filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
 				"source3 filter(TABLENAME=='CaseClassification') ~> CaseClassification",
-				"source3 filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode"
+				"source3 filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
+				"select2 select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select3 select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"source5 select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3"
 			]
 		}
 	}

@@ -12,29 +12,49 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "CONCERNROLEID",
+				"name": "APPEALINDICATOR",
+				"type": "char"
+			},
+			{
+				"name": "CASEID",
 				"type": "bigint",
 				"precision": 19
 			},
 			{
-				"name": "PERSONBIRTHNAME",
-				"type": "varchar"
+				"name": "INTEGRATEDCASEID",
+				"type": "bigint",
+				"precision": 19
 			},
 			{
-				"name": "DATEOFBIRTH",
-				"type": "date"
-			},
-			{
-				"name": "DATEOFDEATH",
-				"type": "date"
-			},
-			{
-				"name": "GENDER",
+				"name": "CASEREFERENCE",
 				"type": "char"
 			},
 			{
-				"name": "SPECIALINTERESTCODE",
+				"name": "CASETYPECODE",
 				"type": "char"
+			},
+			{
+				"name": "CLASSIFICATIONCODE",
+				"type": "char"
+			},
+			{
+				"name": "EXPECTEDOUTCOME",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ACTUALOUTCOME",
+				"type": "char"
+			},
+			{
+				"name": "OWNERORGOBJECTLINKID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "VERSIONNO",
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "LASTWRITTEN",
@@ -43,101 +63,77 @@
 				"scale": 3
 			},
 			{
-				"name": "UPPERPERSONBIRTHNAME",
-				"type": "varchar"
-			},
-			{
-				"name": "UPPERMOTHERBIRTHSURNAME",
-				"type": "varchar"
-			},
-			{
-				"name": "RACE",
-				"type": "varchar"
-			},
-			{
-				"name": "INDIGENOUSGROUPCODE",
-				"type": "varchar"
-			},
-			{
-				"name": "INDIGENOUSPERSONIND",
+				"name": "INTEGRATEDCASETYPE",
 				"type": "char"
 			},
 			{
-				"name": "VERSIONNO",
-				"type": "int",
-				"precision": 10
+				"name": "OBJECTIVECODE",
+				"type": "char"
 			},
 			{
-				"name": "PRIMARYALTERNATENAMEID",
+				"name": "OUTCOMECODE",
+				"type": "char"
+			},
+			{
+				"name": "PLANID",
 				"type": "bigint",
 				"precision": 19
 			},
 			{
-				"name": "ETHNICORIGINCODE",
+				"name": "PRIORITYCODE",
 				"type": "char"
 			},
 			{
-				"name": "PAYMENTFREQUENCY",
-				"type": "char"
-			},
-			{
-				"name": "NEXTPAYMENTDATE",
+				"name": "RECEIVEDDATE",
 				"type": "date"
 			},
 			{
-				"name": "CURRENCYTYPE",
+				"name": "EFFECTIVEDATE",
+				"type": "date"
+			},
+			{
+				"name": "STATUSCODE",
 				"type": "char"
 			},
 			{
-				"name": "METHODOFPMTCODE",
-				"type": "char"
+				"name": "ENDDATE",
+				"type": "date"
 			},
 			{
-				"name": "DATEOFBIRTHVERIND",
-				"type": "char"
+				"name": "EXPECTEDENDDATE",
+				"type": "date"
 			},
 			{
-				"name": "DATEOFDEATHVERIND",
-				"type": "char"
+				"name": "EXPECTEDSTARTDATE",
+				"type": "date"
 			},
 			{
-				"name": "PRIMARYALTERNATEID",
-				"type": "char"
-			},
-			{
-				"name": "COUNTRYOFBIRTH",
-				"type": "char"
-			},
-			{
-				"name": "PLACEOFBIRTH",
-				"type": "char"
-			},
-			{
-				"name": "PINNUMBER",
-				"type": "char"
-			},
-			{
-				"name": "MARITALSTATUSCODE",
-				"type": "char"
-			},
-			{
-				"name": "NATIONALITYCODE",
-				"type": "char"
-			},
-			{
-				"name": "RESIDENCYABROADIND",
-				"type": "char"
-			},
-			{
-				"name": "MOTHERBIRTHSURNAME",
-				"type": "varchar"
+				"name": "FIRSTREVIEWDATE",
+				"type": "date"
 			},
 			{
 				"name": "COMMENTS",
 				"type": "varchar"
 			},
 			{
-				"name": "TYPE",
+				"name": "CONCERNROLEID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "REGISTRATIONDATE",
+				"type": "date"
+			},
+			{
+				"name": "STARTDATE",
+				"type": "date"
+			},
+			{
+				"name": "DEFAULTCURRENCYTYPECODE",
+				"type": "char"
+			},
+			{
+				"name": "DEFAULTDELIVERYMETHODTYPE",
 				"type": "char"
 			}
 		],
