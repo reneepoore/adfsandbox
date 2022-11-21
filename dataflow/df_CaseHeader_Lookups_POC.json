@@ -327,7 +327,7 @@
 				"     input(",
 				"          Column_1 as string",
 				"     ),",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['CaseHeaderPOC'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> DummyFile"
