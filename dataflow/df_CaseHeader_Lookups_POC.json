@@ -12,7 +12,7 @@
 						"referenceName": "CodeTables",
 						"type": "DatasetReference"
 					},
-					"name": "source3"
+					"name": "vwCodeTables"
 				},
 				{
 					"dataset": {
@@ -111,7 +111,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source3",
+				"     format: 'table') ~> vwCodeTables",
 				"source(output(",
 				"          APPEALINDICATOR as string,",
 				"          CASEID as long,",
@@ -147,13 +147,13 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcCaseHeader",
-				"source3 filter(TABLENAME=='CaseObjective') ~> CaseObjective",
-				"source3 filter(TABLENAME=='CaseStatus') ~> CaseStatus",
-				"source3 filter(TABLENAME=='CasePriority') ~> CasePriority",
-				"source3 filter(TABLENAME=='CaseOutcome') ~> CaseOutcome",
-				"source3 filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
-				"source3 filter(TABLENAME=='CaseClassification') ~> CaseClassification",
-				"source3 filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
+				"vwCodeTables filter(TABLENAME=='CaseObjective') ~> CaseObjective",
+				"vwCodeTables filter(TABLENAME=='CaseStatus') ~> CaseStatus",
+				"vwCodeTables filter(TABLENAME=='CasePriority') ~> CasePriority",
+				"vwCodeTables filter(TABLENAME=='CaseOutcome') ~> CaseOutcome",
+				"vwCodeTables filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
+				"vwCodeTables filter(TABLENAME=='CaseClassification') ~> CaseClassification",
+				"vwCodeTables filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
 				"TrimCodeFields select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
