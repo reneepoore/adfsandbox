@@ -4177,6 +4177,156 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CaseHeader')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseODSCuramStage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Curam"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "APPEALINDICATOR",
+						"type": "char"
+					},
+					{
+						"name": "CASEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "INTEGRATEDCASEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CASEREFERENCE",
+						"type": "char"
+					},
+					{
+						"name": "CASETYPECODE",
+						"type": "char"
+					},
+					{
+						"name": "CLASSIFICATIONCODE",
+						"type": "char"
+					},
+					{
+						"name": "EXPECTEDOUTCOME",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ACTUALOUTCOME",
+						"type": "char"
+					},
+					{
+						"name": "OWNERORGOBJECTLINKID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "VERSIONNO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "LASTWRITTEN",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "INTEGRATEDCASETYPE",
+						"type": "char"
+					},
+					{
+						"name": "OBJECTIVECODE",
+						"type": "char"
+					},
+					{
+						"name": "OUTCOMECODE",
+						"type": "char"
+					},
+					{
+						"name": "PLANID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PRIORITYCODE",
+						"type": "char"
+					},
+					{
+						"name": "RECEIVEDDATE",
+						"type": "date"
+					},
+					{
+						"name": "EFFECTIVEDATE",
+						"type": "date"
+					},
+					{
+						"name": "STATUSCODE",
+						"type": "char"
+					},
+					{
+						"name": "ENDDATE",
+						"type": "date"
+					},
+					{
+						"name": "EXPECTEDENDDATE",
+						"type": "date"
+					},
+					{
+						"name": "EXPECTEDSTARTDATE",
+						"type": "date"
+					},
+					{
+						"name": "FIRSTREVIEWDATE",
+						"type": "date"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "CONCERNROLEID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "REGISTRATIONDATE",
+						"type": "date"
+					},
+					{
+						"name": "STARTDATE",
+						"type": "date"
+					},
+					{
+						"name": "DEFAULTCURRENCYTYPECODE",
+						"type": "char"
+					},
+					{
+						"name": "DEFAULTDELIVERYMETHODTYPE",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "CURAPD01",
+					"table": "CASEHEADER"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseODSCuramStage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CodeTableHeader')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4298,6 +4448,43 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SQLRMLAPTOP610')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CodeTables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseODSCuramStage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "POCWork"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "TABLENAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "vw_CODETABLES"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseODSCuramStage')]"
 			]
 		},
 		{
@@ -8207,6 +8394,348 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/stgSourceEmployee')]",
 				"[concat(variables('factoryId'), '/datasets/tgtDimEmployee')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_CaseHeader_Lookups_POC')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Testing"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CodeTables",
+								"type": "DatasetReference"
+							},
+							"name": "vwCodeTables"
+						},
+						{
+							"dataset": {
+								"referenceName": "CaseHeader",
+								"type": "DatasetReference"
+							},
+							"name": "srcCaseHeader"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Dummy",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "CaseObjective"
+						},
+						{
+							"name": "CaseStatus"
+						},
+						{
+							"name": "CasePriority"
+						},
+						{
+							"name": "CaseOutcome"
+						},
+						{
+							"name": "CaseCatTypeCode"
+						},
+						{
+							"name": "CaseClassification"
+						},
+						{
+							"name": "CaseTypeCode"
+						},
+						{
+							"name": "SelectCaseColumns"
+						},
+						{
+							"name": "LookupCaseObjective"
+						},
+						{
+							"name": "SelectCaseObjective"
+						},
+						{
+							"name": "LookupStatus"
+						},
+						{
+							"name": "SelectCaseStatus"
+						},
+						{
+							"name": "LookupCasePriority"
+						},
+						{
+							"name": "SelectCasePriority"
+						},
+						{
+							"name": "LookupCaseOutcome"
+						},
+						{
+							"name": "SelectCaseOutcome"
+						},
+						{
+							"name": "LookupTypeCode"
+						},
+						{
+							"name": "SelectCaseCatTypeCode"
+						},
+						{
+							"name": "LookupClassification"
+						},
+						{
+							"name": "SelectClassification"
+						},
+						{
+							"name": "LookupCaseTypeCode"
+						},
+						{
+							"name": "SelectCaseTypeCode"
+						},
+						{
+							"name": "TrimCodeFields"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          TABLENAME as string,",
+						"          CODE as string,",
+						"          DESCRIPTION as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> vwCodeTables",
+						"source(output(",
+						"          APPEALINDICATOR as string,",
+						"          CASEID as long,",
+						"          INTEGRATEDCASEID as long,",
+						"          CASEREFERENCE as string,",
+						"          CASETYPECODE as string,",
+						"          CLASSIFICATIONCODE as string,",
+						"          EXPECTEDOUTCOME as long,",
+						"          ACTUALOUTCOME as string,",
+						"          OWNERORGOBJECTLINKID as long,",
+						"          VERSIONNO as integer,",
+						"          LASTWRITTEN as timestamp,",
+						"          INTEGRATEDCASETYPE as string,",
+						"          OBJECTIVECODE as string,",
+						"          OUTCOMECODE as string,",
+						"          PLANID as long,",
+						"          PRIORITYCODE as string,",
+						"          RECEIVEDDATE as date,",
+						"          EFFECTIVEDATE as date,",
+						"          STATUSCODE as string,",
+						"          ENDDATE as date,",
+						"          EXPECTEDENDDATE as date,",
+						"          EXPECTEDSTARTDATE as date,",
+						"          FIRSTREVIEWDATE as date,",
+						"          COMMENTS as string,",
+						"          CONCERNROLEID as long,",
+						"          REGISTRATIONDATE as date,",
+						"          STARTDATE as date,",
+						"          DEFAULTCURRENCYTYPECODE as string,",
+						"          DEFAULTDELIVERYMETHODTYPE as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcCaseHeader",
+						"vwCodeTables filter(TABLENAME=='CaseObjective') ~> CaseObjective",
+						"vwCodeTables filter(TABLENAME=='CaseStatus') ~> CaseStatus",
+						"vwCodeTables filter(TABLENAME=='CasePriority') ~> CasePriority",
+						"vwCodeTables filter(TABLENAME=='CaseOutcome') ~> CaseOutcome",
+						"vwCodeTables filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
+						"vwCodeTables filter(TABLENAME=='CaseClassification') ~> CaseClassification",
+						"vwCodeTables filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
+						"TrimCodeFields select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          INTEGRATEDCASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseColumns",
+						"SelectCaseColumns, CaseObjective lookup(OBJECTIVECODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCaseObjective",
+						"LookupCaseObjective select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseObjective",
+						"SelectCaseObjective, CaseStatus lookup(STATUSCODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupStatus",
+						"LookupStatus select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseStatus",
+						"SelectCaseStatus, CasePriority lookup(PRIORITYCODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCasePriority",
+						"LookupCasePriority select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCasePriority",
+						"SelectCasePriority, CaseOutcome lookup(OUTCOMECODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCaseOutcome",
+						"LookupCaseOutcome select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseOutcome",
+						"SelectCaseOutcome, CaseCatTypeCode lookup(INTEGRATEDCASETYPE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupTypeCode",
+						"LookupTypeCode select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION,",
+						"          CaseCatType_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseCatTypeCode",
+						"SelectCaseCatTypeCode, CaseClassification lookup(CLASSIFICATIONCODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupClassification",
+						"LookupClassification select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION,",
+						"          CaseCatType_DESCRIPTION,",
+						"          CaseClass_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectClassification",
+						"SelectClassification, CaseTypeCode lookup(CASETYPECODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCaseTypeCode",
+						"LookupCaseTypeCode select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION,",
+						"          CaseCatType_DESCRIPTION,",
+						"          CaseClass_DESCRIPTION,",
+						"          CaseType_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseTypeCode",
+						"srcCaseHeader derive(OBJECTIVECODE = trim(OBJECTIVECODE),",
+						"          CASETYPECODE = trim(CASETYPECODE),",
+						"          CLASSIFICATIONCODE = trim(CLASSIFICATIONCODE),",
+						"          INTEGRATEDCASETYPE = trim(INTEGRATEDCASETYPE),",
+						"          PRIORITYCODE = trim(PRIORITYCODE),",
+						"          STATUSCODE = trim(STATUSCODE),",
+						"          OUTCOMECODE = trim(OUTCOMECODE)) ~> TrimCodeFields",
+						"SelectCaseTypeCode sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Column_1 as string",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CodeTables')]",
+				"[concat(variables('factoryId'), '/datasets/CaseHeader')]",
+				"[concat(variables('factoryId'), '/datasets/Dummy')]"
 			]
 		},
 		{

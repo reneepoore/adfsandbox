@@ -13,6 +13,64 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_fgf_ControlDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_fgf_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MainControlTable_fgf"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_fgf_SourceDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQLRMLAPTOP610",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "ODS/MetadataCopyTask/MetadataDrivenCopyTask_fgf_20220829"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MetadataDrivenCopyTask_vrc_ControlDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1236,6 +1294,344 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/df_CaseHeader_Lookups_POC')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Testing"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CodeTables",
+								"type": "DatasetReference"
+							},
+							"name": "vwCodeTables"
+						},
+						{
+							"dataset": {
+								"referenceName": "CaseHeader",
+								"type": "DatasetReference"
+							},
+							"name": "srcCaseHeader"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Dummy",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "CaseObjective"
+						},
+						{
+							"name": "CaseStatus"
+						},
+						{
+							"name": "CasePriority"
+						},
+						{
+							"name": "CaseOutcome"
+						},
+						{
+							"name": "CaseCatTypeCode"
+						},
+						{
+							"name": "CaseClassification"
+						},
+						{
+							"name": "CaseTypeCode"
+						},
+						{
+							"name": "SelectCaseColumns"
+						},
+						{
+							"name": "LookupCaseObjective"
+						},
+						{
+							"name": "SelectCaseObjective"
+						},
+						{
+							"name": "LookupStatus"
+						},
+						{
+							"name": "SelectCaseStatus"
+						},
+						{
+							"name": "LookupCasePriority"
+						},
+						{
+							"name": "SelectCasePriority"
+						},
+						{
+							"name": "LookupCaseOutcome"
+						},
+						{
+							"name": "SelectCaseOutcome"
+						},
+						{
+							"name": "LookupTypeCode"
+						},
+						{
+							"name": "SelectCaseCatTypeCode"
+						},
+						{
+							"name": "LookupClassification"
+						},
+						{
+							"name": "SelectClassification"
+						},
+						{
+							"name": "LookupCaseTypeCode"
+						},
+						{
+							"name": "SelectCaseTypeCode"
+						},
+						{
+							"name": "TrimCodeFields"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          TABLENAME as string,",
+						"          CODE as string,",
+						"          DESCRIPTION as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> vwCodeTables",
+						"source(output(",
+						"          APPEALINDICATOR as string,",
+						"          CASEID as long,",
+						"          INTEGRATEDCASEID as long,",
+						"          CASEREFERENCE as string,",
+						"          CASETYPECODE as string,",
+						"          CLASSIFICATIONCODE as string,",
+						"          EXPECTEDOUTCOME as long,",
+						"          ACTUALOUTCOME as string,",
+						"          OWNERORGOBJECTLINKID as long,",
+						"          VERSIONNO as integer,",
+						"          LASTWRITTEN as timestamp,",
+						"          INTEGRATEDCASETYPE as string,",
+						"          OBJECTIVECODE as string,",
+						"          OUTCOMECODE as string,",
+						"          PLANID as long,",
+						"          PRIORITYCODE as string,",
+						"          RECEIVEDDATE as date,",
+						"          EFFECTIVEDATE as date,",
+						"          STATUSCODE as string,",
+						"          ENDDATE as date,",
+						"          EXPECTEDENDDATE as date,",
+						"          EXPECTEDSTARTDATE as date,",
+						"          FIRSTREVIEWDATE as date,",
+						"          COMMENTS as string,",
+						"          CONCERNROLEID as long,",
+						"          REGISTRATIONDATE as date,",
+						"          STARTDATE as date,",
+						"          DEFAULTCURRENCYTYPECODE as string,",
+						"          DEFAULTDELIVERYMETHODTYPE as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcCaseHeader",
+						"vwCodeTables filter(TABLENAME=='CaseObjective') ~> CaseObjective",
+						"vwCodeTables filter(TABLENAME=='CaseStatus') ~> CaseStatus",
+						"vwCodeTables filter(TABLENAME=='CasePriority') ~> CasePriority",
+						"vwCodeTables filter(TABLENAME=='CaseOutcome') ~> CaseOutcome",
+						"vwCodeTables filter(TABLENAME=='CaseCatTypeCode') ~> CaseCatTypeCode",
+						"vwCodeTables filter(TABLENAME=='CaseClassification') ~> CaseClassification",
+						"vwCodeTables filter(TABLENAME=='CaseTypeCode') ~> CaseTypeCode",
+						"TrimCodeFields select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          INTEGRATEDCASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseColumns",
+						"SelectCaseColumns, CaseObjective lookup(OBJECTIVECODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCaseObjective",
+						"LookupCaseObjective select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseObjective",
+						"SelectCaseObjective, CaseStatus lookup(STATUSCODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupStatus",
+						"LookupStatus select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseStatus",
+						"SelectCaseStatus, CasePriority lookup(PRIORITYCODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCasePriority",
+						"LookupCasePriority select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCasePriority",
+						"SelectCasePriority, CaseOutcome lookup(OUTCOMECODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCaseOutcome",
+						"LookupCaseOutcome select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseOutcome",
+						"SelectCaseOutcome, CaseCatTypeCode lookup(INTEGRATEDCASETYPE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupTypeCode",
+						"LookupTypeCode select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION,",
+						"          CaseCatType_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseCatTypeCode",
+						"SelectCaseCatTypeCode, CaseClassification lookup(CLASSIFICATIONCODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupClassification",
+						"LookupClassification select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION,",
+						"          CaseCatType_DESCRIPTION,",
+						"          CaseClass_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectClassification",
+						"SelectClassification, CaseTypeCode lookup(CASETYPECODE == CODE,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupCaseTypeCode",
+						"LookupCaseTypeCode select(mapColumn(",
+						"          APPEALINDICATOR,",
+						"          CASEID,",
+						"          CASETYPECODE,",
+						"          CLASSIFICATIONCODE,",
+						"          OBJECTIVECODE,",
+						"          OUTCOMECODE,",
+						"          PRIORITYCODE,",
+						"          STATUSCODE,",
+						"          INTEGRATEDCASETYPE,",
+						"          CaseObj_DESCRIPTION,",
+						"          CaseStatus_DESCRIPTION,",
+						"          CasePriority_DESCRIPTION,",
+						"          CaseOutcome_DESCRIPTION,",
+						"          CaseCatType_DESCRIPTION,",
+						"          CaseClass_DESCRIPTION,",
+						"          CaseType_DESCRIPTION = DESCRIPTION",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectCaseTypeCode",
+						"srcCaseHeader derive(OBJECTIVECODE = trim(OBJECTIVECODE),",
+						"          CASETYPECODE = trim(CASETYPECODE),",
+						"          CLASSIFICATIONCODE = trim(CLASSIFICATIONCODE),",
+						"          INTEGRATEDCASETYPE = trim(INTEGRATEDCASETYPE),",
+						"          PRIORITYCODE = trim(PRIORITYCODE),",
+						"          STATUSCODE = trim(STATUSCODE),",
+						"          OUTCOMECODE = trim(OUTCOMECODE)) ~> TrimCodeFields",
+						"SelectCaseTypeCode sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Column_1 as string",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/df_Address')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2047,319 +2443,6 @@
 						"          Column_2 = status",
 						"     ),",
 						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_LoggingTarget_copy1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Dummy",
-								"type": "DatasetReference"
-							},
-							"name": "srcDummy"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "rowswritten",
-								"type": "DatasetReference"
-							},
-							"name": "sink1",
-							"rejectedDataLinkedService": {
-								"referenceName": "AzureBlobStorageRP",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"parameters{",
-						"     parameter1 as integer,",
-						"     parameter2 as string",
-						"}",
-						"source(output(",
-						"          Column_1 as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> srcDummy",
-						"srcDummy derive(rowswritten1 = $parameter1,",
-						"          status1 = $parameter2) ~> derivedColumn1",
-						"derivedColumn1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:['rowswritten.txt'],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     mapColumn(",
-						"          Column_1 = rowswritten1,",
-						"          Column_2 = status1",
-						"     ),",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_Logging_Src_Test')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "This is to test logging for a dataflow\n",
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DimCustomer",
-								"type": "DatasetReference"
-							},
-							"name": "srcDimCustomer"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_DimCustomer_Target",
-								"type": "DatasetReference"
-							},
-							"name": "tgtDimCustomerTarget",
-							"description": "Target table"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          CustomerKey as integer,",
-						"          GeographyKey as integer,",
-						"          CustomerAlternateKey as string,",
-						"          Title as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          NameStyle as boolean,",
-						"          BirthDate as date,",
-						"          MaritalStatus as string,",
-						"          Suffix as string,",
-						"          Gender as string,",
-						"          EmailAddress as string,",
-						"          YearlyIncome as decimal(19,4),",
-						"          TotalChildren as integer,",
-						"          NumberChildrenAtHome as integer,",
-						"          EnglishEducation as string,",
-						"          SpanishEducation as string,",
-						"          FrenchEducation as string,",
-						"          EnglishOccupation as string,",
-						"          SpanishOccupation as string,",
-						"          FrenchOccupation as string,",
-						"          HouseOwnerFlag as string,",
-						"          NumberCarsOwned as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          Phone as string,",
-						"          DateFirstPurchase as date,",
-						"          CommuteDistance as string",
-						"     ),",
-						"     allowSchemaDrift: false,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> srcDimCustomer",
-						"srcDimCustomer sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          CustomerKey as integer,",
-						"          GeographyKey as integer,",
-						"          CustomerAlternateKey as string,",
-						"          Title as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          NameStyle as boolean,",
-						"          BirthDate as date,",
-						"          MaritalStatus as string,",
-						"          Suffix as string,",
-						"          Gender as string,",
-						"          EmailAddress as string,",
-						"          YearlyIncome as decimal(19,4),",
-						"          TotalChildren as integer,",
-						"          NumberChildrenAtHome as integer,",
-						"          EnglishEducation as string,",
-						"          SpanishEducation as string,",
-						"          FrenchEducation as string,",
-						"          EnglishOccupation as string,",
-						"          SpanishOccupation as string,",
-						"          FrenchOccupation as string,",
-						"          HouseOwnerFlag as string,",
-						"          NumberCarsOwned as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          Phone as string,",
-						"          DateFirstPurchase as date,",
-						"          CommuteDistance as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          CustomerKey,",
-						"          GeographyKey,",
-						"          CustomerAlternateKey,",
-						"          Title,",
-						"          FirstName,",
-						"          MiddleName,",
-						"          LastName,",
-						"          NameStyle,",
-						"          BirthDate,",
-						"          MaritalStatus,",
-						"          Suffix,",
-						"          Gender,",
-						"          EmailAddress,",
-						"          YearlyIncome,",
-						"          TotalChildren,",
-						"          NumberChildrenAtHome,",
-						"          EnglishEducation,",
-						"          SpanishEducation,",
-						"          FrenchEducation,",
-						"          EnglishOccupation,",
-						"          SpanishOccupation,",
-						"          FrenchOccupation,",
-						"          HouseOwnerFlag,",
-						"          NumberCarsOwned,",
-						"          AddressLine1,",
-						"          AddressLine2,",
-						"          Phone,",
-						"          DateFirstPurchase,",
-						"          CommuteDistance",
-						"     )) ~> tgtDimCustomerTarget"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_Logging_Src_Test_copy1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "This is to test logging for a dataflow\n",
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DimCustomer",
-								"type": "DatasetReference"
-							},
-							"name": "srcDimCustomer"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_DimCustomer_Target",
-								"type": "DatasetReference"
-							},
-							"name": "tgtDimCustomerTarget",
-							"description": "Target table"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          CustomerKey as integer,",
-						"          GeographyKey as integer,",
-						"          CustomerAlternateKey as string,",
-						"          Title as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          NameStyle as boolean,",
-						"          BirthDate as date,",
-						"          MaritalStatus as string,",
-						"          Suffix as string,",
-						"          Gender as string,",
-						"          EmailAddress as string,",
-						"          YearlyIncome as decimal(19,4),",
-						"          TotalChildren as integer,",
-						"          NumberChildrenAtHome as integer,",
-						"          EnglishEducation as string,",
-						"          SpanishEducation as string,",
-						"          FrenchEducation as string,",
-						"          EnglishOccupation as string,",
-						"          SpanishOccupation as string,",
-						"          FrenchOccupation as string,",
-						"          HouseOwnerFlag as string,",
-						"          NumberCarsOwned as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          Phone as string,",
-						"          DateFirstPurchase as date,",
-						"          CommuteDistance as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> srcDimCustomer",
-						"srcDimCustomer sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          CustomerKey as integer,",
-						"          GeographyKey as integer,",
-						"          CustomerAlternateKey as string,",
-						"          Title as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          NameStyle as boolean,",
-						"          BirthDate as date,",
-						"          MaritalStatus as string,",
-						"          Suffix as string,",
-						"          Gender as string,",
-						"          EmailAddress as string,",
-						"          YearlyIncome as decimal(19,4),",
-						"          TotalChildren as integer,",
-						"          NumberChildrenAtHome as integer,",
-						"          EnglishEducation as string,",
-						"          SpanishEducation as string,",
-						"          FrenchEducation as string,",
-						"          EnglishOccupation as string,",
-						"          SpanishOccupation as string,",
-						"          FrenchOccupation as string,",
-						"          HouseOwnerFlag as string,",
-						"          NumberCarsOwned as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          Phone as string,",
-						"          DateFirstPurchase as date,",
-						"          CommuteDistance as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> tgtDimCustomerTarget"
 					]
 				}
 			},
