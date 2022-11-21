@@ -1,0 +1,112 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"folder": {
+			"name": "Testing"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CodeTables",
+						"type": "DatasetReference"
+					},
+					"name": "srcCaseHeader"
+				},
+				{
+					"dataset": {
+						"referenceName": "CodeTables",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "CodeTables",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "CodeTables",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "CaseObjective"
+				},
+				{
+					"name": "CaseStatus"
+				},
+				{
+					"name": "CasePriority"
+				},
+				{
+					"name": "CaseOutcome"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TABLENAME as string,",
+				"          CODE as string,",
+				"          DESCRIPTION as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcCaseHeader",
+				"source(output(",
+				"          TABLENAME as string,",
+				"          CODE as string,",
+				"          DESCRIPTION as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source(output(",
+				"          TABLENAME as string,",
+				"          CODE as string,",
+				"          DESCRIPTION as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
+				"source(output(",
+				"          TABLENAME as string,",
+				"          CODE as string,",
+				"          DESCRIPTION as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source3",
+				"select1 filter(TABLENAME=='CaseCatTypeCode') ~> filter1",
+				"srcCaseHeader select(mapColumn(",
+				"          TABLENAME,",
+				"          CODE,",
+				"          DESCRIPTION",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"source3 filter(TABLENAME=='CaseObjective') ~> CaseObjective",
+				"source3 filter(TABLENAME=='CaseStatus') ~> CaseStatus",
+				"source3 filter(TABLENAME=='CasePriority') ~> CasePriority",
+				"source3 filter(TABLENAME=='CaseOutcome') ~> CaseOutcome"
+			]
+		}
+	}
+}

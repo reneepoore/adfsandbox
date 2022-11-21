@@ -1,0 +1,32 @@
+{
+	"name": "CodeTables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseODSCuramStage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POCWork"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TABLENAME",
+				"type": "varchar"
+			},
+			{
+				"name": "CODE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESCRIPTION",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vw_CODETABLES"
+		}
+	}
+}
