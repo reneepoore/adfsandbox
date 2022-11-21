@@ -28,7 +28,7 @@
 						"referenceName": "Dummy",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "DummyFile"
 				}
 			],
 			"transformations": [
@@ -327,8 +327,10 @@
 				"     input(",
 				"          Column_1 as string",
 				"     ),",
+				"     partitionFileNames:[''],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> DummyFile"
 			]
 		}
 	}
