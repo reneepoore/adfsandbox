@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "df_CaseHeader_Lookups_POC",
 	"properties": {
 		"folder": {
 			"name": "Testing"
