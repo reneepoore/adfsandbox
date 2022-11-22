@@ -1,0 +1,38 @@
+{
+	"name": "pl_SCD1_POC_Example",
+	"properties": {
+		"activities": [
+			{
+				"name": "df_SCD1_Example",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:05:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_SCD1_Example",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine",
+					"continuationSettings": {
+						"customizedCheckpointKey": "b646b04b-86c5-49a5-a9a4-c5073a53bc78"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Facts"
+		},
+		"annotations": []
+	}
+}
