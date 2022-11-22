@@ -181,7 +181,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_Address",
+						"referenceName": "df_SCD1_w_Exists",
 						"type": "DataFlowReference"
 					},
 					"compute": {
