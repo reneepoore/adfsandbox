@@ -87,7 +87,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(drvConcatAll = concat(rpad(FirstName,15,''),rpad(LastName, 1, ''),rpad(LastName, 20, ''),rpad(AddressLine1, 45, '-'),rpad(EnglishEducation, 10, ' '))) ~> derivedColumn1",
+				"select1 derive(drvConcatAll = concat(rpad(FirstName,15,' '),rpad(LastName, 1, ' '),rpad(LastName, 20, 'x'),rpad(AddressLine1, 45, ' '),rpad(EnglishEducation, 10, ' '))) ~> derivedColumn1",
 				"derivedColumn1 select(mapColumn(",
 				"          ConcatAll = drvConcatAll",
 				"     ),",
