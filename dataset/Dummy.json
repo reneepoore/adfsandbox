@@ -16,7 +16,7 @@
 				"fileName": "dfdummy.txt",
 				"container": "newcontainer"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "",
 			"escapeChar": "\\",
 			"quoteChar": "\""
 		},
