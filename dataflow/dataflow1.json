@@ -87,17 +87,9 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(drvFirstName = rpad(FirstName,15,''),",
-				"          drvMiddleName = rpad(LastName, 1, ''),",
-				"          drvLastName = rpad(LastName, 20, ''),",
-				"          drvAddressLine1 = rpad(AddressLine1, 45, '-'),",
-				"          drvEnglishEducation = rpad(EnglishEducation, 10, 'padding')) ~> derivedColumn1",
+				"select1 derive(drvConcatAll = concat(rpad(FirstName,15,''),rpad(LastName, 1, ''),rpad(LastName, 20, ''),rpad(AddressLine1, 45, '-'),rpad(EnglishEducation, 10, ' '))) ~> derivedColumn1",
 				"derivedColumn1 select(mapColumn(",
-				"          FirstName = drvFirstName,",
-				"          MiddleName = drvMiddleName,",
-				"          LastName = drvLastName,",
-				"          EnglishEducation = drvEnglishEducation,",
-				"          AddressLine1 = drvAddressLine1",
+				"          ConcatAll = drvConcatAll",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
@@ -108,7 +100,8 @@
 				"     ),",
 				"     partitionFileNames:['FixedWidthTest'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
