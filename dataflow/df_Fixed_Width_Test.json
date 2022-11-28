@@ -106,7 +106,7 @@
 				"     input(",
 				"          Column_1 as string",
 				"     ),",
-				"     partitionFileNames:['FixedWidthTest'],",
+				"     partitionFileNames:['FixedWidthTest.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> tgtDummyOutput"
