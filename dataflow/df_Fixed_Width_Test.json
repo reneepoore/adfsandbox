@@ -19,6 +19,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "tgtDummyOutput"
+				},
+				{
+					"dataset": {
+						"referenceName": "EmailFile",
+						"type": "DatasetReference"
+					},
+					"name": "tgtEmailFile"
 				}
 			],
 			"transformations": [
@@ -109,7 +116,14 @@
 				"     partitionFileNames:['FixedWidthTest.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> tgtDummyOutput"
+				"     partitionBy('hash', 1)) ~> tgtDummyOutput",
+				"SelectConcatString sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['EmailFile'],",
+				"     truncate: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> tgtEmailFile"
 			]
 		}
 	}
