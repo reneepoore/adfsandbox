@@ -9,7 +9,7 @@
 						"referenceName": "DimCustomer",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "srcDimCustomer"
 				}
 			],
 			"sinks": [
@@ -18,18 +18,21 @@
 						"referenceName": "Dummy",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "tgtDummyOutput"
 				}
 			],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "SelectColumns"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "ConcatFields"
 				},
 				{
-					"name": "select2"
+					"name": "SelectConcatString"
+				},
+				{
+					"name": "IffNullTrim"
 				}
 			],
 			"scriptLines": [
@@ -67,8 +70,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 select(mapColumn(",
+				"     format: 'table') ~> srcDimCustomer",
+				"srcDimCustomer select(mapColumn(",
 				"          CustomerAlternateKey,",
 				"          Title,",
 				"          FirstName,",
@@ -86,14 +89,19 @@
 				"          Phone",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(drvConcatAll = concat(rpad(FirstName,15,' '),rpad(MiddleName, 1, ' '),rpad(LastName, 20, 'x'),rpad(AddressLine1, 45, ' '),rpad(EnglishEducation, 10, ' '))) ~> derivedColumn1",
-				"derivedColumn1 select(mapColumn(",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+				"IffNullTrim derive(drvConcatAll = concat(rpad(FirstName,15,' '),rpad(MiddleName, 1, ' '),rpad(LastName, 20, 'x'),rpad(AddressLine1, 45, ' '),rpad(EnglishEducation, 10, ' '))) ~> ConcatFields",
+				"ConcatFields select(mapColumn(",
 				"          ConcatAll = drvConcatAll",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"select2 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectConcatString",
+				"SelectColumns derive(FirstName = iifNull(trim(FirstName) ,'na' ),",
+				"          LastName = iifNull(trim(LastName) ,'na' ),",
+				"          MiddleName = iifNull(trim(MiddleName) ,'' ),",
+				"          AddressLine1 = iifNull(trim(AddressLine1) ,'na' ),",
+				"          EnglishEducation = iifNull(trim(EnglishEducation) ,'na' )) ~> IffNullTrim",
+				"SelectConcatString sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Column_1 as string",
@@ -101,7 +109,7 @@
 				"     partitionFileNames:['FixedWidthTest'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1)) ~> tgtDummyOutput"
 			]
 		}
 	}
