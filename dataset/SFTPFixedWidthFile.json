@@ -1,5 +1,5 @@
 {
-	"name": "fixedwidth_copy1",
+	"name": "SFTPFixedWidthFile",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Sftp_Redmane_Incoming",
