@@ -11,7 +11,7 @@
 			"location": {
 				"type": "SftpLocation",
 				"fileName": {
-					"value": "Concat(utcnow ('MMMM') , '_', utcnow ('YYYY'))",
+					"value": "Concat(utcnow ('MMMM') , '_', utcnow ('yy'))",
 					"type": "Expression"
 				},
 				"folderPath": "/sdazsftpd/DataWarehouse"
