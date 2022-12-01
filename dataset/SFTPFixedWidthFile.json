@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "SftpLocation",
-				"fileName": "FixedWidthFile.txt",
 				"folderPath": "/sdazsftpd/DataWarehouse"
 			},
 			"columnDelimiter": "",
