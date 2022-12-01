@@ -10,13 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "SftpLocation",
-				"fileName": {
-					"value": "Concat(utcnow ('MMMM') , '_', utcnow ('yy'))",
-					"type": "Expression"
-				},
+				"fileName": "FixedWidthFile",
 				"folderPath": "/sdazsftpd/DataWarehouse"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "",
 			"escapeChar": "\\",
 			"quoteChar": "\""
 		},
