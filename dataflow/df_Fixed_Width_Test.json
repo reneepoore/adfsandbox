@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "tgtEmailFile"
+				},
+				{
+					"dataset": {
+						"referenceName": "SFTPFixedWidthFile",
+						"type": "DatasetReference"
+					},
+					"name": "tgtSFTPServer"
 				}
 			],
 			"transformations": [
@@ -123,7 +130,14 @@
 				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> tgtEmailFile"
+				"     partitionBy('hash', 1)) ~> tgtEmailFile",
+				"SelectConcatString sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> tgtSFTPServer"
 			]
 		}
 	}
