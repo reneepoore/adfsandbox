@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SFTPFixedWidthFile",
+						"referenceName": "SimpleTestSFTP",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -40,9 +40,6 @@
 				"     format: 'table') ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          Column_1 as string",
-				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
