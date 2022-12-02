@@ -46,7 +46,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://rpsendemails.azurewebsites.net:443/api/SendBlobLinkToSql/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=igrDprZGPJq6Cejhk7QlJr0lZqJk4keQZ9--_Zs38qs",
+					"url": "https://rpsendemails.azurewebsites.net:443/api/SendEmailsAttachment/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=utmn1rr58YwpbXvNns-CAvWjbj_KDQkfOtnJxcux8k4",
 					"method": "POST",
 					"body": {
 						"value": "{\n \"title\":   \"@{pipeline().Pipeline} Succeeded!\",\n\"message\": \"Pipeline run finished successfully!\",\n    \"color\": \"Green\",\n    \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n    \"pipelineName\": \"pipeline().Pipeline\",\n    \"pipelineRunId\": \"pipeline().RunId\",\n     \"time\": \"@{utcnow()}\"\n\n\n}",
