@@ -9,7 +9,7 @@
 						"referenceName": "Address",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "srcAddress"
 				}
 			],
 			"sinks": [
@@ -18,7 +18,7 @@
 						"referenceName": "SimpleTestSFTP",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "tgtSFTP"
 				}
 			],
 			"transformations": [],
@@ -37,11 +37,11 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     format: 'table') ~> srcAddress",
+				"srcAddress sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> tgtSFTP"
 			]
 		}
 	}
