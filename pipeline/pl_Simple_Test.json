@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "pl_Simple_Test",
 	"properties": {
 		"activities": [
 			{
-				"name": "dataflow1",
+				"name": "df_Simple_Test",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow1",
+						"referenceName": "df_Simple_Test",
 						"type": "DataFlowReference"
 					},
 					"compute": {
