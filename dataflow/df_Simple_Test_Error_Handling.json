@@ -46,7 +46,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcAddress",
-				"srcAddress assert(expectTrue(City!='Bothell', false, 'assertIsBothell', null, 'City is Bothell')) ~> AssertCityBothell",
+				"srcAddress assert(expectTrue(City=='Bothell', false, 'assertIsBothell', null, 'City is Bothell')) ~> AssertCityBothell",
 				"AssertCityBothell sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['Error.txt'],",
