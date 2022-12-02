@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SimpleTestSFTP",
+						"referenceName": "SFTPFixedWidthFile",
 						"type": "DatasetReference"
 					},
 					"name": "tgtSFTPServer"
@@ -103,6 +103,9 @@
 				"          EnglishEducation = iifNull(trim(EnglishEducation) ,'' )) ~> IffNullTrim",
 				"SelectConcatString sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string",
+				"     ),",
 				"     partitionFileNames:['FixedWidth.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
