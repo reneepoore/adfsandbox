@@ -40,8 +40,10 @@
 				"     format: 'table') ~> srcAddress",
 				"srcAddress sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['FixedWidth.txt'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> tgtSFTP"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> tgtSFTP"
 			]
 		}
 	}

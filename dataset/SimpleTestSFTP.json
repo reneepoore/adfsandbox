@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "SftpLocation",
-				"fileName": "Simple.csv",
 				"folderPath": "/sdazsftpd/DataWarehouse"
 			},
 			"columnDelimiter": ",",
