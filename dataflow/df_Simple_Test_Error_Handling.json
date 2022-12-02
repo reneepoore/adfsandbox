@@ -27,7 +27,7 @@
 			],
 			"transformations": [
 				{
-					"name": "assert1"
+					"name": "AssertCityBothell"
 				}
 			],
 			"scriptLines": [
@@ -46,8 +46,8 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcAddress",
-				"srcAddress assert(expectTrue(City!='Bothell', false, 'assertIsBothell', null, \"City is Bothell\")) ~> assert1",
-				"assert1 sink(allowSchemaDrift: true,",
+				"srcAddress assert(expectTrue(City!='Bothell', false, 'assertIsBothell', null, 'City is Bothell')) ~> AssertCityBothell",
+				"AssertCityBothell sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['Error.txt'],",
 				"     skipDuplicateMapInputs: true,",
