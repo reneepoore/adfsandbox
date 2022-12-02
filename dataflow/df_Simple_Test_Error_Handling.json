@@ -1,0 +1,61 @@
+{
+	"name": "df_Simple_Test_Error_Handling",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Address",
+						"type": "DatasetReference"
+					},
+					"name": "srcAddress"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "rowswritten",
+						"type": "DatasetReference"
+					},
+					"name": "tgtSFTP",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorageRP",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "assert1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          AddressID as integer,",
+				"          AddressLine1 as string,",
+				"          AddressLine2 as string,",
+				"          City as string,",
+				"          StateProvince as string,",
+				"          CountryRegion as string,",
+				"          PostalCode as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcAddress",
+				"srcAddress assert(expectTrue(City!='Bothell', false, 'assertIsBothell', null, \"City is Bothell\")) ~> assert1",
+				"assert1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Error.txt'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     outputAssertFailedRows: true,",
+				"     assertFailure_container: 'newcontainer',",
+				"     partitionBy('hash', 1)) ~> tgtSFTP"
+			]
+		}
+	}
+}
