@@ -45,7 +45,7 @@
 				"     format: 'table') ~> srcDATASTOREENTITY",
 				"srcDATASTOREENTITY derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE),",
 				"          ENTITYVALUE_ORG = ENTITYVALUE) ~> drvLocate",
-				"drvLocate derive(EntityPosValue = iif(ENTITYVALUE!=0, substring(ENTITYVALUE_ORG, ENTITYVALUE+28, 8),'na' )) ~> drvEntityValue",
+				"drvLocate derive(EntityPosValue = iif(ENTITYVALUE!=0 && substring(ENTITYVALUE_ORG, ENTITYVALUE+28, 3) =='ITY', substring(ENTITYVALUE_ORG, ENTITYVALUE+28, 8),'na' )) ~> drvEntityValue",
 				"drvEntityValue sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
