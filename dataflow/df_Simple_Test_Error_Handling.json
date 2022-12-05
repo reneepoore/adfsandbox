@@ -37,7 +37,7 @@
 					"name": "AssertCityBothell"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "drvErrorColumns"
 				},
 				{
 					"name": "split1"
@@ -62,8 +62,8 @@
 				"srcAddress assert(expectTrue(City=='Bothell', false, 'assertIsBothell', null, 'City is  not Bothell')) ~> AssertCityBothell",
 				"AssertCityBothell derive(TotalErrors = assertErrorMessages(),",
 				"          CityError = at(assertErrorMessages(),'assertIsBothell')\r",
-				") ~> derivedColumn1",
-				"derivedColumn1 split(hasError('assertIsBothell'),",
+				") ~> drvErrorColumns",
+				"drvErrorColumns split(hasError('assertIsBothell'),",
 				"     disjoint: false) ~> split1@(InvalidRecords, ValidRows)",
 				"split1@InvalidRecords sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
