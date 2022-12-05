@@ -18,7 +18,7 @@
 						"referenceName": "rowswritten",
 						"type": "DatasetReference"
 					},
-					"name": "tgtSFTP",
+					"name": "tgtErrors",
 					"rejectedDataLinkedService": {
 						"referenceName": "AzureBlobStorageRP",
 						"type": "LinkedServiceReference"
@@ -72,9 +72,10 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     outputAssertFailedRows: true,",
 				"     assertFailure_container: 'newcontainer',",
-				"     partitionBy('hash', 1)) ~> tgtSFTP",
+				"     partitionBy('hash', 1)) ~> tgtErrors",
 				"split1@ValidRows sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['ValidRows.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> tgtValidRows"
 			]
