@@ -43,7 +43,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE,1),",
+				"source1 derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE,0),",
 				"          ENTITYVALUE_ORG = ENTITYVALUE) ~> derivedColumn1",
 				"derivedColumn1 filter(ENTITYVALUE!=0) ~> filter1",
 				"filter1 sink(allowSchemaDrift: true,",
