@@ -1,0 +1,50 @@
+{
+	"name": "DATASTOREENTITY",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseODSCuramStage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ENTITYID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ISOVERFLOWIND",
+				"type": "char"
+			},
+			{
+				"name": "OVERFLOWNEXTID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ENTITYTYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "ENTITYVALUE",
+				"type": "varchar"
+			},
+			{
+				"name": "VERSIONNO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LASTWRITTEN",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "CURAPD01",
+			"table": "DATASTOREENTITY"
+		}
+	}
+}
