@@ -24,9 +24,6 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
-				},
-				{
-					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -45,8 +42,7 @@
 				"     format: 'table') ~> source1",
 				"source1 derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE,0),",
 				"          ENTITYVALUE_ORG = ENTITYVALUE) ~> derivedColumn1",
-				"derivedColumn1 filter(ENTITYVALUE!=0) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Column_1 as string,",
