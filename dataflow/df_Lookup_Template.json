@@ -623,24 +623,6 @@
 				},
 				{
 					"name": "WaiverType"
-				},
-				{
-					"name": "WebAddressType"
-				},
-				{
-					"name": "WorkAllocationFunction"
-				},
-				{
-					"name": "WorkflowDeadlineType"
-				},
-				{
-					"name": "WorkflowHistoryEvent"
-				},
-				{
-					"name": "WorkQueueSubsOrgObjType"
-				},
-				{
-					"name": "XSLTemplateType"
 				}
 			],
 			"scriptLines": [
@@ -854,12 +836,6 @@
 				"vwCodeTables filter(TABLENAME=='VerReqName') ~> VerReqName",
 				"vwCodeTables filter(TABLENAME=='VerReqUsageName') ~> VerReqUsageName",
 				"vwCodeTables filter(TABLENAME=='WaiverType') ~> WaiverType",
-				"vwCodeTables filter(TABLENAME=='WebAddressType') ~> WebAddressType",
-				"vwCodeTables filter(TABLENAME=='WorkAllocationFunction') ~> WorkAllocationFunction",
-				"vwCodeTables filter(TABLENAME=='WorkflowDeadlineType') ~> WorkflowDeadlineType",
-				"vwCodeTables filter(TABLENAME=='WorkflowHistoryEvent') ~> WorkflowHistoryEvent",
-				"vwCodeTables filter(TABLENAME=='WorkQueueSubsOrgObjType') ~> WorkQueueSubsOrgObjType",
-				"vwCodeTables filter(TABLENAME=='XSLTemplateType') ~> XSLTemplateType",
 				"ActionPageNameCode sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
