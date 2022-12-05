@@ -28,6 +28,9 @@
 			"transformations": [
 				{
 					"name": "AssertCityBothell"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -46,8 +49,11 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcAddress",
-				"srcAddress assert(expectTrue(City!='Bothell', false, 'assertIsBothell', null, 'City is  not Bothell')) ~> AssertCityBothell",
-				"AssertCityBothell sink(allowSchemaDrift: true,",
+				"srcAddress assert(expectTrue(City=='Bothell', false, 'assertIsBothell', null, 'City is  not Bothell')) ~> AssertCityBothell",
+				"AssertCityBothell derive(TotalErrors = assertErrorMessages(),",
+				"          CityError = at(assertErrorMessages(),'assertIsBothell')\r",
+				") ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['Error.txt'],",
 				"     skipDuplicateMapInputs: true,",
