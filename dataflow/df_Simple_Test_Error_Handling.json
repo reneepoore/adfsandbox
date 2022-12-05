@@ -77,7 +77,8 @@
 				"     validateSchema: false,",
 				"     partitionFileNames:['ValidRows.txt'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> tgtValidRows"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> tgtValidRows"
 			]
 		}
 	}
