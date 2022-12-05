@@ -45,7 +45,7 @@
 				"     format: 'table') ~> source1",
 				"source1 derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE),",
 				"          ENTITYVALUE_ORG = ENTITYVALUE) ~> derivedColumn1",
-				"derivedColumn1 derive(EntityPosValue = iif(ENTITYVALUE!=0, substring(ENTITYVALUE_ORG, ENTITYVALUE, 8),'na' )) ~> derivedColumn2",
+				"derivedColumn1 derive(EntityPosValue = iif(ENTITYVALUE!=0, substring(ENTITYVALUE_ORG, ENTITYVALUE+28, 8),'na' )) ~> derivedColumn2",
 				"derivedColumn2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
