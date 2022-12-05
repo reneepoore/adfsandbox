@@ -9,7 +9,7 @@
 						"referenceName": "DATASTOREENTITY",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "srcDATASTOREENTITY"
 				}
 			],
 			"sinks": [
@@ -18,15 +18,15 @@
 						"referenceName": "SimpleTest",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "tgtSimpleTest"
 				}
 			],
 			"transformations": [
 				{
-					"name": "derivedColumn1"
+					"name": "drvLocate"
 				},
 				{
-					"name": "derivedColumn2"
+					"name": "drvEntityValue"
 				}
 			],
 			"scriptLines": [
@@ -42,11 +42,11 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE),",
-				"          ENTITYVALUE_ORG = ENTITYVALUE) ~> derivedColumn1",
-				"derivedColumn1 derive(EntityPosValue = iif(ENTITYVALUE!=0, substring(ENTITYVALUE_ORG, ENTITYVALUE+28, 8),'na' )) ~> derivedColumn2",
-				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     format: 'table') ~> srcDATASTOREENTITY",
+				"srcDATASTOREENTITY derive(ENTITYVALUE = locate ('sdVoterRegistrationFormInd=\"',ENTITYVALUE),",
+				"          ENTITYVALUE_ORG = ENTITYVALUE) ~> drvLocate",
+				"drvLocate derive(EntityPosValue = iif(ENTITYVALUE!=0, substring(ENTITYVALUE_ORG, ENTITYVALUE+28, 8),'na' )) ~> drvEntityValue",
+				"drvEntityValue sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Column_1 as string,",
@@ -59,7 +59,7 @@
 				"     partitionFileNames:['SimpleTest.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1)) ~> tgtSimpleTest"
 			]
 		}
 	}
