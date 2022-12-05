@@ -23,6 +23,13 @@
 						"referenceName": "AzureBlobStorageRP",
 						"type": "LinkedServiceReference"
 					}
+				},
+				{
+					"dataset": {
+						"referenceName": "rowswritten",
+						"type": "DatasetReference"
+					},
+					"name": "tgtValidRows"
 				}
 			],
 			"transformations": [
@@ -31,6 +38,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -53,14 +63,20 @@
 				"AssertCityBothell derive(TotalErrors = assertErrorMessages(),",
 				"          CityError = at(assertErrorMessages(),'assertIsBothell')\r",
 				") ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 split(hasError('assertIsBothell'),",
+				"     disjoint: false) ~> split1@(InvalidRecords, ValidRows)",
+				"split1@InvalidRecords sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['Error.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     outputAssertFailedRows: true,",
 				"     assertFailure_container: 'newcontainer',",
-				"     partitionBy('hash', 1)) ~> tgtSFTP"
+				"     partitionBy('hash', 1)) ~> tgtSFTP",
+				"split1@ValidRows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> tgtValidRows"
 			]
 		}
 	}
