@@ -54,8 +54,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcCaseHeader",
-				"srcCaseHeader derive(each(match(type == 'string'), $$+'_trim' = trim($$)),",
-				"          each(match(type=='long'))) ~> drvTrimStringFields"
+				"srcCaseHeader derive(each(match(type == 'string'), $$+'_trim' = trim($$))) ~> drvTrimStringFields"
 			]
 		}
 	}
