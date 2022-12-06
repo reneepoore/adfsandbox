@@ -65,7 +65,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcCaseHeader",
-				"srcCaseHeader derive(each(match(type == 'string'), $$+'_trim' = trim($$))) ~> drvTrimStringFields",
+				"srcCaseHeader derive(each(match(type=='string'), $$+'_trim' = trim($$))) ~> drvTrimStringFields",
 				"drvTrimStringFields select(mapColumn(",
 				"          APPEALINDICATOR,",
 				"          CASEID,",
