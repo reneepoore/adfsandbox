@@ -1,0 +1,62 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CaseHeader",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          APPEALINDICATOR as string,",
+				"          CASEID as long,",
+				"          INTEGRATEDCASEID as long,",
+				"          CASEREFERENCE as string,",
+				"          CASETYPECODE as string,",
+				"          CLASSIFICATIONCODE as string,",
+				"          EXPECTEDOUTCOME as long,",
+				"          ACTUALOUTCOME as string,",
+				"          OWNERORGOBJECTLINKID as long,",
+				"          VERSIONNO as integer,",
+				"          LASTWRITTEN as timestamp,",
+				"          INTEGRATEDCASETYPE as string,",
+				"          OBJECTIVECODE as string,",
+				"          OUTCOMECODE as string,",
+				"          PLANID as long,",
+				"          PRIORITYCODE as string,",
+				"          RECEIVEDDATE as date,",
+				"          EFFECTIVEDATE as date,",
+				"          STATUSCODE as string,",
+				"          ENDDATE as date,",
+				"          EXPECTEDENDDATE as date,",
+				"          EXPECTEDSTARTDATE as date,",
+				"          FIRSTREVIEWDATE as date,",
+				"          COMMENTS as string,",
+				"          CONCERNROLEID as long,",
+				"          REGISTRATIONDATE as date,",
+				"          STARTDATE as date,",
+				"          DEFAULTCURRENCYTYPECODE as string,",
+				"          DEFAULTDELIVERYMETHODTYPE as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 derive(each(match(type == 'string'), $$+'_trim' = trim($$)),",
+				"          each(match(type=='long'), $$+'_trim' = replace($$, ' ', ''))) ~> derivedColumn1"
+			]
+		}
+	}
+}
