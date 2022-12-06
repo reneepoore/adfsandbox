@@ -12,10 +12,21 @@
 					"name": "srcCaseHeader"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SimpleTest",
+						"type": "DatasetReference"
+					},
+					"name": "tgtSimpleTest"
+				}
+			],
 			"transformations": [
 				{
 					"name": "drvTrimStringFields"
+				},
+				{
+					"name": "SelectColumns"
 				}
 			],
 			"scriptLines": [
@@ -54,7 +65,67 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcCaseHeader",
-				"srcCaseHeader derive(each(match(type == 'string'), $$+'_trim' = trim($$))) ~> drvTrimStringFields"
+				"srcCaseHeader derive(each(match(type == 'string'), $$+'_trim' = trim($$))) ~> drvTrimStringFields",
+				"drvTrimStringFields select(mapColumn(",
+				"          APPEALINDICATOR,",
+				"          CASEID,",
+				"          INTEGRATEDCASEID,",
+				"          CASEREFERENCE,",
+				"          CASETYPECODE,",
+				"          CLASSIFICATIONCODE,",
+				"          EXPECTEDOUTCOME,",
+				"          ACTUALOUTCOME,",
+				"          OWNERORGOBJECTLINKID,",
+				"          VERSIONNO,",
+				"          LASTWRITTEN,",
+				"          INTEGRATEDCASETYPE,",
+				"          OBJECTIVECODE,",
+				"          OUTCOMECODE,",
+				"          PLANID,",
+				"          PRIORITYCODE,",
+				"          RECEIVEDDATE,",
+				"          EFFECTIVEDATE,",
+				"          STATUSCODE,",
+				"          ENDDATE,",
+				"          EXPECTEDENDDATE,",
+				"          EXPECTEDSTARTDATE,",
+				"          FIRSTREVIEWDATE,",
+				"          COMMENTS,",
+				"          CONCERNROLEID,",
+				"          REGISTRATIONDATE,",
+				"          STARTDATE,",
+				"          DEFAULTCURRENCYTYPECODE,",
+				"          DEFAULTDELIVERYMETHODTYPE,",
+				"          APPEALINDICATOR_trim,",
+				"          CASEREFERENCE_trim,",
+				"          CASETYPECODE_trim,",
+				"          CLASSIFICATIONCODE_trim,",
+				"          ACTUALOUTCOME_trim,",
+				"          INTEGRATEDCASETYPE_trim,",
+				"          OBJECTIVECODE_trim,",
+				"          OUTCOMECODE_trim,",
+				"          PRIORITYCODE_trim,",
+				"          STATUSCODE_trim,",
+				"          COMMENTS_trim,",
+				"          DEFAULTCURRENCYTYPECODE_trim,",
+				"          DEFAULTDELIVERYMETHODTYPE_trim",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+				"SelectColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string",
+				"     ),",
+				"     partitionFileNames:['DerivedColumnTest'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> tgtSimpleTest"
 			]
 		}
 	}
