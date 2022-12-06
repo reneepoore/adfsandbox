@@ -9,13 +9,13 @@
 						"referenceName": "CaseHeader",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "srcCaseHeader"
 				}
 			],
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "derivedColumn1"
+					"name": "drvTrimStringFields"
 				}
 			],
 			"scriptLines": [
@@ -53,9 +53,9 @@
 				"     allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 derive(each(match(type == 'string'), $$+'_trim' = trim($$)),",
-				"          each(match(type=='long'), $$+'_trim' = replace($$, ' ', ''))) ~> derivedColumn1"
+				"     format: 'table') ~> srcCaseHeader",
+				"srcCaseHeader derive(each(match(type == 'string'), $$+'_trim' = trim($$)),",
+				"          each(match(type=='long'))) ~> drvTrimStringFields"
 			]
 		}
 	}
