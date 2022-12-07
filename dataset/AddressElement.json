@@ -1,0 +1,45 @@
+{
+	"name": "AddressElement",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseODSCuramStage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ADDRESSELEMENTID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ADDRESSID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ELEMENTTYPE",
+				"type": "char"
+			},
+			{
+				"name": "ELEMENTVALUE",
+				"type": "varchar"
+			},
+			{
+				"name": "UPPERELEMENTVALUE",
+				"type": "varchar"
+			},
+			{
+				"name": "LASTWRITTEN",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "CURAPD01",
+			"table": "ADDRESSELEMENT"
+		}
+	}
+}
