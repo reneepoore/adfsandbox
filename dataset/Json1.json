@@ -1,0 +1,111 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageRP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "df_DimPerson.json",
+				"container": "newcontainer"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"description": {
+							"type": "string"
+						},
+						"folder": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								}
+							}
+						},
+						"type": {
+							"type": "string"
+						},
+						"typeProperties": {
+							"type": "object",
+							"properties": {
+								"sources": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"dataset": {
+												"type": "object",
+												"properties": {
+													"referenceName": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													}
+												}
+											},
+											"name": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"sinks": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"dataset": {
+												"type": "object",
+												"properties": {
+													"referenceName": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													}
+												}
+											},
+											"name": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"transformations": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"scriptLines": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
