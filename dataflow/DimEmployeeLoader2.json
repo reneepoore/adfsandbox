@@ -1,6 +1,9 @@
 {
 	"name": "DimEmployeeLoader2",
 	"properties": {
+		"folder": {
+			"name": "TemplateForType2"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
