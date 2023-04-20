@@ -27,10 +27,9 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'arrayOfDocuments') ~> source1",
-				"source1 foldDown(unroll(properties.typeProperties.transformations),",
+				"source1 foldDown(unroll(properties.typeProperties.scriptLines),",
 				"     mapColumn(",
-				"          name = properties.typeProperties.transformations,",
-				"          properties = properties.typeProperties.transformations.name",
+				"          description = properties.typeProperties.scriptLines",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1"
