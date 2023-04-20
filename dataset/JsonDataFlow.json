@@ -1,0 +1,203 @@
+{
+	"name": "JsonDataFlow",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageRP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tc_run_dataflow.json",
+				"container": "newcontainer"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"activities": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"dependsOn": {
+										"type": "array"
+									},
+									"userProperties": {
+										"type": "array"
+									},
+									"typeProperties": {
+										"type": "object",
+										"properties": {
+											"pipeline": {
+												"type": "object",
+												"properties": {
+													"referenceName": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													}
+												}
+											},
+											"waitOnCompletion": {
+												"type": "boolean"
+											},
+											"parameters": {
+												"type": "object",
+												"properties": {
+													"ParentExecutionKey": {
+														"type": "object",
+														"properties": {
+															"value": {
+																"type": "string"
+															},
+															"type": {
+																"type": "string"
+															}
+														}
+													},
+													"PipelineName": {
+														"type": "object",
+														"properties": {
+															"value": {
+																"type": "string"
+															},
+															"type": {
+																"type": "string"
+															}
+														}
+													},
+													"DataFlowName": {
+														"type": "object",
+														"properties": {
+															"value": {
+																"type": "string"
+															},
+															"type": {
+																"type": "string"
+															}
+														}
+													},
+													"Step": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"parameters": {
+							"type": "object",
+							"properties": {
+								"DataFlowName": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										},
+										"defaultValue": {
+											"type": "string"
+										}
+									}
+								},
+								"PeriodStartDate": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										},
+										"defaultValue": {
+											"type": "string"
+										}
+									}
+								},
+								"PeriodEndDate": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										},
+										"defaultValue": {
+											"type": "string"
+										}
+									}
+								},
+								"PipelineExecutionKey": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										},
+										"defaultValue": {
+											"type": "string"
+										}
+									}
+								},
+								"PipelineName": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										},
+										"defaultValue": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"variables": {
+							"type": "object",
+							"properties": {
+								"PipelineID": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										}
+									}
+								},
+								"ErrorMessage": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"folder": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								}
+							}
+						},
+						"annotations": {
+							"type": "array"
+						}
+					}
+				}
+			}
+		}
+	}
+}
