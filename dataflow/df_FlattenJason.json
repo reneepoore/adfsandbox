@@ -6,33 +6,105 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Json1",
+						"referenceName": "FactProcessingTC",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "JsonDataFlow",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "JsonPipeline",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "tgtFactJason",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
-					"name": "flatten1"
+					"name": "flatten2"
+				},
+				{
+					"name": "flatten3"
+				},
+				{
+					"name": "flatten4"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
 				"          name as string,",
-				"          properties as (description as string, folder as (name as string), type as string, typeProperties as (sources as (dataset as (referenceName as string, type as string), name as string)[], sinks as (dataset as (referenceName as string, type as string), name as string)[], transformations as (name as string)[], scriptLines as string[]))",
+				"          properties as (folder as (name as string), type as string, typeProperties as (scriptLines as string[], sinks as (dataset as (referenceName as string, type as string), name as string)[], sources as (dataset as (referenceName as string, type as string), name as string)[], transformations as (name as string)[]))",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'arrayOfDocuments') ~> source1",
-				"source1 foldDown(unroll(properties.typeProperties.scriptLines),",
+				"     documentForm: 'arrayOfDocuments') ~> source2",
+				"source(output(",
+				"          name as string,",
+				"          properties as (activities as (dependsOn as (activity as string, dependencyConditions as string[])[], name as string, type as string, typeProperties as (cases as (activities as (dependsOn as (activity as string, dependencyConditions as string[])[], name as string, policy as (retry as boolean, retryIntervalInSeconds as short, secureInput as boolean, secureOutput as boolean, timeout as string), type as string, typeProperties as (compute as (computeType as string, coreCount as short), dataflow as (parameters as (ExecutionKey as (type as string, value as string), PeriodEndDate as (type as string, value as string), PeriodStartDate as (type as string, value as string)), referenceName as string, type as string), parameters as (ErrorCode as (type as string, value as string), ExecutionKey as (type as string, value as string), Message as (type as string, value as string), Pipeline as (type as string, value as string), Target as (type as string, value as string)), pipeline as (referenceName as string, type as string), traceLevel as string, waitOnCompletion as boolean), userProperties as string[])[], value as string)[], defaultActivities as (dependsOn as string[], name as string, type as string, typeProperties as (errorCode as short, message as (type as string, value as string)), userProperties as string[])[], on as (type as string, value as string), parameters as (DataFlowName as (type as string, value as string), ErrorCode as (type as string, value as string), ExecutionKey as (type as string, value as string), Message as (type as string, value as string), ParentExecutionKey as (type as string, value as string), Pipeline as (type as string, value as string), PipelineName as (type as string, value as string), Step as string, Success as boolean, Target as (type as string, value as string)), pipeline as (referenceName as string, type as string), value as (type as string, value as string), variableName as string, waitOnCompletion as boolean), userProperties as string[])[], annotations as string[], folder as (name as string), parameters as (DataFlowName as (defaultValue as string, type as string), PeriodEndDate as (defaultValue as date, type as string), PeriodStartDate as (defaultValue as date, type as string), PipelineExecutionKey as (defaultValue as boolean, type as string), PipelineName as (defaultValue as string, type as string)), variables as (ErrorMessage as (type as string), PipelineID as (type as string)))",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'arrayOfDocuments') ~> source3",
+				"source(output(",
+				"          name as string,",
+				"          properties as (activities as (dependsOn as (activity as string, dependencyConditions as string[])[], description as string, name as string, type as string, typeProperties as (activities as (dependsOn as string[], name as string, type as string, typeProperties as (parameters as (DataFlowName as (type as string, value as string), PeriodEndDate as (type as string, value as string), PeriodStartDate as (type as string, value as string), PipelineExecutionKey as (type as string, value as string), PipelineName as (type as string, value as string)), pipeline as (referenceName as string, type as string), waitOnCompletion as boolean), userProperties as string[])[], isSequential as boolean, items as (type as string, value as string), parameters as (DataFlowName as string, ErrorCode as (type as string, value as string), ExecutionKey as (type as string, value as string), Message as (type as string, value as string), Pipeline as (type as string, value as string), PipelineName as (type as string, value as string), Step as string, Success as boolean, Target as (type as string, value as string)), pipeline as (referenceName as string, type as string), value as (type as string, value as string), variableName as string, waitOnCompletion as boolean), userProperties as string[])[], annotations as string[], folder as (name as string), parameters as (PeriodEndDate as (defaultValue as string, type as string), PeriodStartDate as (defaultValue as string, type as string)), variables as (DataFlows as (defaultValue as string[], type as string), ErrorMessage as (type as string), PipelineExecutionKey as (type as string)))",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'singleDocument') ~> source4",
+				"source2 foldDown(unroll(properties.typeProperties.scriptLines),",
 				"     mapColumn(",
-				"          description = properties.typeProperties.scriptLines",
+				"          scriptLines = properties.typeProperties.scriptLines",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1"
+				"     skipDuplicateMapOutputs: false) ~> flatten2",
+				"source3 foldDown(unroll(properties.activities.typeProperties.cases.activities),",
+				"     mapColumn(",
+				"          properties = properties.activities.dependsOn.activity,",
+				"          activity = properties.activities.dependsOn,",
+				"          name = properties.activities.name,",
+				"          activitys = properties.activities.typeProperties.cases.activities.dependsOn.activity,",
+				"          value1 = properties.activities.typeProperties.cases.activities.typeProperties.dataflow.parameters.ExecutionKey.value,",
+				"          value2 = properties.activities.typeProperties.cases.activities.typeProperties.parameters.ExecutionKey.value,",
+				"          value = properties.activities.typeProperties.cases.activities.typeProperties.parameters.ExecutionKey.value",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten3",
+				"source4 foldDown(unroll(properties.activities),",
+				"     mapColumn(",
+				"          name = properties.activities.typeProperties.activities.typeProperties.parameters.DataFlowName.value",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten4",
+				"flatten2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
