@@ -1,0 +1,17 @@
+{
+	"name": "FactProcessingTC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageRP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation"
+			}
+		},
+		"schema": {}
+	}
+}
