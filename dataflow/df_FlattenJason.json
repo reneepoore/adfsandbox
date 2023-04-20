@@ -1,0 +1,40 @@
+{
+	"name": "df_FlattenJason",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          name as string,",
+				"          properties as (description as string, folder as (name as string), type as string, typeProperties as (sources as (dataset as (referenceName as string, type as string), name as string)[], sinks as (dataset as (referenceName as string, type as string), name as string)[], transformations as (name as string)[], scriptLines as string[]))",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'arrayOfDocuments') ~> source1",
+				"source1 foldDown(unroll(properties.typeProperties.transformations),",
+				"     mapColumn(",
+				"          name = properties.typeProperties.transformations,",
+				"          properties = properties.typeProperties.transformations.name",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
+			]
+		}
+	}
+}
